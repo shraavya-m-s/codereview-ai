@@ -1,0 +1,22 @@
+<!-- Django Flash Messages Container -->
+{% if messages %}
+<div class="cr-messages-container mb-3" id="crMessagesContainer">
+  {% for message in messages %}
+    <div class="cr-alert cr-alert-{% if message.tags == 'error' %}danger{% elif message.tags %}{{ message.tags }}{% else %}info{% endif %} auto-dismiss d-flex align-items-center justify-content-between" role="alert">
+      <div class="d-flex align-items-center gap-2">
+        {% if message.tags == 'success' %}
+          <i class="bi bi-check-circle-fill fs-5 text-success"></i>
+        {% elif message.tags == 'error' or message.tags == 'danger' %}
+          <i class="bi bi-exclamation-octagon-fill fs-5 text-danger"></i>
+        {% elif message.tags == 'warning' %}
+          <i class="bi bi-exclamation-triangle-fill fs-5 text-warning"></i>
+        {% else %}
+          <i class="bi bi-info-circle-fill fs-5 text-primary"></i>
+        {% endif %}
+        <div>{{ message }}</div>
+      </div>
+      <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.closest('.cr-alert').remove()"></button>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
