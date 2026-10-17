@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Directory — CodeReview AI</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- CodeReview AI Core Design System -->
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/dropzone.css">
+</head>
+<body>
+
+  <div class="cr-app-layout">
+    <!-- Left Sidebar -->
+    <aside class="cr-sidebar" id="crSidebar">
+      <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
+        <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;">
+            <i class="bi bi-shield-check fs-5"></i>
+          </div>
+          <div class="cr-sidebar-brand-text">
+            <div class="fw-bold lh-1 text-white" style="letter-spacing: -0.01em;">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="min-w-0 flex-grow-1">
+            <div class="text-white fw-semibold text-truncate small">Dr. Aris (Mentor)</div>
+            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-3 flex-grow-1 overflow-y-auto">
+        <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+          <span class="cr-nav-label">Core Workspace</span>
+        </div>
+        <ul class="nav flex-column gap-1 px-2">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span class="cr-nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="project_list.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-white bg-primary fw-semibold">
+              <i class="bi bi-folder2-open"></i>
+              <span class="cr-nav-label">Projects</span>
+            </a>
+          </li>
+          <li class="nav-item" data-role-perm="mentor-only">
+            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <span class="cr-nav-label">Upload Project</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-clock-history"></i>
+              <span class="cr-nav-label">Review History</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="mt-4" data-role-perm="admin-only" style="display: none;">
+          <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+            <span class="cr-nav-label">Administration</span>
+          </div>
+          <ul class="nav flex-column gap-1 px-2">
+            <li class="nav-item">
+              <a href="admin_users.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+                <i class="bi bi-people-fill"></i>
+                <span class="cr-nav-label">User Management</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn">
+          <i class="bi bi-layout-sidebar-inset-reverse fs-6"></i>
+          <span class="cr-nav-label small">Collapse View</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
+
+    <!-- Main Content -->
+    <div class="cr-main-wrapper">
+      <header class="cr-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button"><i class="bi bi-list fs-5"></i></button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+            <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
+              <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Projects</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="d-flex align-items-center gap-1.5 bg-light border px-2 py-1 rounded">
+            <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
+            <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
+              <option value="mentor" selected>Mentor</option>
+              <option value="student">Student / Intern</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+
+          <a href="project_create.html" class="cr-btn cr-btn-primary cr-btn-sm" data-role-perm="mentor-only">
+            <i class="bi bi-plus-lg"></i>
+            <span>New Project</span>
+          </a>
+
+          <div class="dropdown">
+            <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">DA</div>
+              <span class="small fw-semibold text-dark d-none d-md-inline">dr_aris</span>
+              <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
+              <li class="px-3 py-2 border-bottom">
+                <div class="fw-bold small text-dark">Dr. Aris</div>
+                <div class="text-muted" style="font-size: 0.75rem;">aris.mentor@university.edu</div>
+              </li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="index.html"><i class="bi bi-grid-1x2 text-secondary"></i> Dashboard</a></li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="cr-page-content">
+        <!-- Page Header -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+          <div>
+            <h1 class="h3 mb-1">Student Projects</h1>
+            <p class="text-secondary small mb-0">Browse, filter, and inspect project repositories and requirement compliance scores.</p>
+          </div>
+          <a href="project_create.html" class="cr-btn cr-btn-primary" data-role-perm="mentor-only">
+            <i class="bi bi-cloud-arrow-up"></i> Upload New Project
+          </a>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="cr-card p-3 mb-4">
+          <div class="row g-2 align-items-center">
+            <!-- Search Input -->
+            <div class="col-md-5">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control border-start-0" id="projectSearchInput" placeholder="Search by project name or student...">
+              </div>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="col-md-3">
+              <select class="form-select form-select-sm" id="projectStatusFilter">
+                <option value="all">All Statuses</option>
+                <option value="completed">Completed Reviews</option>
+                <option value="manual_review">Manual Review Needed</option>
+                <option value="in_progress">In Progress</option>
+              </select>
+            </div>
+
+            <!-- Total count label -->
+            <div class="col-md-4 text-md-end text-muted small" id="projectMatchCount">
+              Showing <strong>4</strong> projects
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects Table -->
+        <div class="cr-card">
+          <div class="table-responsive">
+            <table class="cr-table" id="projectsDirectoryTable">
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Student / Intern</th>
+                  <th>Tech Stack</th>
+                  <th>Status</th>
+                  <th>Compliance Score</th>
+                  <th>Uploaded Date</th>
+                  <th class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-status="completed" data-name="Hospital_Management_System Rahul Sharma">
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
+                      <i class="bi bi-file-earmark-code text-primary me-1"></i> Hospital_Management_System
+                    </a>
+                    <div class="text-muted small">48 Requirements &bull; 14.2 MB ZIP</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small">Rahul Sharma</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2041</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Django / SQLite</span></td>
+                  <td><span class="cr-badge cr-badge-implemented">Completed</span></td>
+                  <td>
+                    <span class="fw-bold text-dark">84 / 100</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle ms-1">Passed</span>
+                  </td>
+                  <td class="text-muted small">Oct 16, 2026</td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm" title="Project Details">Details</a>
+                      <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm" title="View Review Findings">Findings</a>
+                      <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm" title="Open Report">Report</a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="manual_review" data-name="ECommerce_REST_API Ananya Patel">
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
+                      <i class="bi bi-file-earmark-code text-primary me-1"></i> ECommerce_REST_API
+                    </a>
+                    <div class="text-muted small">32 Requirements &bull; 8.4 MB ZIP</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small">Ananya Patel</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2048</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">DRF / Token Auth</span></td>
+                  <td><span class="cr-badge cr-badge-manual">Manual Review</span></td>
+                  <td>
+                    <span class="fw-bold text-dark">68 / 100</span>
+                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle ms-1">Review Needed</span>
+                  </td>
+                  <td class="text-muted small">Oct 17, 2026</td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
+                      <a href="findings.html" class="cr-btn cr-btn-primary cr-btn-sm"><i class="bi bi-pencil-square"></i> Review</a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="in_progress" data-name="Inventory_Tracker_App Vikramaditya Roy">
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
+                      <i class="bi bi-file-earmark-code text-primary me-1"></i> Inventory_Tracker_App
+                    </a>
+                    <div class="text-muted small">26 Requirements &bull; 5.1 MB ZIP</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small">Vikramaditya Roy</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2055</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Django / Bootstrap</span></td>
+                  <td><span class="cr-badge cr-badge-partial">In Progress</span></td>
+                  <td>
+                    <span class="fw-bold text-dark">52 / 100</span>
+                    <span class="badge bg-secondary-subtle text-secondary border ms-1">Auditing</span>
+                  </td>
+                  <td class="text-muted small">Today, 11:20 AM</td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
+                      <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm">Inspect</a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="completed" data-name="Student_Attendance_Portal Pooja Nair">
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
+                      <i class="bi bi-file-earmark-code text-primary me-1"></i> Student_Attendance_Portal
+                    </a>
+                    <div class="text-muted small">40 Requirements &bull; 11.7 MB ZIP</div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small">Pooja Nair</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2039</div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">Python / Django</span></td>
+                  <td><span class="cr-badge cr-badge-implemented">Completed</span></td>
+                  <td>
+                    <span class="fw-bold text-dark">91 / 100</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle ms-1">Passed</span>
+                  </td>
+                  <td class="text-muted small">Oct 15, 2026</td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
+                      <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">Report</a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty search state -->
+          <div class="p-5 text-center d-none" id="noProjectsMatch">
+            <i class="bi bi-search fs-1 text-muted mb-2"></i>
+            <h5 class="fw-bold text-dark">No matching projects found</h5>
+            <p class="text-muted small">Try adjusting your search terms or filter settings.</p>
+          </div>
+        </div>
+      </main>
+
+      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
+          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
+          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/app.js"></script>
+  <script>
+    // Live Search and Filter
+    const searchInput = document.getElementById('projectSearchInput');
+    const statusFilter = document.getElementById('projectStatusFilter');
+    const rows = document.querySelectorAll('#projectsDirectoryTable tbody tr');
+    const emptyState = document.getElementById('noProjectsMatch');
+    const countLabel = document.getElementById('projectMatchCount');
+
+    function applyFilters() {
+      const q = searchInput.value.toLowerCase().trim();
+      const status = statusFilter.value;
+      let visible = 0;
+
+      rows.forEach(row => {
+        const rowText = row.getAttribute('data-name').toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
+        const matchesQuery = !q || rowText.includes(q);
+        const matchesStatus = status === 'all' || rowStatus === status;
+
+        if (matchesQuery && matchesStatus) {
+          row.style.display = '';
+          visible++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      emptyState.classList.toggle('d-none', visible > 0);
+      countLabel.innerHTML = `Showing <strong>${visible}</strong> projects`;
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+  </script>
+</body>
+</html>
