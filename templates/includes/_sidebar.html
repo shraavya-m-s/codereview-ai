@@ -16,11 +16,11 @@
   <!-- User Quick Profile / Role Pill -->
   <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
     <div class="d-flex align-items-center gap-2.5">
-      <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">
+      <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">
         {{ request.user.username|default:"DA"|slice:":2"|upper }}
       </div>
       <div class="min-w-0 flex-grow-1">
-        <div class="text-white fw-semibold text-truncate small">{{ request.user.get_full_name|default:request.user.username|default:"Dr. Aris (Mentor)" }}</div>
+        <div class="text-white fw-semibold text-truncate small cr-user-name">{{ request.user.get_full_name|default:request.user.username|default:"Dr. Aris (Mentor)" }}</div>
         <div class="mt-0.5">
           <span class="cr-role-badge mentor" data-role-badge>
             <i class="bi bi-mortarboard-fill"></i> Mentor

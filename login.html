@@ -138,6 +138,16 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Authenticating...';
 
+      // Record authenticated session
+      sessionStorage.setItem('cr_logged_in', 'true');
+      sessionStorage.setItem('cr_auth_user', user);
+      
+      let role = 'mentor';
+      if (user.includes('student') || user.includes('intern') || user.includes('rahul')) role = 'student';
+      if (user.includes('admin')) role = 'admin';
+      sessionStorage.setItem('cr_user_role', role);
+      localStorage.setItem('cr_dev_role', role);
+
       setTimeout(() => {
         window.location.href = 'index.html';
       }, 400);

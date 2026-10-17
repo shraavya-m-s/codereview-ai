@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palette & UI Style Explorer — CodeReview AI</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+
+  <style id="dynamicThemeStyles">
+    /* Default is Theme 1: Precision Slate */
+  </style>
+
+  <style>
+    .theme-card-selector {
+      border: 2px solid var(--cr-border);
+      border-radius: var(--cr-radius-lg);
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: var(--cr-surface);
+      height: 100%;
+    }
+    .theme-card-selector:hover {
+      border-color: var(--cr-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--cr-shadow-md);
+    }
+    .theme-card-selector.is-selected {
+      border-color: var(--cr-primary);
+      background-color: var(--cr-primary-subtle);
+      box-shadow: 0 0 0 3px var(--cr-primary-ring);
+    }
+    .palette-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Top Theme Control Bar -->
+  <div class="sticky-top bg-white border-bottom shadow-sm py-3 px-4" style="z-index: 1050;">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+      <div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-primary px-2 py-1"><i class="bi bi-palette-fill"></i> Design Phase</span>
+          <h1 class="h5 mb-0 fw-bold">Select Visual Identity & Color Palette</h1>
+        </div>
+        <p class="text-secondary small mb-0">Click a palette below to instantly preview the live application components in that theme.</p>
+      </div>
+
+      <!-- Quick Theme Pills & Dashboard Link -->
+      <div class="d-flex align-items-center gap-2">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-sm btn-outline-primary active px-3 py-2 fw-semibold" id="btnTheme1" onclick="switchTheme('precision-slate')">
+            <i class="bi bi-check2-circle me-1"></i> 1. Precision Slate (Linear SaaS)
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-primary px-3 py-2 fw-semibold" id="btnTheme2" onclick="switchTheme('nordic-teal')">
+            2. Nordic Obsidian & Teal (Supabase Vibe)
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-primary px-3 py-2 fw-semibold" id="btnTheme3" onclick="switchTheme('oxford-navy')">
+            3. Oxford Navy & Amber (Academic CodeLab)
+          </button>
+        </div>
+        <a href="index.html" class="cr-btn cr-btn-primary cr-btn-sm text-nowrap">
+          <i class="bi bi-layout-text-window-reverse"></i> Open Dashboard &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-4">
+    <!-- Palette Comparison Cards -->
+    <div class="row g-3 mb-4">
+      <!-- Theme 1 Card -->
+      <div class="col-md-4">
+        <div class="theme-card-selector is-selected" id="cardTheme1" onclick="switchTheme('precision-slate')">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle small mb-1">Theme 1 (Recommended)</span>
+              <h2 class="h6 fw-bold mb-0">Precision Slate</h2>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="themeRadio" id="radio1" checked>
+            </div>
+          </div>
+          <p class="small text-muted mb-3">Modern, razor-sharp developer tool inspired by Linear and GitHub PR reviews. High contrast and clean neutral surfaces.</p>
+          <div class="d-flex gap-1.5 align-items-center">
+            <span class="palette-swatch" style="background-color: #0F172A;" title="Sidebar: Slate 900"></span>
+            <span class="palette-swatch" style="background-color: #1D4ED8;" title="Primary Accent: Cobalt 700"></span>
+            <span class="palette-swatch" style="background-color: #F8FAFC;" title="Canvas: Slate 50"></span>
+            <span class="palette-swatch" style="background-color: #059669;" title="Status: Emerald"></span>
+            <span class="palette-swatch" style="background-color: #D97706;" title="Status: Amber"></span>
+            <span class="palette-swatch" style="background-color: #DC2626;" title="Status: Crimson"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theme 2 Card -->
+      <div class="col-md-4">
+        <div class="theme-card-selector" id="cardTheme2" onclick="switchTheme('nordic-teal')">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <span class="badge bg-secondary-subtle text-secondary border small mb-1">Theme 2</span>
+              <h2 class="h6 fw-bold mb-0">Nordic Obsidian & Teal</h2>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="themeRadio" id="radio2">
+            </div>
+          </div>
+          <p class="small text-muted mb-3">Calm, distinctive technical aesthetic inspired by Supabase and Datadog. Obsidian dark chrome paired with deep cyan/teal.</p>
+          <div class="d-flex gap-1.5 align-items-center">
+            <span class="palette-swatch" style="background-color: #111827;" title="Sidebar: Obsidian"></span>
+            <span class="palette-swatch" style="background-color: #0D9488;" title="Primary Accent: Deep Teal"></span>
+            <span class="palette-swatch" style="background-color: #F3F4F6;" title="Canvas: Cool Gray"></span>
+            <span class="palette-swatch" style="background-color: #10B981;" title="Status: Mint"></span>
+            <span class="palette-swatch" style="background-color: #F59E0B;" title="Status: Warm Ochre"></span>
+            <span class="palette-swatch" style="background-color: #EF4444;" title="Status: Coral"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theme 3 Card -->
+      <div class="col-md-4">
+        <div class="theme-card-selector" id="cardTheme3" onclick="switchTheme('oxford-navy')">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <span class="badge bg-secondary-subtle text-secondary border small mb-1">Theme 3</span>
+              <h2 class="h6 fw-bold mb-0">Oxford Navy & Amber</h2>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="themeRadio" id="radio3">
+            </div>
+          </div>
+          <p class="small text-muted mb-3">Prestigious university engineering laboratory feel. Deep midnight navy chrome, royal blue accents, and warm amber details.</p>
+          <div class="d-flex gap-1.5 align-items-center">
+            <span class="palette-swatch" style="background-color: #0A192F;" title="Sidebar: Midnight Navy"></span>
+            <span class="palette-swatch" style="background-color: #1E3A8A;" title="Primary Accent: Royal Navy"></span>
+            <span class="palette-swatch" style="background-color: #F9FAFB;" title="Canvas: Alabaster"></span>
+            <span class="palette-swatch" style="background-color: #047857;" title="Status: Forest Green"></span>
+            <span class="palette-swatch" style="background-color: #B45309;" title="Status: Amber Gold"></span>
+            <span class="palette-swatch" style="background-color: #B91C1C;" title="Status: Ruby Red"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Preview Showcase of Components -->
+    <div class="p-4 border rounded bg-white shadow-sm mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+        <h3 class="h6 text-uppercase text-muted fw-bold mb-0">Live Component Preview in Selected Theme</h3>
+        <span class="badge bg-light text-dark border" id="activeThemeBadge">Active Theme: Precision Slate</span>
+      </div>
+
+      <!-- 1. Metric Row -->
+      <div class="cr-metric-grid mb-4">
+        <div class="cr-metric-tile primary">
+          <div class="cr-metric-header">
+            <span class="cr-metric-label">Compliance Score</span>
+            <div class="cr-metric-icon"><i class="bi bi-pie-chart-fill"></i></div>
+          </div>
+          <div class="cr-metric-value-row">
+            <span class="cr-metric-value">84%</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle">Passed</span>
+          </div>
+          <div class="cr-score-progress">
+            <div class="cr-score-progress-bar success" style="width: 84%;"></div>
+          </div>
+        </div>
+
+        <div class="cr-metric-tile success">
+          <div class="cr-metric-header">
+            <span class="cr-metric-label">Completed Reviews</span>
+            <div class="cr-metric-icon"><i class="bi bi-patch-check-fill text-success"></i></div>
+          </div>
+          <div class="cr-metric-value-row">
+            <span class="cr-metric-value">18</span>
+          </div>
+          <div class="cr-metric-subtext">Verified by mentors</div>
+        </div>
+
+        <div class="cr-metric-tile warning">
+          <div class="cr-metric-header">
+            <span class="cr-metric-label">Pending Manual Review</span>
+            <div class="cr-metric-icon"><i class="bi bi-exclamation-diamond-fill text-warning"></i></div>
+          </div>
+          <div class="cr-metric-value-row">
+            <span class="cr-metric-value">4</span>
+          </div>
+          <div class="cr-metric-subtext">Flagged requirements</div>
+        </div>
+      </div>
+
+      <!-- 2. Badges & Buttons Row -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <h4 class="h6 fw-bold mb-2">Status Badges (SRS Compliance)</h4>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
+            <span class="cr-badge cr-badge-partial">Partial (0.5)</span>
+            <span class="cr-badge cr-badge-missing">Missing (0.0)</span>
+            <span class="cr-badge cr-badge-manual">Manual Review (0.25)</span>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="cr-priority-badge high">High Priority</span>
+            <span class="cr-priority-badge med">Medium Priority</span>
+            <span class="cr-priority-badge low">Low Priority</span>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h4 class="h6 fw-bold mb-2">Interactive Action Buttons</h4>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="cr-btn cr-btn-primary"><i class="bi bi-play-fill"></i> Primary Action</button>
+            <button class="cr-btn cr-btn-secondary"><i class="bi bi-sliders"></i> Filter</button>
+            <button class="cr-btn cr-btn-outline-primary">Outline Button</button>
+            <button class="cr-btn cr-btn-danger">Reject</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Code Evidence Inspector Preview -->
+      <div class="mb-4">
+        <h4 class="h6 fw-bold mb-2">Code Snippet Inspector Box</h4>
+        <div class="cr-code-box">
+          <div class="cr-code-box-header">
+            <div class="cr-code-box-path">
+              <i class="bi bi-file-earmark-code"></i>
+              <span>backend/accounts/views.py</span>
+              <span class="badge bg-dark border border-secondary text-light ms-2">def login_view(request)</span>
+            </div>
+            <button class="btn btn-sm btn-outline-light py-0 px-2" style="font-size: 0.75rem;"><i class="bi bi-clipboard"></i> Copy</button>
+          </div>
+          <pre class="cr-code-box-content"><code>class UserLoginAPIView(APIView):
+    """REQ-AUTH-01: Authenticate users via username and password."""
+    def post(self, request):
+        user = authenticate(username=request.data['username'], password=request.data['password'])
+        if user:
+            login(request, user)
+            return Response({"status": "authenticated", "role": user.role})
+        return Response({"error": "Invalid credentials"}, status=400)</code></pre>
+        </div>
+      </div>
+
+      <!-- 4. Mentor Evaluation Card Preview -->
+      <div>
+        <h4 class="h6 fw-bold mb-2">Mentor Review Override Card</h4>
+        <div class="p-3 rounded border bg-light">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-bold small text-dark"><i class="bi bi-mortarboard-fill text-primary"></i> Mentor Status Evaluation</span>
+            <span class="badge bg-secondary-subtle text-secondary small">Original Automated Status: Partial</span>
+          </div>
+          <div class="row g-2 mb-2">
+            <div class="col-sm-6">
+              <select class="form-select form-select-sm">
+                <option selected>Implemented (1.0)</option>
+                <option>Partial (0.5)</option>
+                <option>Missing (0.0)</option>
+              </select>
+            </div>
+          </div>
+          <textarea class="form-control form-control-sm mb-2" rows="2">Code evidence verified manually in custom auth middleware.</textarea>
+          <div class="text-end">
+            <button class="cr-btn cr-btn-primary cr-btn-sm"><i class="bi bi-check2"></i> Save Evaluation</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const themes = {
+      'precision-slate': {
+        name: 'Precision Slate',
+        css: `
+          :root {
+            --cr-canvas: #F8FAFC;
+            --cr-surface: #FFFFFF;
+            --cr-surface-subtle: #F1F5F9;
+            --cr-border: #E2E8F0;
+            --cr-border-strong: #CBD5E1;
+            --cr-text-primary: #0F172A;
+            --cr-text-secondary: #475569;
+            --cr-primary: #1D4ED8;
+            --cr-primary-hover: #1E40AF;
+            --cr-primary-subtle: #EFF6FF;
+            --cr-primary-border: #BFDBFE;
+            --cr-primary-ring: rgba(29, 78, 216, 0.25);
+            --cr-sidebar-bg: #0F172A;
+            --cr-status-implemented: #059669;
+            --cr-status-implemented-bg: #ECFDF5;
+            --cr-status-implemented-border: #A7F3D0;
+            --cr-status-implemented-text: #065F46;
+            --cr-status-partial: #D97706;
+            --cr-status-partial-bg: #FFFBEB;
+            --cr-status-partial-border: #FDE68A;
+            --cr-status-partial-text: #92400E;
+            --cr-status-missing: #DC2626;
+            --cr-status-missing-bg: #FEF2F2;
+            --cr-status-missing-border: #FECACA;
+            --cr-status-missing-text: #991B1B;
+            --cr-status-manual: #6366F1;
+            --cr-status-manual-bg: #EEF2FF;
+            --cr-status-manual-border: #C7D2FE;
+            --cr-status-manual-text: #3730A3;
+          }
+        `
+      },
+      'nordic-teal': {
+        name: 'Nordic Obsidian & Teal',
+        css: `
+          :root {
+            --cr-canvas: #F4F5F7;
+            --cr-surface: #FFFFFF;
+            --cr-surface-subtle: #ECEFF1;
+            --cr-border: #E5E7EB;
+            --cr-border-strong: #9CA3AF;
+            --cr-text-primary: #111827;
+            --cr-text-secondary: #4B5563;
+            --cr-primary: #0D9488;
+            --cr-primary-hover: #0F766E;
+            --cr-primary-subtle: #F0FDFA;
+            --cr-primary-border: #99F6E4;
+            --cr-primary-ring: rgba(13, 148, 136, 0.25);
+            --cr-sidebar-bg: #111827;
+            --cr-status-implemented: #10B981;
+            --cr-status-implemented-bg: #ECFDF5;
+            --cr-status-implemented-border: #A7F3D0;
+            --cr-status-implemented-text: #065F46;
+            --cr-status-partial: #F59E0B;
+            --cr-status-partial-bg: #FFFBEB;
+            --cr-status-partial-border: #FDE68A;
+            --cr-status-partial-text: #92400E;
+            --cr-status-missing: #EF4444;
+            --cr-status-missing-bg: #FEF2F2;
+            --cr-status-missing-border: #FECACA;
+            --cr-status-missing-text: #991B1B;
+            --cr-status-manual: #06B6D4;
+            --cr-status-manual-bg: #ECFEFF;
+            --cr-status-manual-border: #A5F3FC;
+            --cr-status-manual-text: #164E63;
+          }
+        `
+      },
+      'oxford-navy': {
+        name: 'Oxford Navy & Amber',
+        css: `
+          :root {
+            --cr-canvas: #F9FAFB;
+            --cr-surface: #FFFFFF;
+            --cr-surface-subtle: #F3F4F6;
+            --cr-border: #E5E7EB;
+            --cr-border-strong: #9CA3AF;
+            --cr-text-primary: #0A192F;
+            --cr-text-secondary: #374151;
+            --cr-primary: #1E3A8A;
+            --cr-primary-hover: #172554;
+            --cr-primary-subtle: #EFF6FF;
+            --cr-primary-border: #BFDBFE;
+            --cr-primary-ring: rgba(30, 58, 138, 0.25);
+            --cr-sidebar-bg: #0A192F;
+            --cr-status-implemented: #047857;
+            --cr-status-implemented-bg: #ECFDF5;
+            --cr-status-implemented-border: #A7F3D0;
+            --cr-status-implemented-text: #065F46;
+            --cr-status-partial: #B45309;
+            --cr-status-partial-bg: #FFFBEB;
+            --cr-status-partial-border: #FDE68A;
+            --cr-status-partial-text: #92400E;
+            --cr-status-missing: #B91C1C;
+            --cr-status-missing-bg: #FEF2F2;
+            --cr-status-missing-border: #FECACA;
+            --cr-status-missing-text: #991B1B;
+            --cr-status-manual: #7C3AED;
+            --cr-status-manual-bg: #F5F3FF;
+            --cr-status-manual-border: #DDD6FE;
+            --cr-status-manual-text: #4C1D95;
+          }
+        `
+      }
+    };
+
+    function switchTheme(key) {
+      const theme = themes[key];
+      if (!theme) return;
+
+      document.documentElement.setAttribute('data-theme', key);
+      localStorage.setItem('cr_theme', key);
+
+      document.getElementById('dynamicThemeStyles').innerHTML = theme.css;
+      document.getElementById('activeThemeBadge').textContent = `Active Theme: ${theme.name}`;
+
+      // Update button active states
+      document.getElementById('btnTheme1').classList.toggle('active', key === 'precision-slate');
+      document.getElementById('btnTheme2').classList.toggle('active', key === 'nordic-teal');
+      document.getElementById('btnTheme3').classList.toggle('active', key === 'oxford-navy');
+
+      // Update card active states
+      document.getElementById('cardTheme1').classList.toggle('is-selected', key === 'precision-slate');
+      document.getElementById('cardTheme2').classList.toggle('is-selected', key === 'nordic-teal');
+      document.getElementById('cardTheme3').classList.toggle('is-selected', key === 'oxford-navy');
+
+      document.getElementById('radio1').checked = (key === 'precision-slate');
+      document.getElementById('radio2').checked = (key === 'nordic-teal');
+      document.getElementById('radio3').checked = (key === 'oxford-navy');
+    }
+  </script>
+</body>
+</html>

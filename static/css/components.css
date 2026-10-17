@@ -689,3 +689,47 @@
     position: static;
   }
 }
+
+/* --------------------------------------------------------------------------
+   11. Global Theme Overrides for Chrome & Layout
+   -------------------------------------------------------------------------- */
+.cr-sidebar {
+  background-color: var(--cr-sidebar-bg) !important;
+  border-right-color: var(--cr-sidebar-border) !important;
+}
+
+.cr-brand-logo-box {
+  background-color: var(--cr-primary) !important;
+}
+
+.cr-nav-link.active, .nav-link.active {
+  background-color: var(--cr-primary) !important;
+  color: #ffffff !important;
+}
+
+.cr-nav-link:hover {
+  background-color: var(--cr-sidebar-surface) !important;
+  color: #ffffff !important;
+}
+
+.text-primary, .text-primary-emphasis {
+  color: var(--cr-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--cr-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--cr-primary) !important;
+}
+
+.cr-metric-tile.primary::after {
+  background-color: var(--cr-primary) !important;
+}
+
+.cr-finding-item.is-active {
+  border-left-color: var(--cr-primary) !important;
+  background-color: var(--cr-primary-subtle) !important;
+}
+

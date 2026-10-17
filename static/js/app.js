@@ -4,11 +4,63 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initGlobalTheme();
+  checkAuthSession();
   initSidebar();
   initMobileDrawer();
   initRoleSimulator();
   initAutoDismissAlerts();
+  initSignOutButtons();
 });
+
+function initGlobalTheme() {
+  const savedTheme = localStorage.getItem('cr_theme');
+  if (!savedTheme || savedTheme === 'oxford-navy') {
+    localStorage.setItem('cr_theme', 'precision-slate');
+  }
+  const theme = localStorage.getItem('cr_theme') || 'precision-slate';
+  document.documentElement.setAttribute('data-theme', theme);
+  // Expose global helper for testing if ever needed
+  window.crSetTheme = setGlobalTheme;
+}
+
+function setGlobalTheme(theme) {
+  localStorage.setItem('cr_theme', theme);
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
+function initSignOutButtons() {
+  document.querySelectorAll('a[href="login.html"]').forEach(btn => {
+    btn.addEventListener('click', handleSignOut);
+  });
+}
+
+/**
+ * 0. Authentication Session Gate
+ * If the user is on a protected page and not logged in, redirect to login.html.
+ */
+function checkAuthSession() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  if (currentPage === 'login.html' || currentPage === 'tokens_preview.html') {
+    return; // Public pages
+  }
+
+  const isAuth = sessionStorage.getItem('cr_logged_in');
+  if (!isAuth) {
+    window.location.href = 'login.html';
+  }
+}
+
+/**
+ * Global Sign Out Helper
+ */
+function handleSignOut(e) {
+  if (e) e.preventDefault();
+  sessionStorage.removeItem('cr_logged_in');
+  sessionStorage.removeItem('cr_auth_user');
+  sessionStorage.removeItem('cr_user_role');
+  window.location.href = 'login.html';
+}
 
 /**
  * 1. Desktop Sidebar Collapse / Expand
@@ -134,24 +186,59 @@ function initRoleSimulator() {
 }
 
 function applyRoleVisibility(role) {
-  // Update role badges in UI
+  const profileMap = {
+    mentor: {
+      name: 'Dr. Aris (Mentor)',
+      handle: 'dr_aris',
+      avatar: 'DA',
+      email: 'aris.mentor@university.edu',
+      roleLabel: 'Mentor',
+      icon: 'bi-mortarboard-fill'
+    },
+    student: {
+      name: 'Rahul Sharma (Intern)',
+      handle: 'rahul_s',
+      avatar: 'RS',
+      email: 'rahul.intern@university.edu',
+      roleLabel: 'Student',
+      icon: 'bi-person-fill'
+    },
+    admin: {
+      name: 'System Admin',
+      handle: 'admin',
+      avatar: 'AD',
+      email: 'admin@codereview.ai',
+      roleLabel: 'Admin',
+      icon: 'bi-shield-lock-fill'
+    }
+  };
+
+  const profile = profileMap[role] || profileMap.mentor;
+
+  // 1. Update role badges in UI
   document.querySelectorAll('[data-role-badge]').forEach(badge => {
     badge.className = `cr-role-badge ${role}`;
-    const icon = role === 'mentor' ? 'bi-mortarboard-fill' : (role === 'admin' ? 'bi-shield-lock-fill' : 'bi-person-fill');
-    badge.innerHTML = `<i class="bi ${icon}"></i> ${role.charAt(0).toUpperCase() + role.slice(1)}`;
+    badge.innerHTML = `<i class="bi ${profile.icon}"></i> ${profile.roleLabel}`;
   });
 
-  // Admin-only nav items
+  // 2. Synchronize user profile display in sidebar & topbar
+  document.querySelectorAll('.cr-user-name').forEach(el => { el.textContent = profile.name; });
+  document.querySelectorAll('.cr-user-handle').forEach(el => { el.textContent = profile.handle; });
+  document.querySelectorAll('.cr-user-avatar, .cr-user-avatar-sm').forEach(el => { el.textContent = profile.avatar; });
+  document.querySelectorAll('.cr-user-fullname').forEach(el => { el.textContent = profile.name; });
+  document.querySelectorAll('.cr-user-email').forEach(el => { el.textContent = profile.email; });
+
+  // 3. Admin-only nav items & actions
   document.querySelectorAll('[data-role-perm="admin-only"]').forEach(el => {
     el.style.display = (role === 'admin') ? '' : 'none';
   });
 
-  // Mentor-only actions
+  // 4. Mentor-only actions (Mentors and Admins have access)
   document.querySelectorAll('[data-role-perm="mentor-only"]').forEach(el => {
     el.style.display = (role === 'mentor' || role === 'admin') ? '' : 'none';
   });
 
-  // Student-restricted notices
+  // 5. Student-restricted notices & views
   document.querySelectorAll('[data-role-perm="student-only"]').forEach(el => {
     el.style.display = (role === 'student') ? '' : 'none';
   });
