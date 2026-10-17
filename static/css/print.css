@@ -1,0 +1,134 @@
+/* ==========================================================================
+   CodeReview AI — Print Stylesheet (@media print)
+   Generates a formal, ink-friendly, executive evaluation audit report.
+   ========================================================================== */
+
+@media print {
+  /* 1. Hide interactive shell and UI controls */
+  .cr-sidebar,
+  .cr-topbar,
+  .cr-btn,
+  .cr-print-hide,
+  .btn,
+  nav,
+  header,
+  footer,
+  .cr-filter-bar,
+  .cr-search-box {
+    display: none !important;
+  }
+
+  /* 2. Reset canvas and layout */
+  body, html {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .cr-main-wrapper {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .cr-page-content {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* 3. Formal Print Header */
+  .cr-print-header {
+    display: block !important;
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cr-print-title {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .cr-print-subtitle {
+    font-size: 10pt;
+    color: #4b5563;
+    margin-top: 0.25rem;
+  }
+
+  /* 4. Cards & Tables in Print */
+  .cr-card {
+    border: 1px solid #d1d5db !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    margin-bottom: 1.25rem !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cr-table {
+    border: 1px solid #d1d5db !important;
+  }
+
+  .cr-table th, .cr-table td {
+    padding: 6pt 8pt !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    color: #111827 !important;
+    font-size: 9.5pt !important;
+  }
+
+  .cr-table th {
+    background-color: #f3f4f6 !important;
+    font-weight: bold !important;
+  }
+
+  /* 5. Print Badges (High Contrast Grayscale & Borders) */
+  .cr-badge {
+    border: 1px solid #9ca3af !important;
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+    font-size: 8pt !important;
+    padding: 2pt 5pt !important;
+  }
+
+  .cr-badge::before {
+    display: none !important;
+  }
+
+  /* 6. Score Circle fallback for print */
+  .cr-score-circle {
+    background: none !important;
+    border: 2px solid #0f172a !important;
+  }
+
+  /* 7. Avoid awkward page breaks */
+  h1, h2, h3, h4, .cr-card-header {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* 8. Formal Sign-off Section */
+  .cr-print-signature {
+    display: flex !important;
+    justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #9ca3af;
+    break-inside: avoid;
+  }
+}
+
+/* Hide print-only elements in normal screen mode */
+.cr-print-header,
+.cr-print-signature {
+  display: none;
+}

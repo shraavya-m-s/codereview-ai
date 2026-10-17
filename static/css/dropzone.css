@@ -1,0 +1,223 @@
+/* ==========================================================================
+   CodeReview AI — Drag & Drop File Upload Styles
+   Dual Dropzone (ZIP Source Code & SRS Requirements Document)
+   ========================================================================== */
+
+.cr-dropzone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cr-dropzone-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.cr-dropzone-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--cr-text-primary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cr-dropzone-badge {
+  font-size: 0.725rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--cr-radius-sm);
+  background-color: var(--cr-surface-subtle);
+  color: var(--cr-text-secondary);
+}
+
+.cr-dropzone {
+  border: 2px dashed var(--cr-border-strong);
+  border-radius: var(--cr-radius-lg);
+  background-color: var(--cr-surface);
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--cr-transition-fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 210px;
+}
+
+.cr-dropzone:hover {
+  border-color: var(--cr-primary);
+  background-color: var(--cr-primary-subtle);
+}
+
+.cr-dropzone.is-dragover {
+  border-color: var(--cr-primary);
+  background-color: #dbeafe;
+  border-style: solid;
+  transform: scale(1.01);
+  box-shadow: 0 0 0 4px var(--cr-primary-ring);
+}
+
+.cr-dropzone-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--cr-primary-subtle);
+  color: var(--cr-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  transition: transform var(--cr-transition-fast);
+}
+
+.cr-dropzone:hover .cr-dropzone-icon {
+  transform: translateY(-2px);
+}
+
+.cr-dropzone-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--cr-text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.cr-dropzone-subtitle {
+  font-size: 0.8rem;
+  color: var(--cr-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.cr-dropzone-limit {
+  font-size: 0.75rem;
+  color: var(--cr-text-muted);
+}
+
+.cr-dropzone input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* File Selected Preview Card */
+.cr-file-card {
+  display: none;
+  background-color: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--cr-shadow-card);
+  margin-top: 0.75rem;
+}
+
+.cr-file-card.is-visible {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  animation: crFadeIn 0.2s ease-out;
+}
+
+.cr-file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.cr-file-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--cr-radius-md);
+  background-color: var(--cr-primary-subtle);
+  color: var(--cr-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.cr-file-icon-box.zip {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.cr-file-icon-box.doc {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+
+.cr-file-details {
+  min-width: 0;
+}
+
+.cr-file-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--cr-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cr-file-size {
+  font-size: 0.775rem;
+  color: var(--cr-text-muted);
+}
+
+.cr-file-remove-btn {
+  background: none;
+  border: none;
+  color: var(--cr-text-muted);
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: var(--cr-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--cr-transition-fast);
+}
+
+.cr-file-remove-btn:hover {
+  background-color: var(--cr-status-missing-bg);
+  color: var(--cr-status-missing);
+}
+
+/* Upload Progress Feedback */
+.cr-upload-progress-wrapper {
+  display: none;
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background-color: var(--cr-surface-subtle);
+  border-radius: var(--cr-radius-md);
+  border: 1px solid var(--cr-border);
+}
+
+.cr-upload-progress-wrapper.is-active {
+  display: block;
+}
+
+.cr-upload-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.825rem;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+
+@keyframes crFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

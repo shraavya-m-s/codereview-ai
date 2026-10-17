@@ -1,0 +1,275 @@
+/* ==========================================================================
+   CodeReview AI — Core Design System & Tokens
+   Visual Direction: Inspectrum Workbench (Precision Technical SaaS)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Surface & Canvas Colors */
+  --cr-canvas: #f8fafc;
+  --cr-surface: #ffffff;
+  --cr-surface-subtle: #f1f5f9;
+  --cr-surface-hover: #f8fafc;
+  
+  /* Borders */
+  --cr-border: #e2e8f0;
+  --cr-border-subtle: #edf2f7;
+  --cr-border-strong: #cbd5e1;
+
+  /* Typography Colors */
+  --cr-text-primary: #0f172a;
+  --cr-text-secondary: #475569;
+  --cr-text-muted: #94a3b8;
+  --cr-text-inverse: #ffffff;
+
+  /* Brand / Action Colors (Deep Cobalt / Indigo) */
+  --cr-primary: #1d4ed8;
+  --cr-primary-hover: #1e40af;
+  --cr-primary-active: #172554;
+  --cr-primary-subtle: #eff6ff;
+  --cr-primary-border: #bfdbfe;
+  --cr-primary-ring: rgba(29, 78, 216, 0.25);
+
+  /* Dark Chrome Elements (Sidebar / Code Shells) */
+  --cr-sidebar-bg: #0f172a;
+  --cr-sidebar-surface: #1e293b;
+  --cr-sidebar-border: #334155;
+  --cr-sidebar-text: #cbd5e1;
+  --cr-sidebar-text-active: #ffffff;
+  --cr-sidebar-text-muted: #64748b;
+  --cr-sidebar-active-bg: #1e293b;
+
+  /* Status Colors — High Contrast & Accessible */
+  /* Implemented (1.0) */
+  --cr-status-implemented: #059669;
+  --cr-status-implemented-bg: #ecfdf5;
+  --cr-status-implemented-border: #a7f3d0;
+  --cr-status-implemented-text: #065f46;
+
+  /* Partial (0.5) */
+  --cr-status-partial: #d97706;
+  --cr-status-partial-bg: #fffbeb;
+  --cr-status-partial-border: #fde68a;
+  --cr-status-partial-text: #92400e;
+
+  /* Missing (0.0) */
+  --cr-status-missing: #dc2626;
+  --cr-status-missing-bg: #fef2f2;
+  --cr-status-missing-border: #fecaca;
+  --cr-status-missing-text: #991b1b;
+
+  /* Manual Review (0.25 until reviewed) */
+  --cr-status-manual: #6366f1;
+  --cr-status-manual-bg: #eef2ff;
+  --cr-status-manual-border: #c7d2fe;
+  --cr-status-manual-text: #3730a3;
+
+  /* Priority Tokens */
+  --cr-priority-high: #dc2626;
+  --cr-priority-high-bg: #fef2f2;
+  --cr-priority-med: #d97706;
+  --cr-priority-med-bg: #fffbeb;
+  --cr-priority-low: #475569;
+  --cr-priority-low-bg: #f1f5f9;
+
+  /* Typography Stack */
+  --cr-font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --cr-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Border Radii */
+  --cr-radius-xs: 4px;
+  --cr-radius-sm: 6px;
+  --cr-radius-md: 10px;
+  --cr-radius-lg: 14px;
+  --cr-radius-xl: 18px;
+  --cr-radius-full: 9999px;
+
+  /* Elevation Shadows */
+  --cr-shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --cr-shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+  --cr-shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --cr-shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --cr-shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --cr-shadow-card-hover: 0 6px 12px -2px rgba(15, 23, 42, 0.08), 0 3px 6px -3px rgba(15, 23, 42, 0.06);
+
+  /* Layout Dimensions */
+  --cr-sidebar-width: 256px;
+  --cr-sidebar-collapsed: 72px;
+  --cr-topbar-height: 64px;
+  --cr-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cr-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   Global Reset & Base Rules
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--cr-canvas);
+  color: var(--cr-text-primary);
+  font-family: var(--cr-font-sans);
+  font-size: 14.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--cr-text-primary);
+  font-family: var(--cr-font-sans);
+  font-weight: 700;
+  margin-top: 0;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.18rem; }
+h4 { font-size: 1.05rem; }
+h5 { font-size: 0.95rem; }
+h6 { font-size: 0.85rem; }
+
+p {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--cr-font-mono) !important;
+  font-size: 0.88em;
+}
+
+a {
+  color: var(--cr-primary);
+  text-decoration: none;
+  transition: color var(--cr-transition-fast);
+}
+
+a:hover {
+  color: var(--cr-primary-hover);
+  text-decoration: underline;
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--cr-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Application Layout Grid
+   ========================================================================== */
+
+.cr-app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Desktop Sidebar */
+.cr-sidebar {
+  width: var(--cr-sidebar-width);
+  background-color: var(--cr-sidebar-bg);
+  color: var(--cr-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  transition: width var(--cr-transition-normal), transform var(--cr-transition-normal);
+  border-right: 1px solid var(--cr-sidebar-border);
+  overflow-y: auto;
+}
+
+/* Collapsed Sidebar State (Desktop) */
+.cr-sidebar.is-collapsed {
+  width: var(--cr-sidebar-collapsed);
+}
+
+.cr-sidebar.is-collapsed .cr-sidebar-brand-text,
+.cr-sidebar.is-collapsed .cr-nav-label,
+.cr-sidebar.is-collapsed .cr-role-badge,
+.cr-sidebar.is-collapsed .cr-user-meta {
+  display: none;
+}
+
+.cr-sidebar.is-collapsed .cr-nav-link {
+  justify-content: center;
+  padding: 0.65rem 0;
+}
+
+.cr-sidebar.is-collapsed .cr-nav-link i {
+  margin-right: 0;
+  font-size: 1.25rem;
+}
+
+/* Main Content Area */
+.cr-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--cr-sidebar-width);
+  min-height: 100vh;
+  transition: margin-left var(--cr-transition-normal);
+  min-width: 0; /* Prevents flex children from overflowing */
+}
+
+.cr-sidebar.is-collapsed ~ .cr-main-wrapper {
+  margin-left: var(--cr-sidebar-collapsed);
+}
+
+/* Topbar Header */
+.cr-topbar {
+  height: var(--cr-topbar-height);
+  background-color: var(--cr-surface);
+  border-bottom: 1px solid var(--cr-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: var(--cr-shadow-xs);
+}
+
+.cr-page-content {
+  flex: 1;
+  padding: 1.75rem 2rem 2.5rem;
+}
+
+/* Responsive Overrides */
+@media (max-width: 991.98px) {
+  .cr-sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: var(--cr-shadow-lg);
+  }
+
+  .cr-sidebar.show-mobile {
+    transform: translateX(0);
+  }
+
+  .cr-main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .cr-page-content {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .cr-topbar {
+    padding: 0 1rem;
+  }
+}

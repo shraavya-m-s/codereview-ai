@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Tokens & Component Harness — CodeReview AI</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- CodeReview AI Design System Styles -->
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/dropzone.css">
+  <link rel="stylesheet" href="static/css/print.css">
+</head>
+<body class="bg-light">
+
+  <div class="container py-5">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between pb-3 mb-4 border-bottom">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="badge bg-primary px-2.5 py-1.5 rounded-pill"><i class="bi bi-shield-check"></i> CodeReview AI</span>
+          <span class="text-muted small">Design System Showcase</span>
+        </div>
+        <h1 class="h2 mb-0">Inspectrum Workbench — Design System & Tokens</h1>
+        <p class="text-secondary small mb-0">Phase 1 verification harness for typography, colors, badges, KPI tiles, dropzones, and buttons.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="cr-btn cr-btn-secondary cr-btn-sm" onclick="window.print()">
+          <i class="bi bi-printer"></i> Test Print View
+        </button>
+      </div>
+    </div>
+
+    <!-- Section 1: Typography & Hierarchy -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0 text-uppercase tracking-wider text-muted fw-bold">1. Typography Scale & Fonts</h3>
+        <span class="badge bg-secondary">Plus Jakarta Sans & JetBrains Mono</span>
+      </div>
+      <div class="cr-card p-4">
+        <div class="row align-items-center mb-3 pb-3 border-bottom">
+          <div class="col-md-3 text-muted small">Display Heading 1</div>
+          <div class="col-md-9"><h1 class="mb-0">CodeReview AI Workbench</h1></div>
+        </div>
+        <div class="row align-items-center mb-3 pb-3 border-bottom">
+          <div class="col-md-3 text-muted small">Section Heading 2</div>
+          <div class="col-md-9"><h2 class="mb-0">Requirement Compliance Audit</h2></div>
+        </div>
+        <div class="row align-items-center mb-3 pb-3 border-bottom">
+          <div class="col-md-3 text-muted small">Component Heading 3</div>
+          <div class="col-md-9"><h3 class="mb-0">Automated Static Analysis Findings</h3></div>
+        </div>
+        <div class="row align-items-center mb-3 pb-3 border-bottom">
+          <div class="col-md-3 text-muted small">Standard Body & Links</div>
+          <div class="col-md-9">
+            <p class="mb-1">Rule-based intern project reviewer comparing code ZIP files against SRS specifications. Supports Python regex, AST syntax parsing, and automated test suite verification.</p>
+            <a href="#" class="small fw-semibold"><i class="bi bi-arrow-right"></i> View Full Architecture Documentation</a>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-md-3 text-muted small">Code / Monospace Tokens</div>
+          <div class="col-md-9">
+            <code>REQ-AUTH-01</code> | <code>UserLoginAPIView.post()</code> | <code class="text-danger">AssertionError in test_login_empty_password()</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Status Badges (SRS Compliance) -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0 text-uppercase tracking-wider text-muted fw-bold">2. SRS Status Badges & Priorities</h3>
+        <span class="badge bg-secondary">Strictly Aligned with SRS Weights</span>
+      </div>
+      <div class="cr-card p-4">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <h6 class="text-muted text-uppercase small mb-3">Finding Statuses (with SRS Score Weights)</h6>
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
+              <span class="cr-badge cr-badge-partial">Partial (0.5)</span>
+              <span class="cr-badge cr-badge-missing">Missing (0.0)</span>
+              <span class="cr-badge cr-badge-manual">Manual Review (0.25)</span>
+            </div>
+            <p class="small text-muted mb-0">High-contrast, accessible badges with pastel tinted backgrounds and clear status dots for rapid scannability.</p>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-muted text-uppercase small mb-3">Priority Badges</h6>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="cr-priority-badge high">High Priority</span>
+              <span class="cr-priority-badge med">Medium Priority</span>
+              <span class="cr-priority-badge low">Low Priority</span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-muted text-uppercase small mb-3">User Roles</h6>
+            <div class="d-flex flex-wrap gap-2 bg-dark p-2 rounded">
+              <span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span>
+              <span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span>
+              <span class="cr-role-badge admin"><i class="bi bi-shield-lock-fill"></i> Admin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Buttons -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0 text-uppercase tracking-wider text-muted fw-bold">3. Action Buttons & Sizes</h3>
+      </div>
+      <div class="cr-card p-4">
+        <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+          <button class="cr-btn cr-btn-primary"><i class="bi bi-play-fill"></i> Start Automated Review</button>
+          <button class="cr-btn cr-btn-secondary"><i class="bi bi-sliders"></i> Filter Findings</button>
+          <button class="cr-btn cr-btn-outline-primary"><i class="bi bi-file-earmark-text"></i> View SRS</button>
+          <button class="cr-btn cr-btn-subtle"><i class="bi bi-arrow-repeat"></i> Reset</button>
+          <button class="cr-btn cr-btn-danger"><i class="bi bi-trash"></i> Delete Project</button>
+        </div>
+        <div class="d-flex flex-wrap align-items-center gap-3">
+          <button class="cr-btn cr-btn-primary cr-btn-sm"><i class="bi bi-check2"></i> Small Primary</button>
+          <button class="cr-btn cr-btn-primary"><i class="bi bi-check2"></i> Regular Primary</button>
+          <button class="cr-btn cr-btn-primary cr-btn-lg"><i class="bi bi-cloud-arrow-up"></i> Large Primary Action</button>
+          <button class="cr-btn cr-btn-primary" disabled><i class="bi bi-hourglass-split"></i> Processing...</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Metric KPI Cards -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0 text-uppercase tracking-wider text-muted fw-bold">4. Dashboard Metric Tiles (SRS Weighted)</h3>
+      </div>
+      <div class="cr-metric-grid">
+        <!-- Tile 1 -->
+        <div class="cr-metric-tile primary">
+          <div class="cr-metric-header">
+            <span class="cr-metric-label">Total Projects</span>
+            <div class="cr-metric-icon"><i class="bi bi-folder2-open"></i></div>
+          </div>
+          <div class="cr-metric-value-row">
+            <span class="cr-metric-value">24</span>
+          </div>
+          <div class="cr-metric-subtext">Active student repositories</div>
+        </div>
+
+        <!-- Tile 2 -->
+        <div class="cr-metric-tile success">
+          <div class="cr-metric-header">
+            <span class="cr-metric-label">Completed Reviews</span>
+            <div class="cr-metric-icon"><i class="bi bi-patch-check-fill text-success"></i></div>
+          </div>
+          <div class="cr-metric-value-row">
+            <span class="cr-metric-value">18</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle">75% Done</span>
+          </div>
+          <div class="cr-metric-subtext">Verified by mentors</div>
+        </div>
+
+        <!-- Tile 3 -->
+        <div class="cr-metric-tile warning">
+          <div class="cr-metric-header">
+            <span class="cr-metric-label">Avg. Compliance</span>
+            <div class="cr-metric-icon"><i class="bi bi-pie-chart-fill text-warning"></i></div>
+          </div>
+          <div class="cr-metric-value-row">
+            <span class="cr-metric-value">84%</span>
+          </div>
+          <div class="cr-score-progress">
+            <div class="cr-score-progress-bar success" style="width: 84%;"></div>
+          </div>
+          <div class="cr-metric-subtext mt-2">Overall intern cohort avg</div>
+        </div>
+
+        <!-- Tile 4 -->
+        <div class="cr-metric-tile info">
+          <div class="cr-metric-header">
+            <span class="cr-metric-label">Pending Manual Review</span>
+            <div class="cr-metric-icon"><i class="bi bi-exclamation-diamond-fill text-primary"></i></div>
+          </div>
+          <div class="cr-metric-value-row">
+            <span class="cr-metric-value">6</span>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Action Needed</span>
+          </div>
+          <div class="cr-metric-subtext">Flagged for instructor inspection</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Dual Drag-and-Drop Dropzones -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0 text-uppercase tracking-wider text-muted fw-bold">5. Dual Intake Dropzones (ZIP + SRS)</h3>
+        <span class="badge bg-secondary">Interactive Drag & Drop</span>
+      </div>
+      <div class="cr-card p-4">
+        <div class="cr-dropzone-grid">
+          <!-- Dropzone 1: ZIP Archive -->
+          <div class="cr-dropzone-container">
+            <div class="cr-dropzone-label">
+              <span>Project Source Code <span class="text-danger">*</span></span>
+              <span class="cr-dropzone-badge">Max 50 MB</span>
+            </div>
+            <div class="cr-dropzone" id="demoZipDropzone">
+              <input type="file" id="demoZipInput" accept=".zip">
+              <div class="cr-dropzone-icon">
+                <i class="bi bi-file-earmark-zip"></i>
+              </div>
+              <div class="cr-dropzone-title">Upload Project ZIP Archive</div>
+              <div class="cr-dropzone-subtitle">Drag and drop your project ZIP, or browse files</div>
+              <div class="cr-dropzone-limit">Supports standard ZIP archives up to 50MB</div>
+            </div>
+            <div class="cr-file-card" id="demoZipFileCard">
+              <div class="cr-file-info">
+                <div class="cr-file-icon-box zip"><i class="bi bi-file-earmark-zip-fill"></i></div>
+                <div class="cr-file-details">
+                  <div class="cr-file-name" id="demoZipFileName">student_repo_v2.zip</div>
+                  <div class="cr-file-size" id="demoZipFileSize">14.2 MB &bull; Ready for intake</div>
+                </div>
+              </div>
+              <button class="cr-file-remove-btn" id="demoZipRemoveBtn" title="Remove file"><i class="bi bi-x-lg"></i></button>
+            </div>
+          </div>
+
+          <!-- Dropzone 2: SRS Document -->
+          <div class="cr-dropzone-container">
+            <div class="cr-dropzone-label">
+              <span>SRS Requirements Specification <span class="text-danger">*</span></span>
+              <span class="cr-dropzone-badge">PDF, TXT, DOCX</span>
+            </div>
+            <div class="cr-dropzone" id="demoSrsDropzone">
+              <input type="file" id="demoSrsInput" accept=".pdf,.txt,.docx">
+              <div class="cr-dropzone-icon">
+                <i class="bi bi-file-earmark-text"></i>
+              </div>
+              <div class="cr-dropzone-title">Upload SRS Specification</div>
+              <div class="cr-dropzone-subtitle">Drag and drop your SRS document, or browse files</div>
+              <div class="cr-dropzone-limit">Supports PDF, TXT, or DOCX formats</div>
+            </div>
+            <div class="cr-file-card" id="demoSrsFileCard">
+              <div class="cr-file-info">
+                <div class="cr-file-icon-box doc"><i class="bi bi-file-earmark-text-fill"></i></div>
+                <div class="cr-file-details">
+                  <div class="cr-file-name" id="demoSrsFileName">Project_SRS_v1.0.pdf</div>
+                  <div class="cr-file-size" id="demoSrsFileSize">840 KB &bull; Ready for intake</div>
+                </div>
+              </div>
+              <button class="cr-file-remove-btn" id="demoSrsRemoveBtn" title="Remove file"><i class="bi bi-x-lg"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Code Evidence Inspector Preview -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0 text-uppercase tracking-wider text-muted fw-bold">6. Code Evidence Inspector Preview</h3>
+      </div>
+      <div class="cr-card p-4">
+        <div class="cr-code-box">
+          <div class="cr-code-box-header">
+            <div class="cr-code-box-path">
+              <i class="bi bi-file-earmark-code"></i>
+              <span>backend/accounts/views.py</span>
+              <span class="badge bg-dark border border-secondary text-light ms-2">Lines 42-56</span>
+            </div>
+            <button class="btn btn-sm btn-outline-light py-0 px-2" style="font-size: 0.75rem;" onclick="navigator.clipboard.writeText('def login_user(request): ...')">
+              <i class="bi bi-clipboard"></i> Copy
+            </button>
+          </div>
+          <pre class="cr-code-box-content"><code>class UserLoginAPIView(APIView):
+    """
+    REQ-AUTH-01: Authenticate users via username and password.
+    Enforces rate limiting and session creation.
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = authenticate(
+                username=serializer.validated_data['username'],
+                password=serializer.validated_data['password']
+            )
+            if user:
+                login(request, user)
+                return Response({"status": "success", "user_id": user.id})
+        return Response({"error": "Invalid credentials"}, status=400)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Score Ring & Weight Breakdown -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="h5 mb-0 text-uppercase tracking-wider text-muted fw-bold">7. Overall Score Dial & Weights</h3>
+      </div>
+      <div class="cr-card p-4">
+        <div class="row align-items-center g-4">
+          <div class="col-md-3 text-center border-end">
+            <div class="cr-score-circle mx-auto mb-2" style="--score-pct: 84;">
+              <div class="cr-score-circle-inner">
+                <span class="cr-score-circle-num">84</span>
+                <span class="cr-score-circle-label">Score / 100</span>
+              </div>
+            </div>
+            <span class="badge bg-success-subtle text-success border border-success-subtle fw-semibold">Passed Requirement Audit</span>
+          </div>
+          <div class="col-md-9">
+            <h6 class="text-muted text-uppercase small mb-3">Formula Breakdown (SRS Authority)</h6>
+            
+            <!-- Meter 1 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>SRS Compliance (Weight: 60%)</span>
+                <span>88% (Score: 52.8 / 60)</span>
+              </div>
+              <div class="cr-score-progress">
+                <div class="cr-score-progress-bar success" style="width: 88%;"></div>
+              </div>
+            </div>
+
+            <!-- Meter 2 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Code Quality (Weight: 20%)</span>
+                <span>80% (Score: 16.0 / 20)</span>
+              </div>
+              <div class="cr-score-progress">
+                <div class="cr-score-progress-bar info" style="width: 80%;"></div>
+              </div>
+            </div>
+
+            <!-- Meter 3 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Automated Testing (Weight: 10%)</span>
+                <span>70% (Score: 7.0 / 10)</span>
+              </div>
+              <div class="cr-score-progress">
+                <div class="cr-score-progress-bar warning" style="width: 70%;"></div>
+              </div>
+            </div>
+
+            <!-- Meter 4 -->
+            <div>
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Documentation (Weight: 10%)</span>
+                <span>85% (Score: 8.5 / 10)</span>
+              </div>
+              <div class="cr-score-progress">
+                <div class="cr-score-progress-bar success" style="width: 85%;"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- JavaScript for interactive dropzone demo -->
+  <script>
+    function setupDropzoneDemo(dropzoneId, inputId, cardId, nameId, sizeId, removeBtnId, defaultName, defaultSize) {
+      const dropzone = document.getElementById(dropzoneId);
+      const input = document.getElementById(inputId);
+      const card = document.getElementById(cardId);
+      const nameEl = document.getElementById(nameId);
+      const sizeEl = document.getElementById(sizeId);
+      const removeBtn = document.getElementById(removeBtnId);
+
+      // Drag events
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('is-dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('is-dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleFile(files[0]);
+        }
+      });
+
+      input.addEventListener('change', () => {
+        if (input.files.length > 0) {
+          handleFile(input.files[0]);
+        }
+      });
+
+      function handleFile(file) {
+        nameEl.textContent = file.name;
+        sizeEl.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB • Selected';
+        dropzone.style.display = 'none';
+        card.classList.add('is-visible');
+      }
+
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        input.value = '';
+        card.classList.remove('is-visible');
+        dropzone.style.display = 'flex';
+      });
+    }
+
+    setupDropzoneDemo('demoZipDropzone', 'demoZipInput', 'demoZipFileCard', 'demoZipFileName', 'demoZipFileSize', 'demoZipRemoveBtn');
+    setupDropzoneDemo('demoSrsDropzone', 'demoSrsInput', 'demoSrsFileCard', 'demoSrsFileName', 'demoSrsFileSize', 'demoSrsRemoveBtn');
+  </script>
+</body>
+</html>
