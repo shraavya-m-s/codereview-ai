@@ -133,84 +133,214 @@
               <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="project_list.html"><i class="bi bi-folder2 text-secondary"></i> My Projects</a></li>
               <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review Log</a></li>
               <li><hr class="dropdown-divider my-1"></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html?logout=true"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
             </ul>
           </div>
+
+          <!-- Direct Topbar Sign Out Option -->
+          <a href="login.html?logout=true" class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1.5 py-1 px-2.5 rounded" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+            <span class="d-none d-sm-inline small fw-semibold">Sign Out</span>
+          </a>
         </div>
       </header>
 
       <main class="cr-page-content">
+        <!-- Student Persona Custom Notice -->
+        <div class="cr-card p-3 mb-4 border-start border-4 border-success bg-white shadow-sm" data-role-perm="student-only" style="display: none;">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; flex-shrink: 0;">
+              <i class="bi bi-folder-check fs-5"></i>
+            </div>
+            <div class="flex-grow-1">
+              <div class="fw-bold text-dark">Cohort Project Repository Directory</div>
+              <div class="text-secondary small">Viewing all submitted intern repositories for Autumn 2026. Your active project submission is tagged with the <span class="badge bg-success-subtle text-success border border-success-subtle">Your Submission</span> badge.</div>
+            </div>
+          </div>
+        </div>
+
         <!-- Page Header -->
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
           <div>
-            <h1 class="h3 mb-1">Student Projects</h1>
-            <p class="text-secondary small mb-0">Browse, filter, and inspect project repositories and requirement compliance scores.</p>
+            <h1 class="h3 mb-1">Student Projects Directory</h1>
+            <p class="text-secondary small mb-0">Browse, filter, and inspect project repositories, SRS compliance audits, and evaluation metrics.</p>
           </div>
-          <a href="project_create.html" class="cr-btn cr-btn-primary" data-role-perm="mentor-only">
-            <i class="bi bi-cloud-arrow-up"></i> Upload New Project
-          </a>
+          <div class="d-flex align-items-center gap-2">
+            <a href="project_create.html" class="cr-btn cr-btn-primary" data-role-perm="mentor-only">
+              <i class="bi bi-cloud-arrow-up"></i>
+              <span>Upload New Project</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Micro Stat Cards (Clickable Quick Filters) -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="cr-card p-3 h-100 cr-card-interactive cursor-pointer border-primary-subtle" onclick="quickFilterStatus('all')" id="statPillAll" style="cursor: pointer;">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.04em;">All Repositories</span>
+                <i class="bi bi-folder2-open text-primary fs-5"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-2">
+                <span class="h4 mb-0 fw-bold text-dark" id="statCountAll">6</span>
+                <span class="small text-muted" style="font-size: 0.75rem;">in cohort</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="cr-card p-3 h-100 cr-card-interactive cursor-pointer" onclick="quickFilterStatus('completed')" id="statPillCompleted" style="cursor: pointer;">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.04em;">Completed</span>
+                <i class="bi bi-patch-check-fill text-success fs-5"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-2">
+                <span class="h4 mb-0 fw-bold text-success" id="statCountCompleted">3</span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.7rem;">Passed</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="cr-card p-3 h-100 cr-card-interactive cursor-pointer" onclick="quickFilterStatus('manual_review')" id="statPillManual" style="cursor: pointer;">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.04em;">Review Needed</span>
+                <i class="bi bi-exclamation-triangle-fill text-warning fs-5"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-2">
+                <span class="h4 mb-0 fw-bold text-warning" id="statCountManual">2</span>
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle" style="font-size: 0.7rem;">Action</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="cr-card p-3 h-100 cr-card-interactive cursor-pointer" onclick="quickFilterStatus('in_progress')" id="statPillProgress" style="cursor: pointer;">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.04em;">In Progress</span>
+                <i class="bi bi-hourglass-split text-info fs-5"></i>
+              </div>
+              <div class="d-flex align-items-baseline gap-2">
+                <span class="h4 mb-0 fw-bold text-info" id="statCountProgress">1</span>
+                <span class="badge bg-info-subtle text-info border border-info-subtle" style="font-size: 0.7rem;">Auditing</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Filter & Search Toolbar -->
         <div class="cr-card p-3 mb-4">
           <div class="row g-2 align-items-center">
             <!-- Search Input -->
-            <div class="col-md-5">
+            <div class="col-12 col-md-4">
               <div class="input-group input-group-sm">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
-                <input type="text" class="form-control border-start-0" id="projectSearchInput" placeholder="Search by project name or student...">
+                <input type="text" class="form-control border-start-0 border-end-0 ps-0" id="projectSearchInput" placeholder="Search by name, intern, ID or stack...">
+                <button class="btn btn-outline-secondary border-start-0 bg-light d-none" type="button" id="clearSearchBtn" title="Clear search">
+                  <i class="bi bi-x"></i>
+                </button>
               </div>
             </div>
 
-            <!-- Status Filter -->
-            <div class="col-md-3">
+            <!-- Status Filter Dropdown -->
+            <div class="col-6 col-md-3">
               <select class="form-select form-select-sm" id="projectStatusFilter">
-                <option value="all">All Statuses</option>
-                <option value="completed">Completed Reviews</option>
-                <option value="manual_review">Manual Review Needed</option>
-                <option value="in_progress">In Progress</option>
+                <option value="all">All Statuses (6)</option>
+                <option value="completed">Completed Reviews (3)</option>
+                <option value="manual_review">Manual Review Needed (2)</option>
+                <option value="in_progress">In Progress (1)</option>
               </select>
             </div>
 
-            <!-- Total count label -->
-            <div class="col-md-4 text-md-end text-muted small" id="projectMatchCount">
-              Showing <strong>4</strong> projects
+            <!-- Tech Stack Filter Dropdown -->
+            <div class="col-6 col-md-2">
+              <select class="form-select form-select-sm" id="projectStackFilter">
+                <option value="all">All Stacks</option>
+                <option value="django">Django / Python</option>
+                <option value="drf">DRF / Token Auth</option>
+                <option value="fastapi">FastAPI / PostgreSQL</option>
+                <option value="flask">Flask / Celery</option>
+              </select>
+            </div>
+
+            <!-- Sorting Dropdown -->
+            <div class="col-12 col-md-3 text-md-end d-flex align-items-center justify-content-between justify-content-md-end gap-2">
+              <div class="input-group input-group-sm" style="max-width: 190px;">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-sort-down"></i></span>
+                <select class="form-select border-start-0 ps-0" id="projectSortFilter">
+                  <option value="score_desc">Score: High to Low</option>
+                  <option value="score_asc">Score: Low to High</option>
+                  <option value="date_desc" selected>Newest Uploaded</option>
+                  <option value="name_asc">Project Name (A-Z)</option>
+                </select>
+              </div>
+              <span class="text-muted small flex-shrink-0" id="projectMatchCount" style="font-size: 0.775rem;">Showing <strong>6</strong></span>
             </div>
           </div>
         </div>
 
-        <!-- Projects Table -->
+        <!-- Notification Toast Container -->
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+          <div id="liveActionToast" class="toast align-items-center text-white bg-dark border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                <span>Action executed successfully.</span>
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects Directory Table -->
         <div class="cr-card">
           <div class="table-responsive">
-            <table class="cr-table" id="projectsDirectoryTable">
+            <table class="cr-table align-middle" id="projectsDirectoryTable">
               <thead>
                 <tr>
-                  <th>Project Name</th>
+                  <th>Project Repository</th>
                   <th>Student / Intern</th>
                   <th>Tech Stack</th>
-                  <th>Status</th>
+                  <th>Audit Status</th>
                   <th>Compliance Score</th>
                   <th>Uploaded Date</th>
                   <th class="text-end">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr data-status="completed" data-name="Hospital_Management_System Rahul Sharma">
+              <tbody id="projectsTableBody">
+                <!-- 1. Hospital Management System (Rahul Sharma) -->
+                <tr data-status="completed" data-stack="django" data-score="84" data-date="2026-10-16" data-name="Hospital_Management_System Rahul Sharma IN-2041 Django SQLite">
                   <td>
-                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
-                      <i class="bi bi-file-earmark-code text-primary me-1"></i> Hospital_Management_System
-                    </a>
-                    <div class="text-muted small">48 Requirements &bull; 14.2 MB ZIP</div>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="cr-metric-icon bg-primary-subtle text-primary flex-shrink-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                        <i class="bi bi-file-earmark-code"></i>
+                      </div>
+                      <div>
+                        <a href="project_detail.html" class="fw-bold text-dark text-decoration-none hover-text-primary">
+                          Hospital_Management_System
+                        </a>
+                        <div class="text-muted small" style="font-size: 0.75rem;">
+                          48 Requirements &bull; 14.2 MB ZIP
+                          <span class="badge bg-success-subtle text-success border border-success-subtle ms-1" data-role-perm="student-only" style="display: none;">Your Submission</span>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td>
-                    <div class="fw-semibold small">Rahul Sharma</div>
+                    <div class="fw-semibold small text-dark">Rahul Sharma</div>
                     <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2041</div>
                   </td>
-                  <td><span class="badge bg-light text-dark border">Django / SQLite</span></td>
-                  <td><span class="cr-badge cr-badge-implemented">Completed</span></td>
                   <td>
-                    <span class="fw-bold text-dark">84 / 100</span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle ms-1">Passed</span>
+                    <span class="badge bg-light text-dark border">Django / SQLite</span>
+                  </td>
+                  <td>
+                    <span class="cr-badge cr-badge-implemented">Completed</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-dark">84 / 100</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.7rem;">Passed</span>
+                    </div>
                   </td>
                   <td class="text-muted small">Oct 16, 2026</td>
                   <td class="text-end">
@@ -218,84 +348,248 @@
                       <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm" title="Project Details">Details</a>
                       <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm" title="View Review Findings">Findings</a>
                       <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm" title="Open Report">Report</a>
+                      <button type="button" class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm border small">
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerReaudit('Hospital_Management_System')"><i class="bi bi-arrow-clockwise me-1.5 text-primary"></i> Re-run Rule Audit</a></li>
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerExport('Hospital_Management_System')"><i class="bi bi-download me-1.5 text-secondary"></i> Download ZIP Archive</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item py-1.5 text-danger" href="javascript:void(0)" onclick="triggerDeleteModal('Hospital_Management_System')"><i class="bi bi-trash3 me-1.5"></i> Delete Record</a></li>
+                      </ul>
                     </div>
                   </td>
                 </tr>
 
-                <tr data-status="manual_review" data-name="ECommerce_REST_API Ananya Patel">
+                <!-- 2. ECommerce REST API (Ananya Patel) -->
+                <tr data-status="manual_review" data-stack="drf" data-score="68" data-date="2026-10-17" data-name="ECommerce_REST_API Ananya Patel IN-2048 DRF Token Auth">
                   <td>
-                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
-                      <i class="bi bi-file-earmark-code text-primary me-1"></i> ECommerce_REST_API
-                    </a>
-                    <div class="text-muted small">32 Requirements &bull; 8.4 MB ZIP</div>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="cr-metric-icon bg-warning-subtle text-warning flex-shrink-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                        <i class="bi bi-file-earmark-code"></i>
+                      </div>
+                      <div>
+                        <a href="project_detail.html" class="fw-bold text-dark text-decoration-none hover-text-primary">
+                          ECommerce_REST_API
+                        </a>
+                        <div class="text-muted small" style="font-size: 0.75rem;">32 Requirements &bull; 8.4 MB ZIP</div>
+                      </div>
+                    </div>
                   </td>
                   <td>
-                    <div class="fw-semibold small">Ananya Patel</div>
+                    <div class="fw-semibold small text-dark">Ananya Patel</div>
                     <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2048</div>
                   </td>
-                  <td><span class="badge bg-light text-dark border">DRF / Token Auth</span></td>
-                  <td><span class="cr-badge cr-badge-manual">Manual Review</span></td>
                   <td>
-                    <span class="fw-bold text-dark">68 / 100</span>
-                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle ms-1">Review Needed</span>
+                    <span class="badge bg-light text-dark border">DRF / Token Auth</span>
+                  </td>
+                  <td>
+                    <span class="cr-badge cr-badge-manual">Manual Review</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-dark">68 / 100</span>
+                      <span class="badge bg-warning-subtle text-warning border border-warning-subtle" style="font-size: 0.7rem;">Review Needed</span>
+                    </div>
                   </td>
                   <td class="text-muted small">Oct 17, 2026</td>
                   <td class="text-end">
                     <div class="btn-group btn-group-sm">
                       <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
                       <a href="findings.html" class="cr-btn cr-btn-primary cr-btn-sm"><i class="bi bi-pencil-square"></i> Review</a>
+                      <button type="button" class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm border small">
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerReaudit('ECommerce_REST_API')"><i class="bi bi-arrow-clockwise me-1.5 text-primary"></i> Re-run Rule Audit</a></li>
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerExport('ECommerce_REST_API')"><i class="bi bi-download me-1.5 text-secondary"></i> Download ZIP Archive</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item py-1.5 text-danger" href="javascript:void(0)" onclick="triggerDeleteModal('ECommerce_REST_API')"><i class="bi bi-trash3 me-1.5"></i> Delete Record</a></li>
+                      </ul>
                     </div>
                   </td>
                 </tr>
 
-                <tr data-status="in_progress" data-name="Inventory_Tracker_App Vikramaditya Roy">
+                <!-- 3. Student Attendance Portal (Pooja Nair) -->
+                <tr data-status="completed" data-stack="django" data-score="91" data-date="2026-10-15" data-name="Student_Attendance_Portal Pooja Nair IN-2039 Python Django">
                   <td>
-                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
-                      <i class="bi bi-file-earmark-code text-primary me-1"></i> Inventory_Tracker_App
-                    </a>
-                    <div class="text-muted small">26 Requirements &bull; 5.1 MB ZIP</div>
-                  </td>
-                  <td>
-                    <div class="fw-semibold small">Vikramaditya Roy</div>
-                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2055</div>
-                  </td>
-                  <td><span class="badge bg-light text-dark border">Django / Bootstrap</span></td>
-                  <td><span class="cr-badge cr-badge-partial">In Progress</span></td>
-                  <td>
-                    <span class="fw-bold text-dark">52 / 100</span>
-                    <span class="badge bg-secondary-subtle text-secondary border ms-1">Auditing</span>
-                  </td>
-                  <td class="text-muted small">Today, 11:20 AM</td>
-                  <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
-                      <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm">Inspect</a>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="cr-metric-icon bg-success-subtle text-success flex-shrink-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                        <i class="bi bi-file-earmark-code"></i>
+                      </div>
+                      <div>
+                        <a href="project_detail.html" class="fw-bold text-dark text-decoration-none hover-text-primary">
+                          Student_Attendance_Portal
+                        </a>
+                        <div class="text-muted small" style="font-size: 0.75rem;">40 Requirements &bull; 11.7 MB ZIP</div>
+                      </div>
                     </div>
                   </td>
-                </tr>
-
-                <tr data-status="completed" data-name="Student_Attendance_Portal Pooja Nair">
                   <td>
-                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
-                      <i class="bi bi-file-earmark-code text-primary me-1"></i> Student_Attendance_Portal
-                    </a>
-                    <div class="text-muted small">40 Requirements &bull; 11.7 MB ZIP</div>
-                  </td>
-                  <td>
-                    <div class="fw-semibold small">Pooja Nair</div>
+                    <div class="fw-semibold small text-dark">Pooja Nair</div>
                     <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2039</div>
                   </td>
-                  <td><span class="badge bg-light text-dark border">Python / Django</span></td>
-                  <td><span class="cr-badge cr-badge-implemented">Completed</span></td>
                   <td>
-                    <span class="fw-bold text-dark">91 / 100</span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle ms-1">Passed</span>
+                    <span class="badge bg-light text-dark border">Python / Django</span>
+                  </td>
+                  <td>
+                    <span class="cr-badge cr-badge-implemented">Completed</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-dark">91 / 100</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.7rem;">Passed</span>
+                    </div>
                   </td>
                   <td class="text-muted small">Oct 15, 2026</td>
                   <td class="text-end">
                     <div class="btn-group btn-group-sm">
                       <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
                       <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">Report</a>
+                      <button type="button" class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm border small">
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerReaudit('Student_Attendance_Portal')"><i class="bi bi-arrow-clockwise me-1.5 text-primary"></i> Re-run Rule Audit</a></li>
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerExport('Student_Attendance_Portal')"><i class="bi bi-download me-1.5 text-secondary"></i> Download ZIP Archive</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item py-1.5 text-danger" href="javascript:void(0)" onclick="triggerDeleteModal('Student_Attendance_Portal')"><i class="bi bi-trash3 me-1.5"></i> Delete Record</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- 4. Inventory Tracker App (Vikramaditya Roy) -->
+                <tr data-status="in_progress" data-stack="django" data-score="52" data-date="2026-10-18" data-name="Inventory_Tracker_App Vikramaditya Roy IN-2055 Django Bootstrap">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="cr-metric-icon bg-info-subtle text-info flex-shrink-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                        <i class="bi bi-file-earmark-code"></i>
+                      </div>
+                      <div>
+                        <a href="project_detail.html" class="fw-bold text-dark text-decoration-none hover-text-primary">
+                          Inventory_Tracker_App
+                        </a>
+                        <div class="text-muted small" style="font-size: 0.75rem;">26 Requirements &bull; 5.1 MB ZIP</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small text-dark">Vikramaditya Roy</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2055</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">Django / Bootstrap</span>
+                  </td>
+                  <td>
+                    <span class="cr-badge cr-badge-partial">In Progress</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-dark">52 / 100</span>
+                      <span class="badge bg-secondary-subtle text-secondary border" style="font-size: 0.7rem;">Auditing</span>
+                    </div>
+                  </td>
+                  <td class="text-muted small">Today, 11:20 AM</td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
+                      <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm">Inspect</a>
+                      <button type="button" class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm border small">
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerReaudit('Inventory_Tracker_App')"><i class="bi bi-arrow-clockwise me-1.5 text-primary"></i> Re-run Rule Audit</a></li>
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerExport('Inventory_Tracker_App')"><i class="bi bi-download me-1.5 text-secondary"></i> Download ZIP Archive</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item py-1.5 text-danger" href="javascript:void(0)" onclick="triggerDeleteModal('Inventory_Tracker_App')"><i class="bi bi-trash3 me-1.5"></i> Delete Record</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- 5. Autonomous Vehicle Telemetry API (Devashish Das) -->
+                <tr data-status="manual_review" data-stack="fastapi" data-score="74" data-date="2026-10-14" data-name="Autonomous_Vehicle_Telemetry_API Devashish Das IN-2062 FastAPI PostgreSQL">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="cr-metric-icon bg-warning-subtle text-warning flex-shrink-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                        <i class="bi bi-file-earmark-code"></i>
+                      </div>
+                      <div>
+                        <a href="project_detail.html" class="fw-bold text-dark text-decoration-none hover-text-primary">
+                          Autonomous_Vehicle_Telemetry_API
+                        </a>
+                        <div class="text-muted small" style="font-size: 0.75rem;">36 Requirements &bull; 18.9 MB ZIP</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small text-dark">Devashish Das</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2062</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">FastAPI / PostgreSQL</span>
+                  </td>
+                  <td>
+                    <span class="cr-badge cr-badge-manual">Manual Review</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-dark">74 / 100</span>
+                      <span class="badge bg-warning-subtle text-warning border border-warning-subtle" style="font-size: 0.7rem;">Review Needed</span>
+                    </div>
+                  </td>
+                  <td class="text-muted small">Oct 14, 2026</td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
+                      <a href="findings.html" class="cr-btn cr-btn-primary cr-btn-sm"><i class="bi bi-pencil-square"></i> Review</a>
+                      <button type="button" class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm border small">
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerReaudit('Autonomous_Vehicle_Telemetry_API')"><i class="bi bi-arrow-clockwise me-1.5 text-primary"></i> Re-run Rule Audit</a></li>
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerExport('Autonomous_Vehicle_Telemetry_API')"><i class="bi bi-download me-1.5 text-secondary"></i> Download ZIP Archive</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item py-1.5 text-danger" href="javascript:void(0)" onclick="triggerDeleteModal('Autonomous_Vehicle_Telemetry_API')"><i class="bi bi-trash3 me-1.5"></i> Delete Record</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- 6. Payment Gateway Mock Service (Sneha Kulkarni) -->
+                <tr data-status="completed" data-stack="flask" data-score="88" data-date="2026-10-13" data-name="Payment_Gateway_Mock_Service Sneha Kulkarni IN-2045 Flask Celery">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="cr-metric-icon bg-success-subtle text-success flex-shrink-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                        <i class="bi bi-file-earmark-code"></i>
+                      </div>
+                      <div>
+                        <a href="project_detail.html" class="fw-bold text-dark text-decoration-none hover-text-primary">
+                          Payment_Gateway_Mock_Service
+                        </a>
+                        <div class="text-muted small" style="font-size: 0.75rem;">22 Requirements &bull; 6.8 MB ZIP</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small text-dark">Sneha Kulkarni</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #IN-2045</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border">Flask / Celery</span>
+                  </td>
+                  <td>
+                    <span class="cr-badge cr-badge-implemented">Completed</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-dark">88 / 100</span>
+                      <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.7rem;">Passed</span>
+                    </div>
+                  </td>
+                  <td class="text-muted small">Oct 13, 2026</td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <a href="project_detail.html" class="cr-btn cr-btn-secondary cr-btn-sm">Details</a>
+                      <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">Report</a>
+                      <button type="button" class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm border small">
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerReaudit('Payment_Gateway_Mock_Service')"><i class="bi bi-arrow-clockwise me-1.5 text-primary"></i> Re-run Rule Audit</a></li>
+                        <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerExport('Payment_Gateway_Mock_Service')"><i class="bi bi-download me-1.5 text-secondary"></i> Download ZIP Archive</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item py-1.5 text-danger" href="javascript:void(0)" onclick="triggerDeleteModal('Payment_Gateway_Mock_Service')"><i class="bi bi-trash3 me-1.5"></i> Delete Record</a></li>
+                      </ul>
                     </div>
                   </td>
                 </tr>
@@ -305,9 +599,41 @@
 
           <!-- Empty search state -->
           <div class="p-5 text-center d-none" id="noProjectsMatch">
-            <i class="bi bi-search fs-1 text-muted mb-2"></i>
-            <h5 class="fw-bold text-dark">No matching projects found</h5>
-            <p class="text-muted small">Try adjusting your search terms or filter settings.</p>
+            <div class="cr-metric-icon mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem; background-color: var(--cr-surface-subtle);">
+              <i class="bi bi-search text-muted"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-1">No matching projects found</h5>
+            <p class="text-muted small mb-3">No repositories match your active search query or selected filter criteria.</p>
+            <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm" onclick="resetAllFilters()">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Reset All Filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold text-danger d-flex align-items-center gap-2" id="deleteProjectModalLabel">
+                  <i class="bi bi-exclamation-triangle-fill"></i> Delete Project Record
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p class="mb-2">Are you sure you want to delete <strong id="deleteProjectTargetName"></strong>?</p>
+                <div class="cr-alert cr-alert-danger mb-0 small">
+                  <i class="bi bi-shield-exclamation fs-5 flex-shrink-0"></i>
+                  <div>This action removes the project submission, AST audit logs, and verified SRS compliance reports from the system.</div>
+                </div>
+              </div>
+              <div class="modal-footer border-top bg-light">
+                <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm fw-bold px-3" id="confirmDeleteBtn" onclick="executeDeleteProject()">
+                  Delete Project
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -324,25 +650,38 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="static/js/app.js"></script>
   <script>
-    // Live Search and Filter
+    // 1. Live Filter, Search & Sorting Engine
     const searchInput = document.getElementById('projectSearchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
     const statusFilter = document.getElementById('projectStatusFilter');
-    const rows = document.querySelectorAll('#projectsDirectoryTable tbody tr');
+    const stackFilter = document.getElementById('projectStackFilter');
+    const sortFilter = document.getElementById('projectSortFilter');
+    const tbody = document.getElementById('projectsTableBody');
+    const rows = Array.from(document.querySelectorAll('#projectsTableBody tr'));
     const emptyState = document.getElementById('noProjectsMatch');
     const countLabel = document.getElementById('projectMatchCount');
 
     function applyFilters() {
       const q = searchInput.value.toLowerCase().trim();
       const status = statusFilter.value;
+      const stack = stackFilter.value;
+
+      if (clearSearchBtn) {
+        clearSearchBtn.classList.toggle('d-none', q.length === 0);
+      }
+
       let visible = 0;
 
       rows.forEach(row => {
-        const rowText = row.getAttribute('data-name').toLowerCase();
+        const rowText = (row.getAttribute('data-name') || '').toLowerCase();
         const rowStatus = row.getAttribute('data-status');
+        const rowStack = row.getAttribute('data-stack');
+
         const matchesQuery = !q || rowText.includes(q);
         const matchesStatus = status === 'all' || rowStatus === status;
+        const matchesStack = stack === 'all' || rowStack === stack;
 
-        if (matchesQuery && matchesStatus) {
+        if (matchesQuery && matchesStatus && matchesStack) {
           row.style.display = '';
           visible++;
         } else {
@@ -350,12 +689,137 @@
         }
       });
 
+      // Update stat pill active highlights
+      updatePillHighlights(status);
+
+      // Sorting
+      sortRows();
+
       emptyState.classList.toggle('d-none', visible > 0);
-      countLabel.innerHTML = `Showing <strong>${visible}</strong> projects`;
+      countLabel.innerHTML = `Showing <strong>${visible}</strong> of ${rows.length}`;
+    }
+
+    function sortRows() {
+      const sortType = sortFilter.value;
+      const sorted = rows.slice().sort((a, b) => {
+        if (sortType === 'score_desc') {
+          return parseInt(b.getAttribute('data-score') || 0) - parseInt(a.getAttribute('data-score') || 0);
+        } else if (sortType === 'score_asc') {
+          return parseInt(a.getAttribute('data-score') || 0) - parseInt(b.getAttribute('data-score') || 0);
+        } else if (sortType === 'date_desc') {
+          return new Date(b.getAttribute('data-date') || 0) - new Date(a.getAttribute('data-date') || 0);
+        } else if (sortType === 'name_asc') {
+          return (a.getAttribute('data-name') || '').localeCompare(b.getAttribute('data-name') || '');
+        }
+        return 0;
+      });
+
+      sorted.forEach(row => tbody.appendChild(row));
+    }
+
+    function quickFilterStatus(status) {
+      statusFilter.value = status;
+      applyFilters();
+    }
+
+    function updatePillHighlights(activeStatus) {
+      const pills = {
+        all: document.getElementById('statPillAll'),
+        completed: document.getElementById('statPillCompleted'),
+        manual_review: document.getElementById('statPillManual'),
+        in_progress: document.getElementById('statPillProgress')
+      };
+
+      Object.keys(pills).forEach(key => {
+        if (pills[key]) {
+          if (key === activeStatus) {
+            pills[key].classList.add('border-primary', 'shadow-sm');
+          } else {
+            pills[key].classList.remove('border-primary', 'shadow-sm');
+          }
+        }
+      });
+    }
+
+    function resetAllFilters() {
+      searchInput.value = '';
+      statusFilter.value = 'all';
+      stackFilter.value = 'all';
+      sortFilter.value = 'date_desc';
+      applyFilters();
+    }
+
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        applyFilters();
+        searchInput.focus();
+      });
     }
 
     searchInput.addEventListener('input', applyFilters);
     statusFilter.addEventListener('change', applyFilters);
+    stackFilter.addEventListener('change', applyFilters);
+    sortFilter.addEventListener('change', () => {
+      sortRows();
+    });
+
+    // 2. Interactive Toast Helper
+    function showToast(message, iconClass = 'bi-check-circle-fill text-success') {
+      const toastEl = document.getElementById('liveActionToast');
+      const toastMsg = document.getElementById('toastMessage');
+      if (toastEl && toastMsg) {
+        toastMsg.innerHTML = `<i class="bi ${iconClass} fs-5"></i> <span>${message}</span>`;
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+      }
+    }
+
+    function triggerReaudit(projectName) {
+      showToast(`Triggering deterministic AST rule re-audit for <strong>${projectName}</strong>...`, 'bi-arrow-clockwise text-primary');
+      setTimeout(() => {
+        showToast(`Rule audit completed for <strong>${projectName}</strong>. Compliance updated.`, 'bi-check-circle-fill text-success');
+      }, 1500);
+    }
+
+    function triggerExport(projectName) {
+      showToast(`Preparing encrypted source archive download for <strong>${projectName}</strong>.`, 'bi-file-earmark-zip-fill text-info');
+    }
+
+    // 3. Delete Project Modal Logic
+    let currentDeleteTarget = '';
+    function triggerDeleteModal(projectName) {
+      currentDeleteTarget = projectName;
+      document.getElementById('deleteProjectTargetName').textContent = projectName;
+      const modal = new bootstrap.Modal(document.getElementById('deleteProjectModal'));
+      modal.show();
+    }
+
+    function executeDeleteProject() {
+      const modalEl = document.getElementById('deleteProjectModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+
+      // Find and visually remove the row
+      const targetRow = rows.find(r => (r.getAttribute('data-name') || '').includes(currentDeleteTarget));
+      if (targetRow) {
+        targetRow.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        targetRow.style.opacity = '0';
+        targetRow.style.transform = 'translateX(20px)';
+        setTimeout(() => {
+          targetRow.remove();
+          const idx = rows.indexOf(targetRow);
+          if (idx > -1) rows.splice(idx, 1);
+          applyFilters();
+          showToast(`Project record <strong>${currentDeleteTarget}</strong> deleted successfully.`, 'bi-trash-fill text-danger');
+        }, 400);
+      }
+    }
+
+    // Initial Sort & Filter run and guarantee left alignment
+    applyFilters();
+    const tableResp = document.querySelector('.table-responsive');
+    if (tableResp) tableResp.scrollLeft = 0;
   </script>
 </body>
 </html>
