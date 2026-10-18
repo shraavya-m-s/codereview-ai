@@ -41,8 +41,8 @@ function initSignOutButtons() {
  */
 function checkAuthSession() {
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  if (currentPage === 'login.html' || currentPage === 'tokens_preview.html') {
-    return; // Public pages
+  if (currentPage === 'login.html') {
+    return; // Public login page
   }
 
   const isAuth = sessionStorage.getItem('cr_logged_in');
