@@ -130,16 +130,6 @@
         </div>
 
         <div class="cr-topbar-right">
-          <!-- Dev Role Simulator -->
-          <div class="d-flex align-items-center gap-2 bg-light border px-2 py-1 rounded">
-            <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
-            <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
-              <option value="mentor" selected>Mentor</option>
-              <option value="student">Student / Intern</option>
-              <option value="admin">Administrator</option>
-            </select>
-          </div>
-
           <a href="project_create.html" class="cr-btn cr-btn-primary cr-btn-sm d-none d-sm-inline-flex" data-role-perm="mentor-only">
             <i class="bi bi-cloud-arrow-up"></i>
             <span>Upload Project</span>
@@ -165,11 +155,72 @@
               <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
             </ul>
           </div>
+
+          <!-- Direct Sign Out Button -->
+          <a href="login.html?logout=true" class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1.5 py-1 px-2.5 rounded" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+            <span class="d-none d-sm-inline small fw-semibold">Sign Out</span>
+          </a>
         </div>
       </header>
 
       <!-- Dashboard Main Content -->
       <main class="cr-page-content">
+        <!-- Unauthorized Access Alert -->
+        <div class="cr-alert cr-alert-danger d-none mb-4" id="unauthorizedAlert" role="alert">
+          <i class="bi bi-shield-x fs-5 text-danger flex-shrink-0"></i>
+          <div class="small flex-grow-1">
+            <strong>Access Restricted:</strong> You do not have administrative privileges to access that section.
+          </div>
+          <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.parentElement.remove()"></button>
+        </div>
+
+        <!-- Student Persona Custom Banner -->
+        <div class="cr-card p-3 mb-4 border-start border-4 border-success bg-white shadow-sm" data-role-perm="student-only" style="display: none;">
+          <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; flex-shrink: 0;">
+                <i class="bi bi-award-fill fs-4"></i>
+              </div>
+              <div>
+                <div class="fw-bold text-dark">Welcome back, Rahul! Your Project Audit is Finalized</div>
+                <div class="text-secondary small">Hospital_Management_System achieved <strong>84 / 100 (Pass)</strong> with 48/48 SRS functional checks verified.</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <a href="findings.html" class="cr-btn cr-btn-sm cr-btn-secondary">
+                <i class="bi bi-search"></i> View Audit Findings
+              </a>
+              <a href="report.html" class="cr-btn cr-btn-sm cr-btn-primary">
+                <i class="bi bi-file-earmark-pdf"></i> Download Report
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Persona Custom Banner -->
+        <div class="cr-card p-3 mb-4 border-start border-4 bg-white shadow-sm" data-role-perm="admin-only" style="display: none; border-color: #8b5cf6 !important;">
+          <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; flex-shrink: 0; background-color: #f3e8ff; color: #7e22ce;">
+                <i class="bi bi-shield-check fs-4"></i>
+              </div>
+              <div>
+                <div class="fw-bold text-dark">Administrator Console &amp; System Health</div>
+                <div class="text-secondary small">Static rule engine operating deterministically. 3 active mentors, 18 registered interns, 0 pipeline bottlenecks.</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <a href="admin_users.html" class="cr-btn cr-btn-sm cr-btn-primary">
+                <i class="bi bi-people-fill"></i> Manage Users
+              </a>
+              <a href="history.html" class="cr-btn cr-btn-sm cr-btn-secondary">
+                <i class="bi bi-clock-history"></i> Full Audit Trail
+              </a>
+            </div>
+          </div>
+        </div>
+
         <!-- Page Title & Quick Actions -->
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
           <div>
@@ -193,8 +244,9 @@
             </div>
             <div class="cr-metric-value-row">
               <span class="cr-metric-value">12</span>
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.7rem;"><i class="bi bi-arrow-up-right"></i> +3 this week</span>
             </div>
-            <div class="cr-metric-subtext">Active student repositories</div>
+            <div class="cr-metric-subtext">Active student repositories in cohort</div>
           </div>
 
           <!-- Completed Reviews -->
@@ -205,9 +257,9 @@
             </div>
             <div class="cr-metric-value-row">
               <span class="cr-metric-value">8</span>
-              <span class="badge bg-success-subtle text-success border border-success-subtle">67% Evaluated</span>
+              <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.7rem;"><i class="bi bi-check2"></i> 67% Evaluated</span>
             </div>
-            <div class="cr-metric-subtext">Finalized with reports</div>
+            <div class="cr-metric-subtext">Finalized with signed reports</div>
           </div>
 
           <!-- Average Score -->
@@ -218,6 +270,7 @@
             </div>
             <div class="cr-metric-value-row">
               <span class="cr-metric-value">79%</span>
+              <span class="badge bg-light text-secondary border" style="font-size: 0.7rem;">Target &ge; 75%</span>
             </div>
             <div class="cr-score-progress">
               <div class="cr-score-progress-bar success" style="width: 79%;"></div>
@@ -233,9 +286,52 @@
             </div>
             <div class="cr-metric-value-row">
               <span class="cr-metric-value">4</span>
-              <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Mentor Attention</span>
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle" style="font-size: 0.7rem;"><i class="bi bi-clock"></i> Action Needed</span>
             </div>
-            <div class="cr-metric-subtext">Flagged requirements needing review</div>
+            <div class="cr-metric-subtext">Flagged requirements needing mentor override</div>
+          </div>
+        </div>
+
+        <!-- SRS Requirement Verification Breakdown Bar -->
+        <div class="cr-card p-3 mb-4 shadow-sm">
+          <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-bar-chart-steps text-primary fs-5"></i>
+              <span class="fw-bold text-dark small text-uppercase" style="letter-spacing: 0.04em;">SRS Requirement Compliance Distribution</span>
+            </div>
+            <span class="badge bg-light text-secondary border small">146 Requirements Audited Across Batch</span>
+          </div>
+
+          <!-- Segmented Distribution Bar -->
+          <div class="cr-compliance-dist-bar mb-2.5">
+            <div class="cr-dist-segment implemented" style="width: 33%;" title="Implemented: 48 (33%)"></div>
+            <div class="cr-dist-segment partial" style="width: 29%;" title="Partial / In Progress: 42 (29%)"></div>
+            <div class="cr-dist-segment manual" style="width: 23%;" title="Manual Review Required: 34 (23%)"></div>
+            <div class="cr-dist-segment missing" style="width: 15%;" title="Missing / Non-Compliant: 22 (15%)"></div>
+          </div>
+
+          <!-- Distribution Legend Chips -->
+          <div class="d-flex flex-wrap align-items-center gap-3 pt-1" style="font-size: 0.775rem;">
+            <div class="d-flex align-items-center gap-1.5">
+              <span class="rounded-circle" style="width: 8px; height: 8px; background-color: var(--cr-status-implemented);"></span>
+              <span class="text-secondary">Implemented:</span>
+              <span class="fw-bold text-dark">48 (33%)</span>
+            </div>
+            <div class="d-flex align-items-center gap-1.5">
+              <span class="rounded-circle" style="width: 8px; height: 8px; background-color: var(--cr-status-partial);"></span>
+              <span class="text-secondary">Partial:</span>
+              <span class="fw-bold text-dark">42 (29%)</span>
+            </div>
+            <div class="d-flex align-items-center gap-1.5">
+              <span class="rounded-circle" style="width: 8px; height: 8px; background-color: var(--cr-status-manual);"></span>
+              <span class="text-secondary">Manual Review:</span>
+              <span class="fw-bold text-dark">34 (23%)</span>
+            </div>
+            <div class="d-flex align-items-center gap-1.5">
+              <span class="rounded-circle" style="width: 8px; height: 8px; background-color: var(--cr-status-missing);"></span>
+              <span class="text-secondary">Missing:</span>
+              <span class="fw-bold text-dark">22 (15%)</span>
+            </div>
           </div>
         </div>
 
@@ -243,20 +339,28 @@
         <div class="row g-4">
           <!-- Active Projects Table (8 Cols) -->
           <div class="col-lg-8">
-            <div class="cr-card">
-              <div class="cr-card-header">
-                <div class="cr-card-title">
+            <div class="cr-card shadow-sm">
+              <div class="cr-card-header flex-wrap gap-2">
+                <div class="cr-card-title d-flex align-items-center gap-2">
                   <i class="bi bi-layers-fill text-primary"></i>
-                  <span>Recent Projects & Reviews</span>
+                  <span>Recent Projects &amp; Reviews</span>
+                  <span class="badge bg-light text-secondary border ms-1" id="projectCountBadge">4</span>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                  <!-- Filter Pills -->
-                  <div class="btn-group btn-group-sm" role="group">
-                    <button type="button" class="btn btn-outline-secondary active py-1 px-2.5 filter-btn" data-filter="all">All</button>
-                    <button type="button" class="btn btn-outline-secondary py-1 px-2.5 filter-btn" data-filter="in_review">In Review</button>
-                    <button type="button" class="btn btn-outline-secondary py-1 px-2.5 filter-btn" data-filter="completed">Completed</button>
+                
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <!-- Live Search Bar -->
+                  <div class="input-group input-group-sm" style="max-width: 200px;">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control cr-input border-start-0 ps-0" id="dashboardSearchInput" placeholder="Filter projects...">
                   </div>
-                  <a href="project_list.html" class="cr-btn cr-btn-subtle cr-btn-sm">View All &rarr;</a>
+
+                  <!-- Modern Filter Pills -->
+                  <div class="d-flex align-items-center gap-1.5" role="group">
+                    <button type="button" class="cr-filter-pill is-active" data-filter="all">All <span class="badge bg-secondary-subtle text-secondary">4</span></button>
+                    <button type="button" class="cr-filter-pill" data-filter="in_review">In Review <span class="badge bg-secondary-subtle text-secondary">2</span></button>
+                    <button type="button" class="cr-filter-pill" data-filter="completed">Completed <span class="badge bg-secondary-subtle text-secondary">2</span></button>
+                  </div>
+                  <a href="project_list.html" class="cr-btn cr-btn-subtle cr-btn-sm text-nowrap">View All &rarr;</a>
                 </div>
               </div>
               
@@ -274,7 +378,7 @@
                   </thead>
                   <tbody>
                     <!-- Project 1 -->
-                    <tr data-status="completed">
+                    <tr data-status="completed" data-search="hospital management system rahul sharma #in-2041 python django">
                       <td>
                         <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
                           <i class="bi bi-file-earmark-code text-primary me-1"></i> Hospital_Management_System
@@ -308,7 +412,7 @@
                     </tr>
 
                     <!-- Project 2 -->
-                    <tr data-status="in_review">
+                    <tr data-status="in_review" data-search="ecommerce rest api ananya patel #in-2048 drf backend">
                       <td>
                         <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
                           <i class="bi bi-file-earmark-code text-primary me-1"></i> ECommerce_REST_API
@@ -337,7 +441,7 @@
                     </tr>
 
                     <!-- Project 3 -->
-                    <tr data-status="in_review">
+                    <tr data-status="in_review" data-search="inventory tracker app vikramaditya roy #in-2055 django sqlite">
                       <td>
                         <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
                           <i class="bi bi-file-earmark-code text-primary me-1"></i> Inventory_Tracker_App
@@ -366,7 +470,7 @@
                     </tr>
 
                     <!-- Project 4 -->
-                    <tr data-status="completed">
+                    <tr data-status="completed" data-search="student attendance portal pooja nair #in-2039 python django">
                       <td>
                         <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">
                           <i class="bi bi-file-earmark-code text-primary me-1"></i> Student_Attendance_Portal
@@ -393,6 +497,22 @@
                         </a>
                       </td>
                     </tr>
+
+                    <!-- Empty Search / Filter State Row -->
+                    <tr id="noResultsRow" style="display: none;">
+                      <td colspan="6" class="p-0">
+                        <div class="cr-empty-search-state py-5">
+                          <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-search fs-4 text-muted"></i>
+                          </div>
+                          <h6 class="fw-bold text-dark mb-1">No matching projects found</h6>
+                          <p class="text-muted small mb-3">No reviews match your current filter or search criteria.</p>
+                          <button type="button" class="cr-btn cr-btn-sm cr-btn-secondary" id="resetDashboardFiltersBtn">
+                            <i class="bi bi-arrow-counterclockwise"></i> Reset Filters
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -401,7 +521,7 @@
 
           <!-- Recent Review Activity Timeline (4 Cols) -->
           <div class="col-lg-4">
-            <div class="cr-card h-100">
+            <div class="cr-card h-100 shadow-sm d-flex flex-column">
               <div class="cr-card-header">
                 <div class="cr-card-title">
                   <i class="bi bi-activity text-primary"></i>
@@ -409,7 +529,7 @@
                 </div>
                 <a href="history.html" class="small text-decoration-none">Full Log &rarr;</a>
               </div>
-              <div class="cr-card-body p-3">
+              <div class="cr-card-body p-3 flex-grow-1">
                 <div class="d-flex flex-column gap-3">
                   <!-- Activity 1 -->
                   <div class="d-flex gap-3">
@@ -460,6 +580,13 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Quick Action at bottom of timeline -->
+              <div class="p-3 border-top bg-light rounded-bottom">
+                <a href="findings.html" class="cr-btn cr-btn-subtle cr-btn-sm w-100 justify-content-center">
+                  <i class="bi bi-sliders"></i> Open Findings Workbench
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -486,22 +613,69 @@
   <script src="static/js/app.js"></script>
 
   <script>
-    // Live Dashboard status filter pills
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    // Live Dashboard Search & Status Filter Logic
+    let currentFilter = 'all';
+
+    function applyDashboardFilters() {
+      const searchInput = document.getElementById('dashboardSearchInput');
+      const query = (searchInput ? searchInput.value.toLowerCase().trim() : '');
+      const rows = document.querySelectorAll('#dashboardProjectsTable tbody tr:not(#noResultsRow)');
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const rowStatus = row.getAttribute('data-status');
+        const rowSearchData = row.getAttribute('data-search') || row.innerText.toLowerCase();
+
+        const matchesStatus = (currentFilter === 'all' || rowStatus === currentFilter);
+        const matchesQuery = (!query || rowSearchData.includes(query));
+
+        if (matchesStatus && matchesQuery) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      // Update badge count
+      const badge = document.getElementById('projectCountBadge');
+      if (badge) badge.textContent = visibleCount;
+
+      // Toggle Empty State Row
+      const emptyRow = document.getElementById('noResultsRow');
+      if (emptyRow) {
+        emptyRow.style.display = (visibleCount === 0) ? '' : 'none';
+      }
+    }
+
+    // Filter pill click listener
+    document.querySelectorAll('.cr-filter-pill').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
-        const rows = document.querySelectorAll('#dashboardProjectsTable tbody tr');
-        rows.forEach(row => {
-          if (filter === 'all' || row.getAttribute('data-status') === filter) {
-            row.style.display = '';
-          } else {
-            row.style.display = 'none';
-          }
-        });
+        document.querySelectorAll('.cr-filter-pill').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        currentFilter = btn.getAttribute('data-filter') || 'all';
+        applyDashboardFilters();
       });
     });
+
+    // Search input listener
+    const searchInput = document.getElementById('dashboardSearchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', applyDashboardFilters);
+    }
+
+    // Reset filters button listener
+    const resetBtn = document.getElementById('resetDashboardFiltersBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        currentFilter = 'all';
+        document.querySelectorAll('.cr-filter-pill').forEach(b => {
+          b.classList.toggle('is-active', b.getAttribute('data-filter') === 'all');
+        });
+        applyDashboardFilters();
+      });
+    }
   </script>
 </body>
 </html>

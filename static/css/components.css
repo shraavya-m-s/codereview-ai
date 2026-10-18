@@ -240,6 +240,15 @@
   color: #a7f3d0;
 }
 
+/* Role Permission Visibility Enforcement (Overrides Bootstrap !important display classes) */
+html[data-auth-role="student"] [data-role-perm="mentor-only"],
+html[data-auth-role="student"] [data-role-perm="admin-only"],
+html[data-auth-role="mentor"] [data-role-perm="admin-only"],
+html[data-auth-role="mentor"] [data-role-perm="student-only"],
+html[data-auth-role="admin"] [data-role-perm="student-only"] {
+  display: none !important;
+}
+
 /* --------------------------------------------------------------------------
    3. Cards & Surfaces
    -------------------------------------------------------------------------- */
@@ -802,6 +811,269 @@
 
 .cr-shake {
   animation: crShake 0.4s ease-in-out;
+}
+
+/* --------------------------------------------------------------------------
+   13. Dashboard Interactivity, Filter Pills & Compliance Bar
+   -------------------------------------------------------------------------- */
+.cr-metric-tile {
+  transition: transform var(--cr-transition-fast), box-shadow var(--cr-transition-fast), border-color var(--cr-transition-fast);
+}
+
+.cr-metric-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+  border-color: #cbd5e1;
+}
+
+.cr-filter-pill {
+  border-radius: var(--cr-radius-full);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: 1px solid var(--cr-border);
+  background-color: var(--cr-surface);
+  color: var(--cr-text-secondary);
+  transition: all var(--cr-transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+.cr-filter-pill:hover {
+  border-color: var(--cr-primary);
+  color: var(--cr-primary);
+  background-color: var(--cr-primary-subtle);
+}
+
+.cr-filter-pill.is-active {
+  background-color: var(--cr-primary);
+  border-color: var(--cr-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.cr-filter-pill.is-active .badge {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* SRS Requirement Distribution Bar */
+.cr-compliance-dist-bar {
+  display: flex;
+  height: 8px;
+  border-radius: var(--cr-radius-full);
+  overflow: hidden;
+  background-color: #e2e8f0;
+  gap: 2px;
+}
+
+.cr-dist-segment {
+  height: 100%;
+  transition: width 0.5s ease;
+  cursor: pointer;
+}
+
+.cr-dist-segment.implemented { background-color: var(--cr-status-implemented); }
+.cr-dist-segment.partial { background-color: var(--cr-status-partial); }
+.cr-dist-segment.manual { background-color: var(--cr-status-manual); }
+.cr-dist-segment.missing { background-color: var(--cr-status-missing); }
+
+.cr-empty-search-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--cr-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   14. Split-Screen Authentication & Pure Brand Showcase (Strict 100vh Lock)
+   -------------------------------------------------------------------------- */
+.cr-auth-split-wrapper {
+  display: flex;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--cr-canvas);
+}
+
+/* Left Brand Panel - Pure Brand Presence (No Clutter) */
+.cr-auth-showcase-panel {
+  flex: 1 1 50%;
+  height: 100vh;
+  max-height: 100vh;
+  background: linear-gradient(145deg, #090d16 0%, #0f172a 50%, #1e293b 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #f8fafc;
+  text-align: center;
+}
+
+/* Ambient glow */
+.cr-auth-showcase-panel::before {
+  content: '';
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.cr-showcase-content {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+}
+
+.cr-auth-hero-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--cr-radius-xl);
+  background: linear-gradient(135deg, var(--cr-primary), #1d4ed8);
+  box-shadow: 0 0 40px rgba(37, 99, 235, 0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+/* Right Form Panel */
+.cr-auth-form-panel {
+  flex: 1 1 50%;
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  background-color: var(--cr-canvas);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.04) 0px, transparent 50%);
+  position: relative;
+  overflow: hidden;
+}
+
+.cr-auth-form-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Sleek Frosted Glass Card for Form */
+.cr-auth-frosted-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  border-radius: var(--cr-radius-xl);
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 2.25rem 2rem;
+  transition: transform var(--cr-transition-fast), box-shadow var(--cr-transition-fast);
+}
+
+.cr-auth-frosted-card:hover {
+  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.1), 0 6px 10px -3px rgba(15, 23, 42, 0.04);
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 991.98px) {
+  .cr-auth-split-wrapper {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    overflow-y: auto;
+  }
+  .cr-auth-showcase-panel {
+    display: none;
+  }
+  .cr-auth-form-panel {
+    flex: 1 1 100%;
+    min-height: 100vh;
+    padding: 2.5rem 1.25rem;
+  }
+}
+
+/* Auth Mode Tabs (Sign In / Sign Up) */
+.cr-auth-nav-tabs {
+  display: flex;
+  background-color: #f1f5f9;
+  border-radius: var(--cr-radius-md);
+  padding: 3px;
+  margin-bottom: 1.25rem;
+}
+
+.cr-auth-nav-tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cr-text-secondary);
+  border-radius: var(--cr-radius-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--cr-transition-fast);
+}
+
+.cr-auth-nav-tab:hover {
+  color: var(--cr-text-primary);
+}
+
+.cr-auth-nav-tab.is-active {
+  background: #ffffff;
+  color: var(--cr-primary);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+/* Role Selection Toggle */
+.cr-role-toggle-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cr-role-toggle-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-md);
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: var(--cr-text-secondary);
+  background: #ffffff;
+  cursor: pointer;
+  transition: all var(--cr-transition-fast);
+  user-select: none;
+}
+
+.cr-role-toggle-option:hover {
+  border-color: var(--cr-primary);
+  color: var(--cr-primary);
+  background-color: var(--cr-primary-subtle);
+}
+
+.cr-role-toggle-option.is-active {
+  border-color: var(--cr-primary);
+  background-color: var(--cr-primary-subtle);
+  color: var(--cr-primary);
+  box-shadow: 0 0 0 1px var(--cr-primary);
+  font-weight: 600;
 }
 
 
