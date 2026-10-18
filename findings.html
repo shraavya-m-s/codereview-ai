@@ -30,10 +30,10 @@
       </div>
 
       <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
-        <div class="d-flex align-items-center gap-2.5">
-          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
           <div class="min-w-0 flex-grow-1">
-            <div class="text-white fw-semibold text-truncate small">Dr. Aris (Mentor)</div>
+            <div class="text-white fw-semibold text-truncate small cr-user-name">Dr. Aris (Mentor)</div>
             <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
           </div>
         </div>
@@ -45,25 +45,25 @@
         </div>
         <ul class="nav flex-column gap-1 px-2">
           <li class="nav-item">
-            <a href="index.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+            <a href="index.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
               <i class="bi bi-grid-1x2-fill"></i>
               <span class="cr-nav-label">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="project_list.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-white bg-primary fw-semibold">
+            <a href="project_list.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-white bg-primary fw-semibold">
               <i class="bi bi-folder2-open"></i>
               <span class="cr-nav-label">Projects</span>
             </a>
           </li>
           <li class="nav-item" data-role-perm="mentor-only">
-            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
               <i class="bi bi-cloud-arrow-up-fill"></i>
               <span class="cr-nav-label">Upload Project</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+            <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
               <i class="bi bi-clock-history"></i>
               <span class="cr-nav-label">Review History</span>
             </a>
@@ -81,8 +81,8 @@
     <!-- Main Content -->
     <div class="cr-main-wrapper">
       <header class="cr-topbar">
-        <div class="d-flex align-items-center gap-3">
-          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button"><i class="bi bi-list fs-5"></i></button>
+        <div class="cr-topbar-left">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation"><i class="bi bi-list fs-5"></i></button>
           <nav aria-label="breadcrumb" class="d-none d-sm-block">
             <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
               <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
@@ -93,8 +93,8 @@
           </nav>
         </div>
 
-        <div class="d-flex align-items-center gap-2.5">
-          <div class="d-flex align-items-center gap-1.5 bg-light border px-2 py-1 rounded">
+        <div class="cr-topbar-right">
+          <div class="d-none d-md-flex align-items-center gap-2 bg-light border px-2 py-1 rounded">
             <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
             <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
               <option value="mentor" selected>Mentor</option>
@@ -103,18 +103,25 @@
             </select>
           </div>
 
-          <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">
+          <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm d-none d-sm-inline-flex">
             <i class="bi bi-file-earmark-check"></i>
             <span>View Final Report</span>
           </a>
 
           <div class="dropdown">
-            <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown">
-              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">DA</div>
-              <span class="small fw-semibold text-dark d-none d-md-inline">dr_aris</span>
+            <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.75rem;">DA</div>
+              <span class="small fw-semibold text-dark d-none d-md-inline cr-user-handle">dr_aris</span>
               <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1" style="min-width: 200px;">
+              <li class="px-3 py-2 border-bottom">
+                <div class="fw-bold small text-dark cr-user-fullname">Dr. Aris</div>
+                <div class="text-muted cr-user-email" style="font-size: 0.75rem;">aris.mentor@university.edu</div>
+              </li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="project_list.html"><i class="bi bi-folder2 text-secondary"></i> My Projects</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review Log</a></li>
+              <li><hr class="dropdown-divider my-1"></li>
               <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
             </ul>
           </div>
@@ -142,7 +149,7 @@
             <p class="text-secondary small mb-0">Project: <strong>Hospital_Management_System</strong> &bull; Student: <strong>Rahul Sharma</strong></p>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle py-1.5 px-2.5 fw-semibold">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle py-1 px-3 fw-semibold">
               <i class="bi bi-cpu me-1"></i> Static Rule-Based Engine
             </span>
           </div>
@@ -152,12 +159,12 @@
         <div class="cr-card p-3 mb-4">
           <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
             <!-- Status Filter Pills -->
-            <div class="d-flex flex-wrap gap-1.5" id="findingsFilterPills">
-              <button class="btn btn-sm btn-outline-secondary active py-1 px-2.5 findings-filter-btn" data-status-filter="all">All (6)</button>
-              <button class="btn btn-sm btn-outline-success py-1 px-2.5 findings-filter-btn" data-status-filter="implemented">Implemented (3)</button>
-              <button class="btn btn-sm btn-outline-warning py-1 px-2.5 findings-filter-btn" data-status-filter="partial">Partial (1)</button>
-              <button class="btn btn-sm btn-outline-danger py-1 px-2.5 findings-filter-btn" data-status-filter="missing">Missing (1)</button>
-              <button class="btn btn-sm btn-outline-primary py-1 px-2.5 findings-filter-btn" data-status-filter="manual">Manual Review (1)</button>
+            <div class="d-flex flex-wrap gap-2" id="findingsFilterPills">
+              <button class="btn btn-sm btn-outline-secondary active py-1 px-3 findings-filter-btn" data-status-filter="all">All (6)</button>
+              <button class="btn btn-sm btn-outline-success py-1 px-3 findings-filter-btn" data-status-filter="implemented">Implemented (3)</button>
+              <button class="btn btn-sm btn-outline-warning py-1 px-3 findings-filter-btn" data-status-filter="partial">Partial (1)</button>
+              <button class="btn btn-sm btn-outline-danger py-1 px-3 findings-filter-btn" data-status-filter="missing">Missing (1)</button>
+              <button class="btn btn-sm btn-outline-primary py-1 px-3 findings-filter-btn" data-status-filter="manual">Manual Review (1)</button>
             </div>
 
             <!-- Search box -->
@@ -323,7 +330,7 @@
               <!-- Mentor Evaluation & Status Override Card -->
               <div class="p-3 rounded border bg-light">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                  <h3 class="h6 mb-0 fw-bold d-flex align-items-center gap-1.5 text-dark">
+                  <h3 class="h6 mb-0 fw-bold d-flex align-items-center gap-2 text-dark">
                     <i class="bi bi-mortarboard-fill text-primary"></i> Mentor Evaluation & Override
                   </h3>
                   <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.72rem;" id="detailOriginalStatus">
