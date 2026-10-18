@@ -407,10 +407,10 @@ html[data-auth-role="admin"] [data-role-perm="student-only"] {
   background-color: var(--cr-surface-subtle);
   color: var(--cr-text-secondary);
   font-weight: 600;
-  font-size: 0.775rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  padding: 0.85rem 1.25rem;
+  padding: 0.7rem 0.7rem;
   border-bottom: 1px solid var(--cr-border);
   white-space: nowrap;
 }
@@ -426,7 +426,7 @@ html[data-auth-role="admin"] [data-role-perm="student-only"] {
 }
 
 .cr-table td {
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 0.7rem;
   border-bottom: 1px solid var(--cr-border-subtle);
   color: var(--cr-text-primary);
   vertical-align: middle;
