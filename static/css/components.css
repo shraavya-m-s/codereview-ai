@@ -1,0 +1,735 @@
+/* ==========================================================================
+   CodeReview AI — Reusable Components
+   Buttons, Badges, Cards, Metric Tiles, Tables, Split Panels & Modals
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Buttons
+   -------------------------------------------------------------------------- */
+.cr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--cr-font-sans);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--cr-radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--cr-transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cr-btn:focus-visible {
+  outline: 2px solid var(--cr-primary);
+  outline-offset: 2px;
+}
+
+.cr-btn-primary {
+  background-color: var(--cr-primary);
+  color: #ffffff;
+  border-color: var(--cr-primary);
+  box-shadow: 0 1px 2px 0 rgba(29, 78, 216, 0.2);
+}
+
+.cr-btn-primary:hover {
+  background-color: var(--cr-primary-hover);
+  border-color: var(--cr-primary-hover);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.cr-btn-primary:active {
+  background-color: var(--cr-primary-active);
+}
+
+.cr-btn-secondary {
+  background-color: var(--cr-surface);
+  color: var(--cr-text-primary);
+  border-color: var(--cr-border);
+  box-shadow: var(--cr-shadow-xs);
+}
+
+.cr-btn-secondary:hover {
+  background-color: var(--cr-surface-subtle);
+  border-color: var(--cr-border-strong);
+  color: var(--cr-text-primary);
+  text-decoration: none;
+}
+
+.cr-btn-outline-primary {
+  background-color: transparent;
+  color: var(--cr-primary);
+  border-color: var(--cr-primary-border);
+}
+
+.cr-btn-outline-primary:hover {
+  background-color: var(--cr-primary-subtle);
+  border-color: var(--cr-primary);
+  color: var(--cr-primary-hover);
+  text-decoration: none;
+}
+
+.cr-btn-subtle {
+  background-color: transparent;
+  color: var(--cr-text-secondary);
+  border-color: transparent;
+}
+
+.cr-btn-subtle:hover {
+  background-color: var(--cr-surface-subtle);
+  color: var(--cr-text-primary);
+  text-decoration: none;
+}
+
+.cr-btn-danger {
+  background-color: var(--cr-status-missing-bg);
+  color: var(--cr-status-missing-text);
+  border-color: var(--cr-status-missing-border);
+}
+
+.cr-btn-danger:hover {
+  background-color: #fee2e2;
+  color: #7f1d1d;
+  text-decoration: none;
+}
+
+.cr-btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: var(--cr-radius-sm);
+  gap: 0.35rem;
+}
+
+.cr-btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: var(--cr-radius-md);
+  gap: 0.65rem;
+}
+
+.cr-btn:disabled, .cr-btn.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   2. Badges & Status Indicators
+   -------------------------------------------------------------------------- */
+.cr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.1;
+  border-radius: var(--cr-radius-full);
+  border: 1px solid transparent;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.cr-badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Implemented */
+.cr-badge-implemented {
+  background-color: var(--cr-status-implemented-bg);
+  color: var(--cr-status-implemented-text);
+  border-color: var(--cr-status-implemented-border);
+}
+.cr-badge-implemented::before {
+  background-color: var(--cr-status-implemented);
+}
+
+/* Partial */
+.cr-badge-partial {
+  background-color: var(--cr-status-partial-bg);
+  color: var(--cr-status-partial-text);
+  border-color: var(--cr-status-partial-border);
+}
+.cr-badge-partial::before {
+  background-color: var(--cr-status-partial);
+}
+
+/* Missing */
+.cr-badge-missing {
+  background-color: var(--cr-status-missing-bg);
+  color: var(--cr-status-missing-text);
+  border-color: var(--cr-status-missing-border);
+}
+.cr-badge-missing::before {
+  background-color: var(--cr-status-missing);
+}
+
+/* Manual Review */
+.cr-badge-manual {
+  background-color: var(--cr-status-manual-bg);
+  color: var(--cr-status-manual-text);
+  border-color: var(--cr-status-manual-border);
+}
+.cr-badge-manual::before {
+  background-color: var(--cr-status-manual);
+}
+
+/* Priority Badges */
+.cr-priority-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--cr-radius-xs);
+  letter-spacing: 0.03em;
+}
+
+.cr-priority-badge.high {
+  background-color: var(--cr-priority-high-bg);
+  color: var(--cr-priority-high);
+}
+
+.cr-priority-badge.med {
+  background-color: var(--cr-priority-med-bg);
+  color: var(--cr-priority-med);
+}
+
+.cr-priority-badge.low {
+  background-color: var(--cr-priority-low-bg);
+  color: var(--cr-priority-low);
+}
+
+/* Role Badges */
+.cr-role-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--cr-radius-full);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.cr-role-badge.mentor {
+  background-color: rgba(37, 99, 235, 0.25);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #93c5fd;
+}
+
+.cr-role-badge.admin {
+  background-color: rgba(168, 85, 247, 0.25);
+  border-color: rgba(192, 132, 252, 0.4);
+  color: #e9d5ff;
+}
+
+.cr-role-badge.student {
+  background-color: rgba(16, 185, 129, 0.25);
+  border-color: rgba(52, 211, 153, 0.4);
+  color: #a7f3d0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Cards & Surfaces
+   -------------------------------------------------------------------------- */
+.cr-card {
+  background-color: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+  box-shadow: var(--cr-shadow-card);
+  transition: box-shadow var(--cr-transition-fast), border-color var(--cr-transition-fast);
+  overflow: hidden;
+}
+
+.cr-card-interactive:hover {
+  box-shadow: var(--cr-shadow-card-hover);
+  border-color: var(--cr-border-strong);
+}
+
+.cr-card-header {
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--cr-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: var(--cr-surface);
+}
+
+.cr-card-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cr-card-body {
+  padding: 1.4rem;
+}
+
+.cr-card-footer {
+  padding: 0.9rem 1.4rem;
+  border-top: 1px solid var(--cr-border-subtle);
+  background-color: var(--cr-surface-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --------------------------------------------------------------------------
+   4. Metric Tiles (Dashboard KPIs)
+   -------------------------------------------------------------------------- */
+.cr-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.cr-metric-tile {
+  background-color: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--cr-shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.cr-metric-tile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--cr-border);
+}
+
+.cr-metric-tile.primary::after { background-color: var(--cr-primary); }
+.cr-metric-tile.success::after { background-color: var(--cr-status-implemented); }
+.cr-metric-tile.warning::after { background-color: var(--cr-status-partial); }
+.cr-metric-tile.info::after { background-color: var(--cr-status-manual); }
+
+.cr-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.cr-metric-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cr-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cr-metric-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--cr-radius-md);
+  background-color: var(--cr-surface-subtle);
+  color: var(--cr-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.cr-metric-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+
+.cr-metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+  line-height: 1;
+  font-feature-settings: "tnum";
+}
+
+.cr-metric-subtext {
+  font-size: 0.8rem;
+  color: var(--cr-text-muted);
+  margin-top: 0.4rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Tables & Grids
+   -------------------------------------------------------------------------- */
+.cr-table-container {
+  background-color: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+  box-shadow: var(--cr-shadow-card);
+  overflow: hidden;
+}
+
+.cr-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.cr-table th {
+  background-color: var(--cr-surface-subtle);
+  color: var(--cr-text-secondary);
+  font-weight: 600;
+  font-size: 0.775rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--cr-border);
+  white-space: nowrap;
+}
+
+.cr-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.cr-table th.sortable:hover {
+  color: var(--cr-text-primary);
+  background-color: #e2e8f0;
+}
+
+.cr-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--cr-border-subtle);
+  color: var(--cr-text-primary);
+  vertical-align: middle;
+}
+
+.cr-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cr-table tbody tr:hover {
+  background-color: var(--cr-surface-hover);
+}
+
+/* --------------------------------------------------------------------------
+   6. Code Evidence Viewer
+   -------------------------------------------------------------------------- */
+.cr-code-box {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border-radius: var(--cr-radius-md);
+  border: 1px solid #1e293b;
+  overflow: hidden;
+  font-family: var(--cr-font-mono);
+  font-size: 0.85rem;
+}
+
+.cr-code-box-header {
+  background-color: #1e293b;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.775rem;
+  color: #94a3b8;
+  border-bottom: 1px solid #334155;
+}
+
+.cr-code-box-path {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e1;
+}
+
+.cr-code-box-content {
+  padding: 1rem;
+  margin: 0;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   7. Form Controls & Floating Labels
+   -------------------------------------------------------------------------- */
+.cr-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.cr-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--cr-text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.cr-label .required {
+  color: var(--cr-status-missing);
+}
+
+.cr-input, .cr-select, .cr-textarea {
+  width: 100%;
+  font-family: var(--cr-font-sans);
+  font-size: 0.9rem;
+  color: var(--cr-text-primary);
+  background-color: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-md);
+  padding: 0.6rem 0.9rem;
+  transition: border-color var(--cr-transition-fast), box-shadow var(--cr-transition-fast);
+}
+
+.cr-input:focus, .cr-select:focus, .cr-textarea:focus {
+  border-color: var(--cr-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--cr-primary-ring);
+}
+
+.cr-input::placeholder, .cr-textarea::placeholder {
+  color: var(--cr-text-muted);
+}
+
+.cr-form-hint {
+  font-size: 0.785rem;
+  color: var(--cr-text-muted);
+  margin-top: 0.35rem;
+}
+
+.cr-form-error {
+  font-size: 0.8rem;
+  color: var(--cr-status-missing);
+  margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. Master-Detail Split Layout (Findings Workbench)
+   -------------------------------------------------------------------------- */
+.cr-split-workbench {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.cr-master-panel {
+  flex: 0 0 42%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.cr-detail-panel {
+  flex: 1 1 58%;
+  min-width: 0;
+  position: sticky;
+  top: calc(var(--cr-topbar-height) + 1.5rem);
+}
+
+.cr-finding-item {
+  background-color: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-md);
+  padding: 0.9rem 1.1rem;
+  cursor: pointer;
+  transition: all var(--cr-transition-fast);
+  border-left: 4px solid transparent;
+}
+
+.cr-finding-item:hover {
+  border-color: var(--cr-border-strong);
+  background-color: var(--cr-surface-hover);
+}
+
+.cr-finding-item.is-active {
+  background-color: var(--cr-primary-subtle);
+  border-color: var(--cr-primary-border);
+  border-left-color: var(--cr-primary);
+  box-shadow: var(--cr-shadow-sm);
+}
+
+/* --------------------------------------------------------------------------
+   9. Score Dial & Progress Bars
+   -------------------------------------------------------------------------- */
+.cr-score-progress {
+  height: 8px;
+  background-color: var(--cr-border-subtle);
+  border-radius: var(--cr-radius-full);
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.cr-score-progress-bar {
+  height: 100%;
+  border-radius: var(--cr-radius-full);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cr-score-progress-bar.success { background-color: var(--cr-status-implemented); }
+.cr-score-progress-bar.warning { background-color: var(--cr-status-partial); }
+.cr-score-progress-bar.danger { background-color: var(--cr-status-missing); }
+.cr-score-progress-bar.info { background-color: var(--cr-primary); }
+
+/* Circular Overall Score Dial */
+.cr-score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: conic-gradient(var(--cr-primary) calc(var(--score-pct, 0) * 1%), var(--cr-border) 0);
+  position: relative;
+  box-shadow: var(--cr-shadow-sm);
+}
+
+.cr-score-circle-inner {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: var(--cr-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-score-circle-num {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--cr-text-primary);
+  line-height: 1;
+}
+
+.cr-score-circle-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--cr-text-muted);
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   10. Alerts & Toast Notifications
+   -------------------------------------------------------------------------- */
+.cr-alert {
+  padding: 0.85rem 1.15rem;
+  border-radius: var(--cr-radius-md);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid transparent;
+}
+
+.cr-alert-info {
+  background-color: var(--cr-primary-subtle);
+  border-color: var(--cr-primary-border);
+  color: #1e3a8a;
+}
+
+.cr-alert-success {
+  background-color: var(--cr-status-implemented-bg);
+  border-color: var(--cr-status-implemented-border);
+  color: var(--cr-status-implemented-text);
+}
+
+.cr-alert-warning {
+  background-color: var(--cr-status-partial-bg);
+  border-color: var(--cr-status-partial-border);
+  color: var(--cr-status-partial-text);
+}
+
+.cr-alert-danger {
+  background-color: var(--cr-status-missing-bg);
+  border-color: var(--cr-status-missing-border);
+  color: var(--cr-status-missing-text);
+}
+
+/* Responsive Overrides */
+@media (max-width: 991.98px) {
+  .cr-split-workbench {
+    flex-direction: column;
+  }
+  .cr-master-panel {
+    flex: 1 1 100%;
+    max-height: none;
+  }
+  .cr-detail-panel {
+    flex: 1 1 100%;
+    position: static;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. Global Theme Overrides for Chrome & Layout
+   -------------------------------------------------------------------------- */
+.cr-sidebar {
+  background-color: var(--cr-sidebar-bg) !important;
+  border-right-color: var(--cr-sidebar-border) !important;
+}
+
+.cr-brand-logo-box {
+  background-color: var(--cr-primary) !important;
+}
+
+.cr-nav-link.active, .nav-link.active {
+  background-color: var(--cr-primary) !important;
+  color: #ffffff !important;
+}
+
+.cr-nav-link:hover {
+  background-color: var(--cr-sidebar-surface) !important;
+  color: #ffffff !important;
+}
+
+.text-primary, .text-primary-emphasis {
+  color: var(--cr-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--cr-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--cr-primary) !important;
+}
+
+.cr-metric-tile.primary::after {
+  background-color: var(--cr-primary) !important;
+}
+
+.cr-finding-item.is-active {
+  border-left-color: var(--cr-primary) !important;
+  background-color: var(--cr-primary-subtle) !important;
+}
+

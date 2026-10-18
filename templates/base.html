@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}CodeReview AI — Intern Project Review System{% endblock %}</title>
+  
+  <!-- Favicon placeholder -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- CodeReview AI Core Design System -->
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
+  <link rel="stylesheet" href="{% static 'css/print.css' %}">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <div class="cr-app-layout">
+    <!-- Left Role-Aware Sidebar -->
+    {% include 'includes/_sidebar.html' %}
+
+    <!-- Main Content Shell -->
+    <div class="cr-main-wrapper">
+      <!-- Topbar with Breadcrumbs and User Menu -->
+      {% include 'includes/_topbar.html' %}
+
+      <!-- Page Main Content Body -->
+      <main class="cr-page-content" id="mainContent">
+        <!-- Django Flash Messages Container -->
+        {% include 'includes/_messages.html' %}
+
+        <!-- Child Page Specific Content -->
+        {% block content %}{% endblock %}
+      </main>
+
+      <!-- Application Footer -->
+      {% include 'includes/_footer.html' %}
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- CodeReview AI Core Application Logic -->
+  <script src="{% static 'js/app.js' %}"></script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!-- Sidebar Navigation Shell -->
+<aside class="cr-sidebar" id="crSidebar">
+  <!-- Brand / Product Identity -->
+  <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
+    <a href="{% url 'dashboard' %}" class="d-flex align-items-center gap-2 text-decoration-none text-white">
+      <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;">
+        <i class="bi bi-shield-check fs-5"></i>
+      </div>
+      <div class="cr-sidebar-brand-text">
+        <div class="fw-bold lh-1 text-white" style="letter-spacing: -0.01em;">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+        <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
+      </div>
+    </a>
+  </div>
+
+  <!-- User Quick Profile / Role Pill -->
+  <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
+    <div class="d-flex align-items-center gap-2.5">
+      <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">
+        {{ request.user.username|default:"DA"|slice:":2"|upper }}
+      </div>
+      <div class="min-w-0 flex-grow-1">
+        <div class="text-white fw-semibold text-truncate small cr-user-name">{{ request.user.get_full_name|default:request.user.username|default:"Dr. Aris (Mentor)" }}</div>
+        <div class="mt-0.5">
+          <span class="cr-role-badge mentor" data-role-badge>
+            <i class="bi bi-mortarboard-fill"></i> Mentor
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Items -->
+  <div class="py-3 flex-grow-1 overflow-y-auto">
+    <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+      <span class="cr-nav-label">Core Workspace</span>
+    </div>
+    <ul class="nav flex-column gap-1 px-2">
+      <li class="nav-item">
+        <a href="{% url 'dashboard' %}" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white {% if request.resolver_match.url_name == 'dashboard' %}active bg-primary text-white text-opacity-100 fw-semibold{% endif %}">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span class="cr-nav-label">Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'project_list' %}" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white {% if 'project' in request.resolver_match.url_name and request.resolver_match.url_name != 'project_create' %}active bg-primary text-white text-opacity-100 fw-semibold{% endif %}">
+          <i class="bi bi-folder2-open"></i>
+          <span class="cr-nav-label">Projects</span>
+        </a>
+      </li>
+      <li class="nav-item" data-role-perm="mentor-only">
+        <a href="{% url 'project_create' %}" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white {% if request.resolver_match.url_name == 'project_create' %}active bg-primary text-white text-opacity-100 fw-semibold{% endif %}">
+          <i class="bi bi-cloud-arrow-up-fill"></i>
+          <span class="cr-nav-label">Upload Project</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'review_history' %}" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white {% if request.resolver_match.url_name == 'review_history' %}active bg-primary text-white text-opacity-100 fw-semibold{% endif %}">
+          <i class="bi bi-clock-history"></i>
+          <span class="cr-nav-label">Review History</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Admin Section (Only rendered for authorized admins) -->
+    <div class="mt-4" data-role-perm="admin-only" {% if not user.is_staff and not user.is_superuser %}style="display: none;"{% endif %}>
+      <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+        <span class="cr-nav-label">Administration</span>
+      </div>
+      <ul class="nav flex-column gap-1 px-2">
+        <li class="nav-item">
+          <a href="{% url 'admin_users' %}" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+            <i class="bi bi-people-fill"></i>
+            <span class="cr-nav-label">User Management</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'admin_settings' %}" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+            <i class="bi bi-gear-fill"></i>
+            <span class="cr-nav-label">System Settings</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom Action / Sidebar Collapse Toggle -->
+  <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+    <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn" title="Collapse Sidebar">
+      <i class="bi bi-layout-sidebar-inset-reverse fs-6"></i>
+      <span class="cr-nav-label small">Collapse View</span>
+    </button>
+  </div>
+</aside>
+
+<!-- Mobile Overlay Backdrop -->
+<div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
+
+<style>
+.cr-mobile-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 1030;
+}
+.cr-mobile-backdrop.show {
+  display: block;
+}
+.hover-text-white:hover {
+  color: #ffffff !important;
+  background-color: #1e293b !important;
+}
+</style>

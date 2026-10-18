@@ -1,0 +1,487 @@
+/* ==========================================================================
+   CodeReview AI — Core Design System & Tokens
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* Shared Layout & Typography Tokens across all themes */
+:root {
+  /* Typography Stack */
+  --cr-font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --cr-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Border Radii */
+  --cr-radius-xs: 4px;
+  --cr-radius-sm: 6px;
+  --cr-radius-md: 10px;
+  --cr-radius-lg: 14px;
+  --cr-radius-xl: 18px;
+  --cr-radius-full: 9999px;
+
+  /* Elevation Shadows */
+  --cr-shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --cr-shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+  --cr-shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --cr-shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --cr-shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --cr-shadow-card-hover: 0 6px 12px -2px rgba(15, 23, 42, 0.08), 0 3px 6px -3px rgba(15, 23, 42, 0.06);
+
+  /* Layout Dimensions */
+  --cr-sidebar-width: 256px;
+  --cr-sidebar-collapsed: 72px;
+  --cr-topbar-height: 64px;
+  --cr-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cr-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   CodeReview AI — Modern Tech Workspace Design System
+   Crisp Cool Slate Canvas, Pure White Surfaces & Deep High-Contrast Tech Blue
+   ========================================================================== */
+:root, [data-theme="precision-slate"], [data-theme="oxford-navy"] {
+  --cr-canvas: #f8fafc;
+  --cr-surface: #ffffff;
+  --cr-surface-subtle: #f1f5f9;
+  --cr-surface-hover: #f8fafc;
+  
+  --cr-border: #e2e8f0;
+  --cr-border-subtle: #edf2f7;
+  --cr-border-strong: #cbd5e1;
+
+  --cr-text-primary: #0f172a;
+  --cr-text-secondary: #475569;
+  --cr-text-muted: #94a3b8;
+  --cr-text-inverse: #ffffff;
+
+  --cr-primary: #2563eb;
+  --cr-primary-hover: #1d4ed8;
+  --cr-primary-active: #1e40af;
+  --cr-primary-subtle: #eff6ff;
+  --cr-primary-border: #bfdbfe;
+  --cr-primary-ring: rgba(37, 99, 235, 0.25);
+
+  --cr-sidebar-bg: #0f172a;
+  --cr-sidebar-surface: #1e293b;
+  --cr-sidebar-border: #334155;
+  --cr-sidebar-text: #cbd5e1;
+  --cr-sidebar-text-active: #ffffff;
+  --cr-sidebar-text-muted: #64748b;
+  --cr-sidebar-active-bg: #1e293b;
+
+  --cr-status-implemented: #059669;
+  --cr-status-implemented-bg: #ecfdf5;
+  --cr-status-implemented-border: #a7f3d0;
+  --cr-status-implemented-text: #065f46;
+
+  --cr-status-partial: #d97706;
+  --cr-status-partial-bg: #fffbeb;
+  --cr-status-partial-border: #fde68a;
+  --cr-status-partial-text: #92400e;
+
+  --cr-status-missing: #dc2626;
+  --cr-status-missing-bg: #fef2f2;
+  --cr-status-missing-border: #fecaca;
+  --cr-status-missing-text: #991b1b;
+
+  --cr-status-manual: #6366f1;
+  --cr-status-manual-bg: #eef2ff;
+  --cr-status-manual-border: #c7d2fe;
+  --cr-status-manual-text: #3730a3;
+
+  --cr-priority-high: #dc2626;
+  --cr-priority-high-bg: #fef2f2;
+  --cr-priority-med: #d97706;
+  --cr-priority-med-bg: #fffbeb;
+  --cr-priority-low: #475569;
+  --cr-priority-low-bg: #f1f5f9;
+}
+
+/* Theme 2: Nordic Emerald & Dark Mint (Striking Modern Green Tech) */
+[data-theme="nordic-teal"] {
+  --cr-canvas: #f0fdf4;
+  --cr-surface: #ffffff;
+  --cr-surface-subtle: #dcfce7;
+  --cr-surface-hover: #f0fdf4;
+  
+  --cr-border: #bbf7d0;
+  --cr-border-subtle: #dcfce7;
+  --cr-border-strong: #86efac;
+
+  --cr-text-primary: #052e16;
+  --cr-text-secondary: #166534;
+  --cr-text-muted: #4ade80;
+  --cr-text-inverse: #ffffff;
+
+  --cr-primary: #059669;
+  --cr-primary-hover: #047857;
+  --cr-primary-active: #065f46;
+  --cr-primary-subtle: #ecfdf5;
+  --cr-primary-border: #a7f3d0;
+  --cr-primary-ring: rgba(5, 150, 105, 0.25);
+
+  --cr-sidebar-bg: #052e16;
+  --cr-sidebar-surface: #064e3b;
+  --cr-sidebar-border: #047857;
+  --cr-sidebar-text: #a7f3d0;
+  --cr-sidebar-text-active: #ffffff;
+  --cr-sidebar-text-muted: #6ee7b7;
+  --cr-sidebar-active-bg: #064e3b;
+
+  --cr-status-implemented: #10b981;
+  --cr-status-implemented-bg: #ecfdf5;
+  --cr-status-implemented-border: #a7f3d0;
+  --cr-status-implemented-text: #065f46;
+
+  --cr-status-partial: #d97706;
+  --cr-status-partial-bg: #fffbeb;
+  --cr-status-partial-border: #fde68a;
+  --cr-status-partial-text: #92400e;
+
+  --cr-status-missing: #ef4444;
+  --cr-status-missing-bg: #fef2f2;
+  --cr-status-missing-border: #fecaca;
+  --cr-status-missing-text: #991b1b;
+
+  --cr-status-manual: #0284c7;
+  --cr-status-manual-bg: #f0f9ff;
+  --cr-status-manual-border: #bae6fd;
+  --cr-status-manual-text: #0369a1;
+
+  --cr-priority-high: #ef4444;
+  --cr-priority-high-bg: #fef2f2;
+  --cr-priority-med: #d97706;
+  --cr-priority-med-bg: #fffbeb;
+  --cr-priority-low: #166534;
+  --cr-priority-low-bg: #dcfce7;
+}
+
+/* Theme 3: Oxford Royal Navy (Refined Clean Edition — Zero Yellow) */
+[data-theme="oxford-navy"] {
+  --cr-canvas: #f8fafc;
+  --cr-surface: #ffffff;
+  --cr-surface-subtle: #f1f5f9;
+  --cr-surface-hover: #f8fafc;
+  
+  --cr-border: #e2e8f0;
+  --cr-border-subtle: #f1f5f9;
+  --cr-border-strong: #cbd5e1;
+
+  --cr-text-primary: #0a192f;
+  --cr-text-secondary: #334155;
+  --cr-text-muted: #64748b;
+  --cr-text-inverse: #ffffff;
+
+  --cr-primary: #1e3a8a;
+  --cr-primary-hover: #172554;
+  --cr-primary-active: #0f172a;
+  --cr-primary-subtle: #eff6ff;
+  --cr-primary-border: #bfdbfe;
+  --cr-primary-ring: rgba(30, 58, 138, 0.25);
+
+  --cr-sidebar-bg: #0a192f;
+  --cr-sidebar-surface: #1e293b;
+  --cr-sidebar-border: #1e293b;
+  --cr-sidebar-text: #cbd5e1;
+  --cr-sidebar-text-active: #ffffff;
+  --cr-sidebar-text-muted: #64748b;
+  --cr-sidebar-active-bg: #1e3a8a;
+
+  --cr-status-implemented: #047857;
+  --cr-status-implemented-bg: #ecfdf5;
+  --cr-status-implemented-border: #a7f3d0;
+  --cr-status-implemented-text: #065f46;
+
+  --cr-status-partial: #d97706;
+  --cr-status-partial-bg: #fffbeb;
+  --cr-status-partial-border: #fde68a;
+  --cr-status-partial-text: #92400e;
+
+  --cr-status-missing: #b91c1c;
+  --cr-status-missing-bg: #fef2f2;
+  --cr-status-missing-border: #fecaca;
+  --cr-status-missing-text: #991b1b;
+
+  --cr-status-manual: #7c3aed;
+  --cr-status-manual-bg: #f5f3ff;
+  --cr-status-manual-border: #ddd6fe;
+  --cr-status-manual-text: #4c1d95;
+
+  --cr-priority-high: #b91c1c;
+  --cr-priority-high-bg: #fef2f2;
+  --cr-priority-med: #d97706;
+  --cr-priority-med-bg: #fffbeb;
+  --cr-priority-low: #334155;
+  --cr-priority-low-bg: #f1f5f9;
+}
+
+/* ==========================================================================
+   Bootstrap Utilities Dynamic Theme Mapping
+   Forces all Bootstrap classes to follow the active CSS theme variables
+   ========================================================================== */
+
+.bg-primary, 
+.badge.bg-primary,
+.btn-primary,
+.cr-btn-primary {
+  background-color: var(--cr-primary) !important;
+  border-color: var(--cr-primary) !important;
+  color: #ffffff !important;
+}
+
+.bg-light {
+  background-color: var(--cr-canvas) !important;
+}
+
+.text-primary,
+.text-primary-emphasis {
+  color: var(--cr-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--cr-primary) !important;
+}
+
+.btn-outline-primary,
+.cr-btn-outline-primary {
+  color: var(--cr-primary) !important;
+  border-color: var(--cr-primary) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary.active,
+.btn-outline-primary:focus {
+  background-color: var(--cr-primary) !important;
+  border-color: var(--cr-primary) !important;
+  color: #ffffff !important;
+}
+
+.cr-sidebar {
+  background-color: var(--cr-sidebar-bg) !important;
+  border-right-color: var(--cr-sidebar-border) !important;
+}
+
+.cr-sidebar .nav-link.active,
+.cr-sidebar .cr-nav-link.active {
+  background-color: var(--cr-primary) !important;
+  color: #ffffff !important;
+}
+
+.cr-brand-logo-box {
+  background-color: var(--cr-primary) !important;
+}
+
+/* ==========================================================================
+   Global Reset & Base Rules
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--cr-canvas);
+  color: var(--cr-text-primary);
+  font-family: var(--cr-font-sans);
+  font-size: 14.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--cr-text-primary);
+  font-family: var(--cr-font-sans);
+  font-weight: 700;
+  margin-top: 0;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.18rem; }
+h4 { font-size: 1.05rem; }
+h5 { font-size: 0.95rem; }
+h6 { font-size: 0.85rem; }
+
+p {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--cr-font-mono) !important;
+  font-size: 0.88em;
+}
+
+a {
+  color: var(--cr-primary);
+  text-decoration: none;
+  transition: color var(--cr-transition-fast);
+}
+
+a:hover {
+  color: var(--cr-primary-hover);
+  text-decoration: underline;
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--cr-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Application Layout Grid
+   ========================================================================== */
+
+.cr-app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Desktop Sidebar */
+.cr-sidebar {
+  width: var(--cr-sidebar-width);
+  background-color: var(--cr-sidebar-bg);
+  color: var(--cr-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  transition: width var(--cr-transition-normal), transform var(--cr-transition-normal);
+  border-right: 1px solid var(--cr-sidebar-border);
+  overflow-y: auto;
+}
+
+/* Collapsed Sidebar State (Desktop) */
+.cr-sidebar.is-collapsed {
+  width: var(--cr-sidebar-collapsed);
+}
+
+.cr-sidebar.is-collapsed .cr-sidebar-brand-text,
+.cr-sidebar.is-collapsed .cr-nav-label,
+.cr-sidebar.is-collapsed .cr-role-badge,
+.cr-sidebar.is-collapsed .cr-user-meta {
+  display: none;
+}
+
+.cr-sidebar.is-collapsed .cr-nav-link {
+  justify-content: center;
+  padding: 0.65rem 0;
+}
+
+.cr-sidebar.is-collapsed .cr-nav-link i {
+  margin-right: 0;
+  font-size: 1.25rem;
+}
+
+/* Main Content Area */
+.cr-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--cr-sidebar-width);
+  min-height: 100vh;
+  transition: margin-left var(--cr-transition-normal);
+  min-width: 0; /* Prevents flex children from overflowing */
+}
+
+.cr-sidebar.is-collapsed ~ .cr-main-wrapper {
+  margin-left: var(--cr-sidebar-collapsed);
+}
+
+/* Topbar Header */
+.cr-topbar {
+  height: var(--cr-topbar-height);
+  background-color: var(--cr-surface);
+  border-bottom: 1px solid var(--cr-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: var(--cr-shadow-xs);
+}
+
+.cr-page-content {
+  flex: 1;
+  padding: 1.75rem 2rem 2.5rem;
+}
+
+/* Responsive Overrides */
+@media (max-width: 991.98px) {
+  .cr-sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: var(--cr-shadow-lg);
+  }
+
+  .cr-sidebar.show-mobile {
+    transform: translateX(0);
+  }
+
+  .cr-main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .cr-page-content {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .cr-topbar {
+    padding: 0 1rem;
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive Drawer Backdrop & Utilities
+   ========================================================================== */
+.cr-mobile-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 1030;
+  opacity: 0;
+  transition: opacity var(--cr-transition-normal);
+}
+
+.cr-mobile-backdrop.show {
+  display: block;
+  opacity: 1;
+}
+
+.hover-text-white:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Sidebar Tooltip / Collapse Alignment Tweaks */
+.cr-sidebar.is-collapsed #sidebarToggleBtn {
+  justify-content: center;
+  width: 100%;
+}
+
+.cr-sidebar.is-collapsed .cr-sidebar-brand {
+  justify-content: center !important;
+  padding: 0.75rem 0.5rem !important;
+}
+
+.cr-sidebar.is-collapsed .cr-brand-logo-box {
+  margin: 0 auto;
+}

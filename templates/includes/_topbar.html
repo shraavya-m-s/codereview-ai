@@ -1,0 +1,66 @@
+<!-- Top Utility Header -->
+<header class="cr-topbar">
+  <div class="d-flex align-items-center gap-3">
+    <!-- Mobile Hamburger Toggle -->
+    <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation">
+      <i class="bi bi-list fs-5"></i>
+    </button>
+
+    <!-- Context Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="d-none d-sm-block">
+      <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
+        {% block breadcrumbs %}
+        <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Dashboard</li>
+        {% endblock %}
+      </ol>
+    </nav>
+  </div>
+
+  <!-- Right Utility Controls -->
+  <div class="d-flex align-items-center gap-2.5">
+    <!-- Dev Role Simulator (Toggles view mode for preview testing) -->
+    <div class="d-none d-md-flex align-items-center gap-1.5 bg-light border px-2 py-1 rounded">
+      <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
+      <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
+        <option value="mentor">Mentor</option>
+        <option value="student">Student / Intern</option>
+        <option value="admin">Administrator</option>
+      </select>
+    </div>
+
+    <!-- Quick Action: Upload Project (visible to mentors & admins) -->
+    <a href="{% url 'project_create' %}" class="cr-btn cr-btn-primary cr-btn-sm d-none d-sm-inline-flex" data-role-perm="mentor-only">
+      <i class="bi bi-plus-lg"></i>
+      <span>New Project</span>
+    </a>
+
+    <!-- User Profile Dropdown -->
+    <div class="dropdown">
+      <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.75rem;">
+          {{ request.user.username|default:"DA"|slice:":2"|upper }}
+        </div>
+        <span class="small fw-semibold text-dark d-none d-md-inline cr-user-handle">{{ request.user.username|default:"dr_aris" }}</span>
+        <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1" style="min-width: 200px;">
+        <li class="px-3 py-2 border-bottom">
+          <div class="fw-bold small text-dark cr-user-fullname">{{ request.user.get_full_name|default:"Dr. Aris" }}</div>
+          <div class="text-muted cr-user-email" style="font-size: 0.75rem;">{{ request.user.email|default:"aris.mentor@university.edu" }}</div>
+        </li>
+        <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="{% url 'project_list' %}"><i class="bi bi-folder2 text-secondary"></i> My Projects</a></li>
+        <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="{% url 'review_history' %}"><i class="bi bi-clock-history text-secondary"></i> Review Log</a></li>
+        <li><hr class="dropdown-divider my-1"></li>
+        <li>
+          <form method="post" action="{% url 'logout' %}" class="m-0">
+            {% csrf_token %}
+            <button type="submit" class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger">
+              <i class="bi bi-box-arrow-right"></i> Sign Out
+            </button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>

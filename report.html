@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluation Report: Hospital_Management_System — CodeReview AI</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/print.css">
+</head>
+<body>
+
+  <div class="cr-app-layout">
+    <!-- Sidebar (Hidden automatically when printing) -->
+    <aside class="cr-sidebar" id="crSidebar">
+      <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
+        <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-sidebar-brand-text">
+            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="min-w-0 flex-grow-1">
+            <div class="text-white fw-semibold text-truncate small">Dr. Aris (Mentor)</div>
+            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-3 flex-grow-1 overflow-y-auto">
+        <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+          <span class="cr-nav-label">Core Workspace</span>
+        </div>
+        <ul class="nav flex-column gap-1 px-2">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span class="cr-nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="project_list.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-white bg-primary fw-semibold">
+              <i class="bi bi-folder2-open"></i>
+              <span class="cr-nav-label">Projects</span>
+            </a>
+          </li>
+          <li class="nav-item" data-role-perm="mentor-only">
+            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <span class="cr-nav-label">Upload Project</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-clock-history"></i>
+              <span class="cr-nav-label">Review History</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+      </div>
+    </aside>
+
+    <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
+
+    <!-- Main Content Shell -->
+    <div class="cr-main-wrapper">
+      <header class="cr-topbar cr-print-hide">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button"><i class="bi bi-list fs-5"></i></button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+            <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
+              <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
+              <li class="breadcrumb-item"><a href="project_list.html" class="text-secondary text-decoration-none">Projects</a></li>
+              <li class="breadcrumb-item"><a href="project_detail.html" class="text-secondary text-decoration-none">Hospital_Management_System</a></li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Formal Report</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="d-flex align-items-center gap-2.5">
+          <button class="cr-btn cr-btn-primary cr-btn-sm" onclick="window.print()">
+            <i class="bi bi-printer-fill"></i>
+            <span>Print / Save as PDF</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="cr-page-content" style="max-width: 1040px; margin: 0 auto;">
+        <!-- Formal Print-Only Header -->
+        <div class="cr-print-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h1 class="cr-print-title">CodeReview AI &bull; Executive Project Audit Report</h1>
+              <div class="cr-print-subtitle">Formal Software Requirements Specification (SRS) Compliance Assessment</div>
+            </div>
+            <div class="text-end">
+              <div class="fw-bold">Report ID: #RPT-2026-HMS-084</div>
+              <div class="small text-muted">Generated: October 16, 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- On-Screen Action Bar -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 cr-print-hide">
+          <div>
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 mb-1">
+              <i class="bi bi-check-circle-fill"></i> Final Approved Report
+            </span>
+            <h1 class="h3 mb-0">Project Evaluation & SRS Audit Report</h1>
+            <p class="text-secondary small mb-0">Official review record for <strong>Hospital_Management_System</strong></p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm">
+              <i class="bi bi-arrow-left"></i> Back to Findings
+            </a>
+            <button class="cr-btn cr-btn-primary cr-btn-sm" onclick="window.print()">
+              <i class="bi bi-printer"></i> Print / Export PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Executive Summary Meta Card -->
+        <div class="cr-card p-4 mb-4">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Project Name</div>
+              <div class="fw-bold text-dark fs-6">Hospital_Management_System</div>
+              <div class="text-muted small">Stack: Python 3.11, Django 4.2, SQLite</div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Student / Intern</div>
+              <div class="fw-bold text-dark fs-6">Rahul Sharma</div>
+              <div class="text-muted small">Intern Candidate ID: #IN-2041</div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Reviewing Mentor</div>
+              <div class="fw-bold text-dark fs-6">Dr. Aris</div>
+              <div class="text-muted small">Department of Computer Science</div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Review Date</div>
+              <div class="fw-bold text-dark fs-6">October 16, 2026</div>
+              <div class="text-muted small">Intake Archive: hospital_hms_v2.zip</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Score Dashboard Card (SRS Formula Authority) -->
+        <div class="cr-card p-4 mb-4">
+          <div class="row align-items-center g-4">
+            <!-- Score Ring (Left) -->
+            <div class="col-md-4 text-center border-end">
+              <div class="cr-score-circle mx-auto mb-2" style="--score-pct: 84;">
+                <div class="cr-score-circle-inner">
+                  <span class="cr-score-circle-num">84</span>
+                  <span class="cr-score-circle-label">Score / 100</span>
+                </div>
+              </div>
+              <div class="fw-bold text-success fs-6">Passed Evaluation</div>
+              <div class="text-muted small" style="font-size: 0.75rem;">Grade: B+ &bull; Meets Intern Readiness Threshold</div>
+            </div>
+
+            <!-- Weighted Breakdown (Right) -->
+            <div class="col-md-8">
+              <h2 class="h6 text-uppercase text-muted fw-bold mb-3" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+                SRS Weighted Scoring Model (SRS Formula: Comp &times; 0.60 + Quality &times; 0.20 + Test &times; 0.10 + Doc &times; 0.10)
+              </h2>
+
+              <!-- Metric 1: Compliance -->
+              <div class="mb-3">
+                <div class="d-flex justify-content-between small fw-semibold mb-1">
+                  <span>1. SRS Requirement Compliance (Weight: 60%)</span>
+                  <span>88% &bull; Contributes 52.8 pts</span>
+                </div>
+                <div class="cr-score-progress">
+                  <div class="cr-score-progress-bar success" style="width: 88%;"></div>
+                </div>
+              </div>
+
+              <!-- Metric 2: Code Quality -->
+              <div class="mb-3">
+                <div class="d-flex justify-content-between small fw-semibold mb-1">
+                  <span>2. Code Quality & Standards (Weight: 20%)</span>
+                  <span>80% &bull; Contributes 16.0 pts</span>
+                </div>
+                <div class="cr-score-progress">
+                  <div class="cr-score-progress-bar info" style="width: 80%;"></div>
+                </div>
+              </div>
+
+              <!-- Metric 3: Automated Testing -->
+              <div class="mb-3">
+                <div class="d-flex justify-content-between small fw-semibold mb-1">
+                  <span>3. Unit & Integration Testing (Weight: 10%)</span>
+                  <span>70% &bull; Contributes 7.0 pts</span>
+                </div>
+                <div class="cr-score-progress">
+                  <div class="cr-score-progress-bar warning" style="width: 70%;"></div>
+                </div>
+              </div>
+
+              <!-- Metric 4: Documentation -->
+              <div>
+                <div class="d-flex justify-content-between small fw-semibold mb-1">
+                  <span>4. Documentation & Docstrings (Weight: 10%)</span>
+                  <span>85% &bull; Contributes 8.5 pts</span>
+                </div>
+                <div class="cr-score-progress">
+                  <div class="cr-score-progress-bar success" style="width: 85%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Compliance Breakdown -->
+        <div class="cr-card mb-4">
+          <div class="cr-card-header">
+            <div class="cr-card-title">
+              <i class="bi bi-pie-chart-fill text-primary"></i>
+              <span>Category Compliance Breakdown</span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="cr-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Total Reqs</th>
+                  <th>Implemented</th>
+                  <th>Partial</th>
+                  <th>Missing</th>
+                  <th>Compliance %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold">User Authentication & Session Management</td>
+                  <td>8</td>
+                  <td><span class="badge bg-success-subtle text-success">8</span></td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td><span class="fw-bold text-success">100%</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Patient Records & Medical History</td>
+                  <td>14</td>
+                  <td><span class="badge bg-success-subtle text-success">12</span></td>
+                  <td><span class="badge bg-warning-subtle text-warning">2</span></td>
+                  <td>0</td>
+                  <td><span class="fw-bold text-success">93%</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Doctor Consultation & Appointment Scheduling</td>
+                  <td>16</td>
+                  <td><span class="badge bg-success-subtle text-success">14</span></td>
+                  <td><span class="badge bg-warning-subtle text-warning">1</span></td>
+                  <td><span class="badge bg-danger-subtle text-danger">1</span></td>
+                  <td><span class="fw-bold text-primary">88%</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Billing, Payment Invoices & Reports</td>
+                  <td>10</td>
+                  <td><span class="badge bg-success-subtle text-success">6</span></td>
+                  <td>0</td>
+                  <td><span class="badge bg-danger-subtle text-danger">4</span></td>
+                  <td><span class="fw-bold text-danger">60%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Actionable Improvement Plan (Required by SRS) -->
+        <div class="cr-card p-4 mb-4">
+          <h2 class="h5 mb-3 fw-bold d-flex align-items-center gap-2">
+            <i class="bi bi-lightbulb-fill text-warning"></i>
+            <span>Actionable Improvement Plan & Mentoring Notes</span>
+          </h2>
+          <div class="p-3 bg-light rounded border mb-3">
+            <div class="fw-bold small text-dark mb-1">Mentor Summary:</div>
+            <p class="small text-secondary mb-0">
+              Rahul demonstrated strong command over Django ORM, authentication decorators, and relational model design. The appointment booking logic is clean, but lacks concurrency/overlap validation. The primary deficit is the complete absence of the PDF invoice export module (<code>REQ-INV-01</code> through <code>REQ-INV-04</code>).
+            </p>
+          </div>
+
+          <ol class="list-group list-group-numbered small">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Implement Automated PDF Invoice Generation (<code>REQ-INV-01</code>)</div>
+                Integrate <code>weasyprint</code> or <code>reportlab</code> to generate downloadable PDF receipts upon billing finalization.
+              </div>
+              <span class="badge bg-danger">Critical</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Add Doctor Overlapping Slot Validation (<code>REQ-APT-01</code>)</div>
+                Ensure <code>Appointment.clean()</code> raises a validation error if a doctor already has a confirmed slot at the requested time.
+              </div>
+              <span class="badge bg-warning text-dark">Important</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Increase Test Coverage for Billing Views</div>
+                Currently only appointment booking is covered by tests. Add Django <code>TestCase</code> fixtures for invoice calculation logic.
+              </div>
+              <span class="badge bg-secondary">Moderate</span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Formal Sign-Off for Print -->
+        <div class="cr-print-signature">
+          <div>
+            <div class="fw-bold text-dark">Reviewed & Certified By:</div>
+            <div class="mt-4 pt-3 border-top" style="width: 200px;">Dr. Aris, Lead Mentor</div>
+          </div>
+          <div>
+            <div class="fw-bold text-dark">Date Certified:</div>
+            <div class="mt-4 pt-3 border-top" style="width: 140px;">October 16, 2026</div>
+          </div>
+          <div>
+            <div class="fw-bold text-dark">Candidate Acknowledgment:</div>
+            <div class="mt-4 pt-3 border-top" style="width: 200px;">Rahul Sharma</div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto cr-print-hide">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
+          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
+          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>

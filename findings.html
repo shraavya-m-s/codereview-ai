@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Findings & Mentor Workspace — CodeReview AI</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/dropzone.css">
+</head>
+<body>
+
+  <div class="cr-app-layout">
+    <!-- Sidebar -->
+    <aside class="cr-sidebar" id="crSidebar">
+      <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
+        <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-sidebar-brand-text">
+            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="min-w-0 flex-grow-1">
+            <div class="text-white fw-semibold text-truncate small">Dr. Aris (Mentor)</div>
+            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-3 flex-grow-1 overflow-y-auto">
+        <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+          <span class="cr-nav-label">Core Workspace</span>
+        </div>
+        <ul class="nav flex-column gap-1 px-2">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span class="cr-nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="project_list.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-white bg-primary fw-semibold">
+              <i class="bi bi-folder2-open"></i>
+              <span class="cr-nav-label">Projects</span>
+            </a>
+          </li>
+          <li class="nav-item" data-role-perm="mentor-only">
+            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <span class="cr-nav-label">Upload Project</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-clock-history"></i>
+              <span class="cr-nav-label">Review History</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+      </div>
+    </aside>
+
+    <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
+
+    <!-- Main Content -->
+    <div class="cr-main-wrapper">
+      <header class="cr-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button"><i class="bi bi-list fs-5"></i></button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+            <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
+              <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
+              <li class="breadcrumb-item"><a href="project_list.html" class="text-secondary text-decoration-none">Projects</a></li>
+              <li class="breadcrumb-item"><a href="project_detail.html" class="text-secondary text-decoration-none">Hospital_Management_System</a></li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Review Findings</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="d-flex align-items-center gap-1.5 bg-light border px-2 py-1 rounded">
+            <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
+            <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
+              <option value="mentor" selected>Mentor</option>
+              <option value="student">Student / Intern</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+
+          <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">
+            <i class="bi bi-file-earmark-check"></i>
+            <span>View Final Report</span>
+          </a>
+
+          <div class="dropdown">
+            <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">DA</div>
+              <span class="small fw-semibold text-dark d-none d-md-inline">dr_aris</span>
+              <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="cr-page-content">
+        <!-- Toast Notification Container -->
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+          <div id="saveToast" class="toast align-items-center text-bg-success border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+                <span id="toastMessage">Mentor review evaluation saved successfully!</span>
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+          <div>
+            <h1 class="h4 mb-1">Requirement Findings & Mentor Review Workspace</h1>
+            <p class="text-secondary small mb-0">Project: <strong>Hospital_Management_System</strong> &bull; Student: <strong>Rahul Sharma</strong></p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle py-1.5 px-2.5 fw-semibold">
+              <i class="bi bi-cpu me-1"></i> Static Rule-Based Engine
+            </span>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="cr-card p-3 mb-4">
+          <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
+            <!-- Status Filter Pills -->
+            <div class="d-flex flex-wrap gap-1.5" id="findingsFilterPills">
+              <button class="btn btn-sm btn-outline-secondary active py-1 px-2.5 findings-filter-btn" data-status-filter="all">All (6)</button>
+              <button class="btn btn-sm btn-outline-success py-1 px-2.5 findings-filter-btn" data-status-filter="implemented">Implemented (3)</button>
+              <button class="btn btn-sm btn-outline-warning py-1 px-2.5 findings-filter-btn" data-status-filter="partial">Partial (1)</button>
+              <button class="btn btn-sm btn-outline-danger py-1 px-2.5 findings-filter-btn" data-status-filter="missing">Missing (1)</button>
+              <button class="btn btn-sm btn-outline-primary py-1 px-2.5 findings-filter-btn" data-status-filter="manual">Manual Review (1)</button>
+            </div>
+
+            <!-- Search box -->
+            <div style="min-width: 250px;">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control border-start-0" id="findingsSearchInput" placeholder="Filter by req ID, code file...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master-Detail Split Workbench -->
+        <div class="cr-split-workbench">
+          <!-- Master Panel (Left: 42% width) -->
+          <div class="cr-master-panel" id="findingsMasterList">
+            <!-- Finding 1 (Active) -->
+            <div class="cr-finding-item is-active" data-id="1" data-status="implemented" data-priority="high" onclick="selectFinding(1)">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold font-monospace small text-primary">REQ-AUTH-01</span>
+                <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
+              </div>
+              <div class="fw-semibold text-dark small mb-1">User login with username and password verification</div>
+              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
+                <span><i class="bi bi-filetype-py"></i> accounts/views.py</span>
+                <span>&bull;</span>
+                <span class="cr-priority-badge high">High Priority</span>
+              </div>
+            </div>
+
+            <!-- Finding 2 -->
+            <div class="cr-finding-item" data-id="2" data-status="implemented" data-priority="high" onclick="selectFinding(2)">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold font-monospace small text-primary">REQ-AUTH-02</span>
+                <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
+              </div>
+              <div class="fw-semibold text-dark small mb-1">Role-based access control for Doctors and Receptionists</div>
+              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
+                <span><i class="bi bi-filetype-py"></i> accounts/decorators.py</span>
+                <span>&bull;</span>
+                <span class="cr-priority-badge high">High Priority</span>
+              </div>
+            </div>
+
+            <!-- Finding 3 -->
+            <div class="cr-finding-item" data-id="3" data-status="manual" data-priority="med" onclick="selectFinding(3)">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold font-monospace small text-primary">REQ-PAT-01</span>
+                <span class="cr-badge cr-badge-manual">Manual Review (0.25)</span>
+              </div>
+              <div class="fw-semibold text-dark small mb-1">Patient registration with emergency contact & blood group</div>
+              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
+                <span><i class="bi bi-filetype-py"></i> patients/models.py</span>
+                <span>&bull;</span>
+                <span class="cr-priority-badge med">Medium Priority</span>
+              </div>
+            </div>
+
+            <!-- Finding 4 -->
+            <div class="cr-finding-item" data-id="4" data-status="partial" data-priority="med" onclick="selectFinding(4)">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold font-monospace small text-primary">REQ-APT-01</span>
+                <span class="cr-badge cr-badge-partial">Partial (0.5)</span>
+              </div>
+              <div class="fw-semibold text-dark small mb-1">Appointment scheduling with doctor availability conflict check</div>
+              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
+                <span><i class="bi bi-filetype-py"></i> appointments/views.py</span>
+                <span>&bull;</span>
+                <span class="cr-priority-badge med">Medium Priority</span>
+              </div>
+            </div>
+
+            <!-- Finding 5 -->
+            <div class="cr-finding-item" data-id="5" data-status="missing" data-priority="high" onclick="selectFinding(5)">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold font-monospace small text-primary">REQ-INV-01</span>
+                <span class="cr-badge cr-badge-missing">Missing (0.0)</span>
+              </div>
+              <div class="fw-semibold text-dark small mb-1">Automated PDF invoice generation with tax breakdown</div>
+              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
+                <span class="text-danger"><i class="bi bi-x-circle"></i> No evidence detected</span>
+                <span>&bull;</span>
+                <span class="cr-priority-badge high">High Priority</span>
+              </div>
+            </div>
+
+            <!-- Finding 6 -->
+            <div class="cr-finding-item" data-id="6" data-status="implemented" data-priority="low" onclick="selectFinding(6)">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold font-monospace small text-primary">REQ-MED-01</span>
+                <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
+              </div>
+              <div class="fw-semibold text-dark small mb-1">Medical prescription record storage and diagnosis tags</div>
+              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
+                <span><i class="bi bi-filetype-py"></i> prescriptions/models.py</span>
+                <span>&bull;</span>
+                <span class="cr-priority-badge low">Low Priority</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detail Panel (Right: 58% width, Sticky Inspector) -->
+          <div class="cr-detail-panel">
+            <div class="cr-card p-4">
+              <!-- Requirement Title & Status Header -->
+              <div class="d-flex justify-content-between align-items-start gap-2 mb-3 pb-3 border-bottom">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-light text-primary border font-monospace fw-bold" id="detailReqId">REQ-AUTH-01</span>
+                    <span class="badge bg-light text-dark border" id="detailCategory">Authentication</span>
+                    <span class="cr-priority-badge high" id="detailPriority">High Priority</span>
+                  </div>
+                  <h2 class="h5 fw-bold mb-1" id="detailTitle">User login with username and password verification</h2>
+                </div>
+                <div id="detailCurrentBadge">
+                  <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
+                </div>
+              </div>
+
+              <!-- Requirement Description -->
+              <div class="mb-3">
+                <div class="text-uppercase text-muted fw-bold mb-1" style="font-size: 0.7rem; letter-spacing: 0.05em;">SRS Specification Text</div>
+                <div class="p-2.5 rounded bg-light border small text-secondary" id="detailDescription">
+                  The system shall provide a secure login interface where users enter credentials. Upon authentication, a session must be created with role-appropriate redirection. Passwords must never be stored in plain text.
+                </div>
+              </div>
+
+              <!-- Static Evidence Inspector -->
+              <div class="mb-3">
+                <div class="text-uppercase text-muted fw-bold mb-1" style="font-size: 0.7rem; letter-spacing: 0.05em;">Detected Code Evidence (Static AST Inspection)</div>
+                <div class="cr-code-box">
+                  <div class="cr-code-box-header">
+                    <div class="cr-code-box-path">
+                      <i class="bi bi-file-earmark-code"></i>
+                      <span id="detailEvidenceFile">accounts/views.py</span>
+                      <span class="badge bg-dark border border-secondary text-light ms-2" id="detailEvidenceSymbol">def login_view(request)</span>
+                    </div>
+                    <button class="btn btn-sm btn-outline-light py-0 px-2" style="font-size: 0.75rem;" onclick="navigator.clipboard.writeText(document.getElementById('detailCodeSnippet').textContent)">
+                      <i class="bi bi-clipboard"></i> Copy
+                    </button>
+                  </div>
+                  <pre class="cr-code-box-content" id="detailCodeSnippet"><code>def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'accounts/login.html', {'form': form})</code></pre>
+                </div>
+              </div>
+
+              <!-- Automated Explanation -->
+              <div class="mb-4">
+                <div class="text-uppercase text-muted fw-bold mb-1" style="font-size: 0.7rem; letter-spacing: 0.05em;">Rule Engine Explanation</div>
+                <div class="small text-secondary" id="detailExplanation">
+                  <i class="bi bi-check-circle text-success me-1"></i> Static pattern match found standard Django <code>AuthenticationForm</code> and <code>login()</code> session handling in <code>accounts/views.py</code>.
+                </div>
+              </div>
+
+              <!-- Mentor Evaluation & Status Override Card -->
+              <div class="p-3 rounded border bg-light">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <h3 class="h6 mb-0 fw-bold d-flex align-items-center gap-1.5 text-dark">
+                    <i class="bi bi-mortarboard-fill text-primary"></i> Mentor Evaluation & Override
+                  </h3>
+                  <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.72rem;" id="detailOriginalStatus">
+                    Original Automated Status: Implemented
+                  </span>
+                </div>
+
+                <form id="mentorOverrideForm">
+                  <div class="row g-2 mb-2">
+                    <div class="col-sm-6">
+                      <label for="mentorStatusSelect" class="form-label small fw-semibold mb-1">Evaluated Status:</label>
+                      <select class="form-select form-select-sm" id="mentorStatusSelect">
+                        <option value="implemented">Implemented (1.0)</option>
+                        <option value="partial">Partial (0.5)</option>
+                        <option value="missing">Missing (0.0)</option>
+                        <option value="manual">Manual Review (0.25)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="mentorCommentInput" class="form-label small fw-semibold mb-1">Mentor Feedback / Comments:</label>
+                    <textarea class="form-control form-control-sm" id="mentorCommentInput" rows="2" placeholder="Add specific guidance or explain reason for status override...">Standard Django session authentication properly configured with CSRF protection.</textarea>
+                  </div>
+
+                  <div class="d-flex justify-content-end gap-2">
+                    <button type="submit" class="cr-btn cr-btn-primary cr-btn-sm" id="saveEvaluationBtn">
+                      <i class="bi bi-check2-circle"></i> Save Evaluation
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
+          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
+          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/app.js"></script>
+  <script>
+    // Mock findings data repository for interactive preview
+    const findingsData = {
+      1: {
+        id: 1,
+        reqId: 'REQ-AUTH-01',
+        category: 'Authentication',
+        priority: 'High Priority',
+        priorityClass: 'high',
+        title: 'User login with username and password verification',
+        status: 'implemented',
+        statusLabel: 'Implemented (1.0)',
+        statusClass: 'cr-badge-implemented',
+        originalStatus: 'Implemented',
+        description: 'The system shall provide a secure login interface where users enter credentials. Upon authentication, a session must be created with role-appropriate redirection. Passwords must never be stored in plain text.',
+        file: 'accounts/views.py',
+        symbol: 'def login_view(request)',
+        code: `def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'accounts/login.html', {'form': form})`,
+        explanation: 'Static pattern match found standard Django AuthenticationForm and login() session handling in accounts/views.py.',
+        comment: 'Standard Django session authentication properly configured with CSRF protection.'
+      },
+      2: {
+        id: 2,
+        reqId: 'REQ-AUTH-02',
+        category: 'Authentication',
+        priority: 'High Priority',
+        priorityClass: 'high',
+        title: 'Role-based access control for Doctors and Receptionists',
+        status: 'implemented',
+        statusLabel: 'Implemented (1.0)',
+        statusClass: 'cr-badge-implemented',
+        originalStatus: 'Implemented',
+        description: 'Access to patient treatment plans must be restricted to Doctor roles, while Receptionist roles can only manage appointments and billing.',
+        file: 'accounts/decorators.py',
+        symbol: 'def doctor_required(view_func)',
+        code: `def doctor_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.role == 'doctor':
+            return view_func(request, *args, **kwargs)
+        raise PermissionDenied("Only doctors may view patient medical charts.")
+    return _wrapped_view`,
+        explanation: 'Custom role decorator verified. Checks request.user.role before executing protected view logic.',
+        comment: 'Clean custom decorator pattern implemented.'
+      },
+      3: {
+        id: 3,
+        reqId: 'REQ-PAT-01',
+        category: 'Patient Intake',
+        priority: 'Medium Priority',
+        priorityClass: 'med',
+        title: 'Patient registration with emergency contact & blood group',
+        status: 'manual',
+        statusLabel: 'Manual Review (0.25)',
+        statusClass: 'cr-badge-manual',
+        originalStatus: 'Manual Review',
+        description: 'Every registered patient must record full legal name, date of birth, blood group choice, and emergency contact phone number.',
+        file: 'patients/models.py',
+        symbol: 'class Patient(models.Model)',
+        code: `class Patient(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    dob = models.DateField()
+    emergency_contact = models.CharField(max_length=15, blank=True)
+    blood_group = models.CharField(max_length=5, blank=True)
+    # Note: validation for format is missing`,
+        explanation: 'Fields emergency_contact and blood_group exist in model, but are set to blank=True without regex validators. Marked for mentor review.',
+        comment: 'Check if phone validation is handled in forms.py instead of the model layer.'
+      },
+      4: {
+        id: 4,
+        reqId: 'REQ-APT-01',
+        category: 'Appointments',
+        priority: 'Medium Priority',
+        priorityClass: 'med',
+        title: 'Appointment scheduling with doctor availability conflict check',
+        status: 'partial',
+        statusLabel: 'Partial (0.5)',
+        statusClass: 'cr-badge-partial',
+        originalStatus: 'Partial',
+        description: 'When booking a consultation, the system must verify that the selected doctor does not already have an active overlapping booking.',
+        file: 'appointments/views.py',
+        symbol: 'def book_appointment(request)',
+        code: `def book_appointment(request):
+    if request.method == 'POST':
+        doctor_id = request.POST.get('doctor_id')
+        slot = request.POST.get('slot')
+        # Missing overlap check:
+        appointment = Appointment.objects.create(doctor_id=doctor_id, slot=slot)
+        return redirect('appointment_success')`,
+        explanation: 'Detected Appointment.objects.create() without query filter checking existing active appointments for the given time slot.',
+        comment: 'Add Appointment.objects.filter(doctor_id=doctor_id, slot=slot, status="confirmed").exists() validation before creating.'
+      },
+      5: {
+        id: 5,
+        reqId: 'REQ-INV-01',
+        category: 'Billing',
+        priority: 'High Priority',
+        priorityClass: 'high',
+        title: 'Automated PDF invoice generation with tax breakdown',
+        status: 'missing',
+        statusLabel: 'Missing (0.0)',
+        statusClass: 'cr-badge-missing',
+        originalStatus: 'Missing',
+        description: 'Upon consultation conclusion, an itemized invoice detailing doctor consultation fee, medicines, and 5% GST tax must be generated in PDF format.',
+        file: 'None',
+        symbol: 'None',
+        code: `# No matching PDF generation library (reportlab / weasyprint) 
+# or view handler detected in project codebase.`,
+        explanation: 'No PDF generation library or invoice export views detected in source archive.',
+        comment: 'Requirement not implemented. Candidate must integrate reportlab or django-weasyprint.'
+      },
+      6: {
+        id: 6,
+        reqId: 'REQ-MED-01',
+        category: 'Prescriptions',
+        priority: 'Low Priority',
+        priorityClass: 'low',
+        title: 'Medical prescription record storage and diagnosis tags',
+        status: 'implemented',
+        statusLabel: 'Implemented (1.0)',
+        statusClass: 'cr-badge-implemented',
+        originalStatus: 'Implemented',
+        description: 'Doctors shall be able to record structured medical prescriptions containing dosage instructions and diagnostic tags.',
+        file: 'prescriptions/models.py',
+        symbol: 'class Prescription(models.Model)',
+        code: `class Prescription(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    diagnosis = models.TextField()
+    dosage_instructions = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)`,
+        explanation: 'Prescription model with foreign keys to Patient, Doctor, and text dosage fields detected in prescriptions/models.py.',
+        comment: 'Requirement fully met.'
+      }
+    };
+
+    let activeFindingId = 1;
+
+    function selectFinding(id) {
+      activeFindingId = id;
+      const data = findingsData[id];
+      if (!data) return;
+
+      // Update active highlight on left items
+      document.querySelectorAll('.cr-finding-item').forEach(item => {
+        item.classList.toggle('is-active', item.getAttribute('data-id') == id);
+      });
+
+      // Update detail panel elements
+      document.getElementById('detailReqId').textContent = data.reqId;
+      document.getElementById('detailCategory').textContent = data.category;
+      
+      const priorityEl = document.getElementById('detailPriority');
+      priorityEl.textContent = data.priority;
+      priorityEl.className = `cr-priority-badge ${data.priorityClass}`;
+
+      document.getElementById('detailTitle').textContent = data.title;
+      document.getElementById('detailCurrentBadge').innerHTML = `<span class="cr-badge ${data.statusClass}">${data.statusLabel}</span>`;
+      document.getElementById('detailDescription').textContent = data.description;
+      document.getElementById('detailEvidenceFile').textContent = data.file;
+      document.getElementById('detailEvidenceSymbol').textContent = data.symbol;
+      document.getElementById('detailCodeSnippet').innerHTML = `<code>${escapeHtml(data.code)}</code>`;
+      document.getElementById('detailExplanation').innerHTML = `<i class="bi bi-info-circle text-primary me-1"></i> ${data.explanation}`;
+      document.getElementById('detailOriginalStatus').textContent = `Original Automated Status: ${data.originalStatus}`;
+
+      document.getElementById('mentorStatusSelect').value = data.status;
+      document.getElementById('mentorCommentInput').value = data.comment;
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // Save evaluation handler
+    document.getElementById('mentorOverrideForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newStatus = document.getElementById('mentorStatusSelect').value;
+      const newComment = document.getElementById('mentorCommentInput').value;
+
+      const data = findingsData[activeFindingId];
+      if (!data) return;
+
+      data.status = newStatus;
+      data.comment = newComment;
+
+      const statusMap = {
+        'implemented': { label: 'Implemented (1.0)', class: 'cr-badge-implemented' },
+        'partial': { label: 'Partial (0.5)', class: 'cr-badge-partial' },
+        'missing': { label: 'Missing (0.0)', class: 'cr-badge-missing' },
+        'manual': { label: 'Manual Review (0.25)', class: 'cr-badge-manual' }
+      };
+
+      data.statusLabel = statusMap[newStatus].label;
+      data.statusClass = statusMap[newStatus].class;
+
+      // Update inspector badge
+      document.getElementById('detailCurrentBadge').innerHTML = `<span class="cr-badge ${data.statusClass}">${data.statusLabel}</span>`;
+
+      // Update left master card badge
+      const activeCard = document.querySelector(`.cr-finding-item[data-id="${activeFindingId}"]`);
+      if (activeCard) {
+        activeCard.setAttribute('data-status', newStatus);
+        const badgeEl = activeCard.querySelector('.cr-badge');
+        if (badgeEl) {
+          badgeEl.className = `cr-badge ${data.statusClass}`;
+          badgeEl.textContent = data.statusLabel;
+        }
+      }
+
+      // Show toast
+      const toastEl = document.getElementById('saveToast');
+      document.getElementById('toastMessage').textContent = `Evaluation saved for ${data.reqId}: Marked as ${data.statusLabel}!`;
+      const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
+      toast.show();
+    });
+
+    // Filter pills & search filter logic
+    document.querySelectorAll('.findings-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.findings-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFindingsFilter();
+      });
+    });
+
+    document.getElementById('findingsSearchInput').addEventListener('input', applyFindingsFilter);
+
+    function applyFindingsFilter() {
+      const activeFilterBtn = document.querySelector('.findings-filter-btn.active');
+      const statusFilter = activeFilterBtn ? activeFilterBtn.getAttribute('data-status-filter') : 'all';
+      const search = document.getElementById('findingsSearchInput').value.toLowerCase().trim();
+
+      document.querySelectorAll('.cr-finding-item').forEach(item => {
+        const itemStatus = item.getAttribute('data-status');
+        const itemText = item.textContent.toLowerCase();
+        const matchesStatus = statusFilter === 'all' || itemStatus === statusFilter;
+        const matchesSearch = !search || itemText.includes(search);
+
+        item.style.display = (matchesStatus && matchesSearch) ? '' : 'none';
+      });
+    }
+
+    // Initialize with finding 1
+    selectFinding(1);
+  </script>
+</body>
+</html>

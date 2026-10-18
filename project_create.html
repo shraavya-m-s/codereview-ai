@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Project — CodeReview AI</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+  <link rel="stylesheet" href="static/css/dropzone.css">
+</head>
+<body>
+
+  <div class="cr-app-layout">
+    <!-- Sidebar -->
+    <aside class="cr-sidebar" id="crSidebar">
+      <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
+        <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-sidebar-brand-text">
+            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="min-w-0 flex-grow-1">
+            <div class="text-white fw-semibold text-truncate small">Dr. Aris (Mentor)</div>
+            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-3 flex-grow-1 overflow-y-auto">
+        <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+          <span class="cr-nav-label">Core Workspace</span>
+        </div>
+        <ul class="nav flex-column gap-1 px-2">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span class="cr-nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="project_list.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-folder2-open"></i>
+              <span class="cr-nav-label">Projects</span>
+            </a>
+          </li>
+          <li class="nav-item" data-role-perm="mentor-only">
+            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-white bg-primary fw-semibold">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <span class="cr-nav-label">Upload Project</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-clock-history"></i>
+              <span class="cr-nav-label">Review History</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+      </div>
+    </aside>
+
+    <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
+
+    <!-- Main Content -->
+    <div class="cr-main-wrapper">
+      <header class="cr-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button"><i class="bi bi-list fs-5"></i></button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+            <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
+              <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
+              <li class="breadcrumb-item"><a href="project_list.html" class="text-secondary text-decoration-none">Projects</a></li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Upload Project</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="d-flex align-items-center gap-1.5 bg-light border px-2 py-1 rounded">
+            <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
+            <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
+              <option value="mentor" selected>Mentor</option>
+              <option value="student">Student / Intern</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">DA</div>
+              <span class="small fw-semibold text-dark d-none d-md-inline">dr_aris</span>
+              <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="cr-page-content" style="max-width: 960px;">
+        <!-- Header -->
+        <div class="mb-4">
+          <h1 class="h3 mb-1">Create & Upload Project for Review</h1>
+          <p class="text-secondary small mb-0">Upload student source code ZIP archive alongside the SRS specification document for automated rule-based audit.</p>
+        </div>
+
+        <!-- Intake Form -->
+        <form id="projectUploadForm">
+          <!-- Step 1: Project Metadata -->
+          <div class="cr-card p-4 mb-4">
+            <h2 class="h5 mb-3 fw-bold d-flex align-items-center gap-2">
+              <span class="badge bg-primary rounded-circle px-2 py-1" style="font-size: 0.75rem;">1</span>
+              <span>Project Details</span>
+            </h2>
+
+            <div class="row g-3">
+              <div class="col-md-7">
+                <div class="cr-form-group mb-0">
+                  <label for="projectNameInput" class="cr-label">Project Name <span class="required">*</span></label>
+                  <input type="text" class="cr-input" id="projectNameInput" placeholder="e.g. Hospital_Management_System" value="ECommerce_Microservices_API" required>
+                  <div class="cr-form-hint">Descriptive title of the intern project or repository.</div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="cr-form-group mb-0">
+                  <label for="studentNameInput" class="cr-label">Student / Intern Name <span class="required">*</span></label>
+                  <input type="text" class="cr-input" id="studentNameInput" placeholder="e.g. Rahul Sharma" value="Neha Deshmukh" required>
+                  <div class="cr-form-hint">Candidate to whom the final review report is issued.</div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="cr-form-group mb-0">
+                  <label for="projectDescInput" class="cr-label">Project Description</label>
+                  <textarea class="cr-textarea" id="projectDescInput" rows="2" placeholder="Brief summary of technology stack and module expectations...">Django REST Framework backend for cart checkout, payment gateway mocking, and JWT auth.</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Dual File Dropzones -->
+          <div class="cr-card p-4 mb-4">
+            <h2 class="h5 mb-3 fw-bold d-flex align-items-center gap-2">
+              <span class="badge bg-primary rounded-circle px-2 py-1" style="font-size: 0.75rem;">2</span>
+              <span>Project Files (ZIP & SRS)</span>
+            </h2>
+
+            <!-- File validation warning alert (toggled by JS) -->
+            <div class="cr-alert cr-alert-danger d-none mb-3" id="fileValidationErrorAlert">
+              <i class="bi bi-exclamation-triangle-fill fs-5 text-danger flex-shrink-0"></i>
+              <div class="small" id="fileValidationErrorMessage">Invalid file format or size exceeds practical 50MB limit.</div>
+            </div>
+
+            <div class="cr-dropzone-grid">
+              <!-- Dropzone 1: Source ZIP -->
+              <div class="cr-dropzone-container">
+                <div class="cr-dropzone-label">
+                  <span>Project Source Code (.zip) <span class="required">*</span></span>
+                  <span class="cr-dropzone-badge">Max 50 MB</span>
+                </div>
+                <div class="cr-dropzone" id="zipDropzone">
+                  <input type="file" id="zipFileInput" accept=".zip" required>
+                  <div class="cr-dropzone-icon"><i class="bi bi-file-earmark-zip"></i></div>
+                  <div class="cr-dropzone-title">Upload Project ZIP</div>
+                  <div class="cr-dropzone-subtitle">Drag and drop archive, or browse</div>
+                  <div class="cr-dropzone-limit">Supports standard .zip files up to 50MB</div>
+                </div>
+
+                <!-- Pre-selected file card for demonstration -->
+                <div class="cr-file-card is-visible" id="zipFileCard">
+                  <div class="cr-file-info">
+                    <div class="cr-file-icon-box zip"><i class="bi bi-file-earmark-zip-fill"></i></div>
+                    <div class="cr-file-details">
+                      <div class="cr-file-name" id="zipFileName">ecommerce_backend_repo.zip</div>
+                      <div class="cr-file-size" id="zipFileSize">12.4 MB &bull; Ready for intake</div>
+                    </div>
+                  </div>
+                  <button type="button" class="cr-file-remove-btn" id="zipRemoveBtn" title="Remove file"><i class="bi bi-x-lg"></i></button>
+                </div>
+              </div>
+
+              <!-- Dropzone 2: SRS Document -->
+              <div class="cr-dropzone-container">
+                <div class="cr-dropzone-label">
+                  <span>SRS Document <span class="required">*</span></span>
+                  <span class="cr-dropzone-badge">PDF, TXT, DOCX</span>
+                </div>
+                <div class="cr-dropzone" id="srsDropzone" style="display: none;">
+                  <input type="file" id="srsFileInput" accept=".pdf,.txt,.docx" required>
+                  <div class="cr-dropzone-icon"><i class="bi bi-file-earmark-text"></i></div>
+                  <div class="cr-dropzone-title">Upload SRS Specification</div>
+                  <div class="cr-dropzone-subtitle">Drag and drop document, or browse</div>
+                  <div class="cr-dropzone-limit">Supports .pdf, .txt, or .docx formats</div>
+                </div>
+
+                <!-- Pre-selected SRS card for demonstration -->
+                <div class="cr-file-card is-visible" id="srsFileCard">
+                  <div class="cr-file-info">
+                    <div class="cr-file-icon-box doc"><i class="bi bi-file-earmark-text-fill"></i></div>
+                    <div class="cr-file-details">
+                      <div class="cr-file-name" id="srsFileName">Ecommerce_SRS_Specification_v2.pdf</div>
+                      <div class="cr-file-size" id="srsFileSize">640 KB &bull; Ready for intake</div>
+                    </div>
+                  </div>
+                  <button type="button" class="cr-file-remove-btn" id="srsRemoveBtn" title="Remove file"><i class="bi bi-x-lg"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload & Parsing Progress State (Animated) -->
+            <div class="cr-upload-progress-wrapper" id="uploadProgressWrapper">
+              <div class="cr-upload-status-row">
+                <span class="text-primary" id="uploadStepStatus">Validating ZIP archive safely...</span>
+                <span class="text-muted" id="uploadPercent">35%</span>
+              </div>
+              <div class="cr-score-progress">
+                <div class="cr-score-progress-bar info" id="uploadProgressBar" style="width: 35%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Submission & Safety Disclaimer -->
+          <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 p-3 bg-light rounded border">
+            <div class="small text-muted">
+              <i class="bi bi-shield-lock-fill text-success"></i> <strong>Safe Inspection:</strong> Source code is never executed. Analyzed purely via AST parsing & regular expressions.
+            </div>
+            <div class="d-flex gap-2">
+              <a href="project_list.html" class="cr-btn cr-btn-secondary">Cancel</a>
+              <button type="submit" class="cr-btn cr-btn-primary" id="submitIntakeBtn">
+                <i class="bi bi-play-circle-fill"></i>
+                <span>Start Project Intake & Review</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </main>
+
+      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
+          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
+          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/app.js"></script>
+  <script>
+    // Drag and drop interactive logic
+    function setupDropzone(dropzoneId, inputId, cardId, nameId, sizeId, removeBtnId, maxMb, allowedExts) {
+      const dropzone = document.getElementById(dropzoneId);
+      const input = document.getElementById(inputId);
+      const card = document.getElementById(cardId);
+      const nameEl = document.getElementById(nameId);
+      const sizeEl = document.getElementById(sizeId);
+      const removeBtn = document.getElementById(removeBtnId);
+      const errorAlert = document.getElementById('fileValidationErrorAlert');
+      const errorMsg = document.getElementById('fileValidationErrorMessage');
+
+      ['dragenter', 'dragover'].forEach(eName => {
+        dropzone.addEventListener(eName, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('is-dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eName => {
+        dropzone.addEventListener(eName, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('is-dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        if (e.dataTransfer.files.length > 0) validateAndSet(e.dataTransfer.files[0]);
+      });
+
+      input.addEventListener('change', () => {
+        if (input.files.length > 0) validateAndSet(input.files[0]);
+      });
+
+      function validateAndSet(file) {
+        errorAlert.classList.add('d-none');
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+        if (!allowedExts.includes(ext)) {
+          errorMsg.textContent = `Invalid file extension "${ext}". Allowed: ${allowedExts.join(', ')}`;
+          errorAlert.classList.remove('d-none');
+          return;
+        }
+
+        const sizeMb = file.size / (1024 * 1024);
+        if (sizeMb > maxMb) {
+          errorMsg.textContent = `File size (${sizeMb.toFixed(1)} MB) exceeds allowed limit of ${maxMb} MB.`;
+          errorAlert.classList.remove('d-none');
+          return;
+        }
+
+        nameEl.textContent = file.name;
+        sizeEl.textContent = (sizeMb >= 1 ? sizeMb.toFixed(1) + ' MB' : (file.size / 1024).toFixed(0) + ' KB') + ' • Ready for intake';
+        dropzone.style.display = 'none';
+        card.classList.add('is-visible');
+      }
+
+      removeBtn.addEventListener('click', () => {
+        input.value = '';
+        card.classList.remove('is-visible');
+        dropzone.style.display = 'flex';
+      });
+    }
+
+    setupDropzone('zipDropzone', 'zipFileInput', 'zipFileCard', 'zipFileName', 'zipFileSize', 'zipRemoveBtn', 50, ['.zip']);
+    setupDropzone('srsDropzone', 'srsFileInput', 'srsFileCard', 'srsFileName', 'srsFileSize', 'srsRemoveBtn', 25, ['.pdf', '.txt', '.docx']);
+
+    // Form submission simulation
+    const uploadForm = document.getElementById('projectUploadForm');
+    const submitBtn = document.getElementById('submitIntakeBtn');
+    const progressWrapper = document.getElementById('uploadProgressWrapper');
+    const stepStatus = document.getElementById('uploadStepStatus');
+    const percentEl = document.getElementById('uploadPercent');
+    const barEl = document.getElementById('uploadProgressBar');
+
+    uploadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      progressWrapper.classList.add('is-active');
+
+      const steps = [
+        { pct: 25, text: 'Validating ZIP archive safely...' },
+        { pct: 55, text: 'Extracting source manifest & testing syntax...' },
+        { pct: 80, text: 'Parsing SRS requirements specification...' },
+        { pct: 100, text: 'Intake complete! Redirecting to Project Details...' }
+      ];
+
+      let i = 0;
+      function nextStep() {
+        if (i < steps.length) {
+          barEl.style.width = steps[i].pct + '%';
+          percentEl.textContent = steps[i].pct + '%';
+          stepStatus.textContent = steps[i].text;
+          i++;
+          setTimeout(nextStep, 500);
+        } else {
+          window.location.href = 'project_detail.html';
+        }
+      }
+      nextStep();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review History & Audit Log — CodeReview AI</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/components.css">
+</head>
+<body>
+
+  <div class="cr-app-layout">
+    <!-- Sidebar -->
+    <aside class="cr-sidebar" id="crSidebar">
+      <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
+        <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-sidebar-brand-text">
+            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="min-w-0 flex-grow-1">
+            <div class="text-white fw-semibold text-truncate small">Dr. Aris (Mentor)</div>
+            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-3 flex-grow-1 overflow-y-auto">
+        <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+          <span class="cr-nav-label">Core Workspace</span>
+        </div>
+        <ul class="nav flex-column gap-1 px-2">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span class="cr-nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="project_list.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-folder2-open"></i>
+              <span class="cr-nav-label">Projects</span>
+            </a>
+          </li>
+          <li class="nav-item" data-role-perm="mentor-only">
+            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <span class="cr-nav-label">Upload Project</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-white bg-primary fw-semibold">
+              <i class="bi bi-clock-history"></i>
+              <span class="cr-nav-label">Review History</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="mt-4" data-role-perm="admin-only" style="display: none;">
+          <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
+            <span class="cr-nav-label">Administration</span>
+          </div>
+          <ul class="nav flex-column gap-1 px-2">
+            <li class="nav-item">
+              <a href="admin_users.html" class="nav-link cr-nav-link d-flex align-items-center gap-2.5 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+                <i class="bi bi-people-fill"></i>
+                <span class="cr-nav-label">User Management</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+      </div>
+    </aside>
+
+    <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
+
+    <!-- Main Content -->
+    <div class="cr-main-wrapper">
+      <header class="cr-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button"><i class="bi bi-list fs-5"></i></button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+            <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
+              <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Review History</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="d-flex align-items-center gap-1.5 bg-light border px-2 py-1 rounded">
+            <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
+            <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
+              <option value="mentor" selected>Mentor</option>
+              <option value="student">Student / Intern</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">DA</div>
+              <span class="small fw-semibold text-dark d-none d-md-inline">dr_aris</span>
+              <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="cr-page-content">
+        <div class="mb-4">
+          <h1 class="h3 mb-1">Audit Log & Review History</h1>
+          <p class="text-secondary small mb-0">Complete historical timeline of automated rule executions, mentor status overrides, and score evolutions.</p>
+        </div>
+
+        <div class="cr-card">
+          <div class="cr-card-header">
+            <div class="cr-card-title">
+              <i class="bi bi-clock-history text-primary"></i>
+              <span>All Historical Review Runs</span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="cr-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Project</th>
+                  <th>Review Run Type</th>
+                  <th>Score Evolution</th>
+                  <th>Evaluator / Action</th>
+                  <th class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-muted small">Oct 16, 2026, 4:30 PM</td>
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">Hospital_Management_System</a>
+                    <div class="text-muted small">Student: Rahul Sharma</div>
+                  </td>
+                  <td><span class="badge bg-primary-subtle text-primary border border-primary-subtle">Final Mentor Evaluation</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="text-muted small">72% &rarr;</span>
+                      <span class="fw-bold text-success fs-6">84 / 100</span>
+                      <span class="badge bg-success-subtle text-success small">+12% Gain</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small">Dr. Aris (Mentor)</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">Approved 4 manual overrides & added improvement plan</div>
+                  </td>
+                  <td class="text-end">
+                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">View Report</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="text-muted small">Oct 16, 2026, 11:15 AM</td>
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">Hospital_Management_System</a>
+                    <div class="text-muted small">Student: Rahul Sharma</div>
+                  </td>
+                  <td><span class="badge bg-secondary-subtle text-secondary border">Automated Rule Engine</span></td>
+                  <td>
+                    <span class="fw-bold text-dark">72 / 100</span>
+                    <span class="text-muted small ms-1">(Initial baseline)</span>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small">Automated Rule Engine</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">Processed 48 requirements in 3.4 seconds</div>
+                  </td>
+                  <td class="text-end">
+                    <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm">Inspect Findings</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="text-muted small">Oct 15, 2026, 2:10 PM</td>
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">Student_Attendance_Portal</a>
+                    <div class="text-muted small">Student: Pooja Nair</div>
+                  </td>
+                  <td><span class="badge bg-primary-subtle text-primary border border-primary-subtle">Final Mentor Evaluation</span></td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="fw-bold text-success fs-6">91 / 100</span>
+                      <span class="badge bg-success-subtle text-success small">Passed</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold small">Dr. Aris (Mentor)</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">Verified requirements and finalized assessment</div>
+                  </td>
+                  <td class="text-end">
+                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">View Report</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+
+      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
+          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
+          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>
