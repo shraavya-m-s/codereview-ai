@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkAuthSession();
   initSidebar();
   initMobileDrawer();
-  initRoleSimulator();
+  initUserSessionProfile();
   initAutoDismissAlerts();
   initSignOutButtons();
 });
@@ -48,6 +48,22 @@ function checkAuthSession() {
   const isAuth = sessionStorage.getItem('cr_logged_in');
   if (!isAuth) {
     window.location.href = 'login.html';
+    return;
+  }
+
+  // Role-based route guard: admin_users.html requires admin role
+  const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+  if (currentPage === 'admin_users.html' && userRole !== 'admin') {
+    window.location.href = 'index.html?error=unauthorized';
+    return;
+  }
+
+  // Display unauthorized alert if redirected
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('error') === 'unauthorized') {
+    const unauthEl = document.getElementById('unauthorizedAlert');
+    if (unauthEl) unauthEl.classList.remove('d-none');
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
 
@@ -59,6 +75,8 @@ function handleSignOut(e) {
   sessionStorage.removeItem('cr_logged_in');
   sessionStorage.removeItem('cr_auth_user');
   sessionStorage.removeItem('cr_user_role');
+  sessionStorage.removeItem('cr_user_fullname');
+  sessionStorage.removeItem('cr_user_email');
   window.location.href = 'login.html?logout=true';
 }
 
@@ -166,54 +184,51 @@ function getCSRFToken() {
 }
 
 /**
- * 4. Role Simulator (For Frontend Preview & Testing)
- * Allows developers and mentors to preview views as Mentor, Student, or Admin.
+ * 4. User Session & Role Permissions
+ * Enforces authenticated role permissions from the session (set upon login).
+ * Updates user profile name, handle, avatar, role badges, and visibility gates.
  */
-function initRoleSimulator() {
-  const roleSelect = document.getElementById('devRoleSelector');
-  if (!roleSelect) return;
-
-  // Read stored preview role or default to 'mentor'
-  const currentRole = localStorage.getItem('cr_dev_role') || 'mentor';
-  roleSelect.value = currentRole;
+function initUserSessionProfile() {
+  const currentRole = sessionStorage.getItem('cr_user_role') || 'mentor';
   applyRoleVisibility(currentRole);
-
-  roleSelect.addEventListener('change', (e) => {
-    const selectedRole = e.target.value;
-    localStorage.setItem('cr_dev_role', selectedRole);
-    applyRoleVisibility(selectedRole);
-  });
 }
 
 function applyRoleVisibility(role) {
+  const customName = sessionStorage.getItem('cr_user_fullname');
+  const customEmail = sessionStorage.getItem('cr_user_email');
+  const customHandle = sessionStorage.getItem('cr_auth_user');
+
   const profileMap = {
     mentor: {
-      name: 'Dr. Aris (Mentor)',
-      handle: 'dr_aris',
-      avatar: 'DA',
-      email: 'aris.mentor@university.edu',
+      name: customName || 'Dr. Aris (Mentor)',
+      handle: customHandle || 'dr_aris',
+      avatar: customName ? customName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : 'DA',
+      email: customEmail || 'aris.mentor@university.edu',
       roleLabel: 'Mentor',
       icon: 'bi-mortarboard-fill'
     },
     student: {
-      name: 'Rahul Sharma (Intern)',
-      handle: 'rahul_s',
-      avatar: 'RS',
-      email: 'rahul.intern@university.edu',
+      name: customName || 'Rahul Sharma (Intern)',
+      handle: customHandle || 'rahul_s',
+      avatar: customName ? customName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : 'RS',
+      email: customEmail || 'rahul.intern@university.edu',
       roleLabel: 'Student',
       icon: 'bi-person-fill'
     },
     admin: {
-      name: 'System Admin',
-      handle: 'admin',
-      avatar: 'AD',
-      email: 'admin@codereview.ai',
+      name: customName || 'System Admin',
+      handle: customHandle || 'admin',
+      avatar: customName ? customName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : 'AD',
+      email: customEmail || 'admin@codereview.ai',
       roleLabel: 'Admin',
       icon: 'bi-shield-lock-fill'
     }
   };
 
   const profile = profileMap[role] || profileMap.mentor;
+
+  // Set global auth role attribute for declarative CSS selectors
+  document.documentElement.setAttribute('data-auth-role', role);
 
   // 1. Update role badges in UI
   document.querySelectorAll('[data-role-badge]').forEach(badge => {
@@ -230,17 +245,29 @@ function applyRoleVisibility(role) {
 
   // 3. Admin-only nav items & actions
   document.querySelectorAll('[data-role-perm="admin-only"]').forEach(el => {
-    el.style.display = (role === 'admin') ? '' : 'none';
+    if (role === 'admin') {
+      el.style.removeProperty('display');
+    } else {
+      el.style.setProperty('display', 'none', 'important');
+    }
   });
 
   // 4. Mentor-only actions (Mentors and Admins have access)
   document.querySelectorAll('[data-role-perm="mentor-only"]').forEach(el => {
-    el.style.display = (role === 'mentor' || role === 'admin') ? '' : 'none';
+    if (role === 'mentor' || role === 'admin') {
+      el.style.removeProperty('display');
+    } else {
+      el.style.setProperty('display', 'none', 'important');
+    }
   });
 
   // 5. Student-restricted notices & views
   document.querySelectorAll('[data-role-perm="student-only"]').forEach(el => {
-    el.style.display = (role === 'student') ? '' : 'none';
+    if (role === 'student') {
+      el.style.removeProperty('display');
+    } else {
+      el.style.setProperty('display', 'none', 'important');
+    }
   });
 }
 

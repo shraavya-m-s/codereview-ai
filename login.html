@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In — CodeReview AI</title>
+  <title>Sign In &bull; CodeReview AI</title>
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 
@@ -16,146 +16,275 @@
   <link rel="stylesheet" href="static/css/main.css">
   <link rel="stylesheet" href="static/css/components.css">
 </head>
-<body class="cr-auth-body d-flex align-items-center justify-content-center min-vh-100 py-4">
+<body class="p-0 m-0" style="overflow: hidden;">
 
-  <div class="container" style="max-width: 440px;">
-    <!-- Logo & Brand Header -->
-    <div class="text-center mb-4">
-      <div class="cr-auth-logo-badge mb-3">
-        <i class="bi bi-shield-check fs-2"></i>
+  <!-- Split Screen Authentication Wrapper (Strict 100vh Lock) -->
+  <div class="cr-auth-split-wrapper">
+    
+    <!-- LEFT PANEL: Pure, Bold Brand Presence -->
+    <div class="cr-auth-showcase-panel">
+      <div class="cr-showcase-content">
+        <div class="cr-auth-hero-badge">
+          <i class="bi bi-shield-check" style="font-size: 2.5rem;"></i>
+        </div>
+
+        <h1 class="display-3 fw-bold text-white mb-3" style="letter-spacing: -0.03em;">
+          CodeReview<span style="color: #60a5fa !important;">AI</span>
+        </h1>
+        
+        <p class="fs-5 text-secondary fw-normal mb-0" style="color: #94a3b8 !important; line-height: 1.6;">
+          Automated Intern Project Review &amp; SRS Verification System
+        </p>
       </div>
-      <h1 class="h3 fw-bold text-dark mb-1">CodeReview<span class="text-primary">AI</span></h1>
-      <p class="text-secondary small mb-0">Intern Project Review &amp; SRS Verification System</p>
     </div>
 
-    <!-- Login Card Container -->
-    <div class="cr-auth-card shadow-sm" id="authCard">
-      <div class="mb-3 text-center">
-        <h2 class="h5 fw-bold mb-1 text-dark">Sign in to your account</h2>
-        <p class="text-muted small mb-0">Enter your credentials or choose a quick demo persona</p>
-      </div>
-
-      <!-- Logout Success Alert (shown if ?logout=true) -->
-      <div class="cr-alert cr-alert-success d-none mb-3" id="logoutSuccessAlert" role="alert">
-        <i class="bi bi-check-circle-fill fs-5 text-success flex-shrink-0"></i>
-        <div class="small flex-grow-1" id="logoutSuccessMessage">You have been signed out successfully.</div>
-        <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.parentElement.remove()"></button>
-      </div>
-
-      <!-- Error Alert (hidden by default, toggled via JS) -->
-      <div class="cr-alert cr-alert-danger d-none mb-3" id="loginErrorAlert" role="alert">
-        <i class="bi bi-exclamation-octagon-fill fs-5 text-danger flex-shrink-0"></i>
-        <div class="small flex-grow-1" id="loginErrorMessage">Please enter both your username and password.</div>
-        <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.parentElement.classList.add('d-none')"></button>
-      </div>
-
-      <!-- Demo Role Quick-Fill Buttons -->
-      <div class="mb-3">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <span class="text-muted text-uppercase fw-bold" style="font-size: 0.6875rem; letter-spacing: 0.05em;">Quick Demo Personas</span>
-          <span class="badge bg-light text-secondary border" style="font-size: 0.65rem;">One-Click Fill</span>
-        </div>
-        <div class="d-grid gap-2">
-          <!-- Mentor Persona -->
-          <button type="button" class="cr-demo-pill-btn" id="demoMentorBtn" onclick="fillCredentials('dr_aris', 'password123', 'mentor', this)">
-            <div class="d-flex align-items-center gap-2">
-              <div class="cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.7rem; background-color: #2563EB; color: #fff;">DA</div>
-              <div>
-                <div class="fw-semibold text-dark" style="font-size: 0.8125rem;">Dr. Aris (Mentor)</div>
-                <div class="text-secondary" style="font-size: 0.7rem;">dr_aris &bull; Full Review Access</div>
-              </div>
-            </div>
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle demo-badge" style="font-size: 0.6875rem;">Fill</span>
-          </button>
-
-          <!-- Student Persona -->
-          <button type="button" class="cr-demo-pill-btn" id="demoStudentBtn" onclick="fillCredentials('rahul_intern', 'password123', 'student', this)">
-            <div class="d-flex align-items-center gap-2">
-              <div class="cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.7rem; background-color: #0D9488; color: #fff;">RS</div>
-              <div>
-                <div class="fw-semibold text-dark" style="font-size: 0.8125rem;">Rahul Sharma (Intern)</div>
-                <div class="text-secondary" style="font-size: 0.7rem;">rahul_intern &bull; Student View</div>
-              </div>
-            </div>
-            <span class="badge bg-secondary-subtle text-secondary border demo-badge" style="font-size: 0.6875rem;">Fill</span>
-          </button>
-
-          <!-- Administrator Persona -->
-          <button type="button" class="cr-demo-pill-btn" id="demoAdminBtn" onclick="fillCredentials('admin', 'admin123', 'admin', this)">
-            <div class="d-flex align-items-center gap-2">
-              <div class="cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.7rem; background-color: #475569; color: #fff;">AD</div>
-              <div>
-                <div class="fw-semibold text-dark" style="font-size: 0.8125rem;">System Administrator</div>
-                <div class="text-secondary" style="font-size: 0.7rem;">admin &bull; User &amp; Audit Control</div>
-              </div>
-            </div>
-            <span class="badge bg-secondary-subtle text-secondary border demo-badge" style="font-size: 0.6875rem;">Fill</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Divider -->
-      <div class="d-flex align-items-center my-3">
-        <hr class="flex-grow-1 my-0 text-muted">
-        <span class="px-2 text-muted fw-semibold" style="font-size: 0.6875rem; letter-spacing: 0.05em;">OR SIGN IN WITH USERNAME</span>
-        <hr class="flex-grow-1 my-0 text-muted">
-      </div>
-
-      <!-- Login Form -->
-      <form id="loginForm" action="index.html" method="get">
-        <!-- Django CSRF Token Placeholder -->
-        <input type="hidden" name="csrfmiddlewaretoken" value="django-csrf-preview-token">
-
-        <!-- Username -->
-        <div class="cr-form-group mb-3">
-          <label for="usernameInput" class="cr-label">Username <span class="required">*</span></label>
-          <div class="input-group">
-            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
-            <input type="text" class="form-control cr-input border-start-0 ps-0" id="usernameInput" placeholder="e.g. dr_aris or rahul_intern" required autofocus>
+    <!-- RIGHT PANEL: Clean, Compact 100vh Form -->
+    <div class="cr-auth-form-panel">
+      <div class="cr-auth-form-container" style="max-width: 440px;">
+        
+        <!-- Mobile Brand Header (Visible only on < 992px) -->
+        <div class="d-lg-none text-center mb-3">
+          <div class="cr-auth-hero-badge mb-2 mx-auto" style="width: 44px; height: 44px;">
+            <i class="bi bi-shield-check fs-4"></i>
           </div>
+          <h2 class="h5 fw-bold text-dark mb-0">CodeReview<span class="text-primary">AI</span></h2>
+          <p class="text-secondary small mb-0" style="font-size: 0.725rem;">Intern Review &amp; SRS Verification System</p>
         </div>
 
-        <!-- Password with Show/Hide toggle -->
-        <div class="cr-form-group mb-3">
-          <div class="d-flex justify-content-between align-items-center mb-1">
-            <label for="passwordInput" class="cr-label mb-0">Password <span class="required">*</span></label>
-            <a href="javascript:void(0)" class="text-primary text-decoration-none small" style="font-size: 0.75rem;" onclick="alert('Demo environment: Use password123 or select a persona pill above.')">Forgot password?</a>
-          </div>
-          <div class="input-group">
-            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-key"></i></span>
-            <input type="password" class="form-control cr-input border-start-0 border-end-0 ps-0" id="passwordInput" placeholder="••••••••" required>
-            <button class="btn btn-outline-secondary border border-start-0 bg-light" type="button" id="togglePasswordBtn" title="Toggle password visibility">
-              <i class="bi bi-eye text-muted" id="passwordToggleIcon"></i>
+        <!-- Sleek Frosted Glass Card -->
+        <div class="cr-auth-frosted-card shadow-sm" id="authCard">
+          
+          <!-- Mode Tabs: Sign In / Create Account -->
+          <div class="cr-auth-nav-tabs" role="tablist">
+            <button type="button" class="cr-auth-nav-tab is-active" id="tabSignIn" onclick="switchAuthMode('signin')">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+            </button>
+            <button type="button" class="cr-auth-nav-tab" id="tabSignUp" onclick="switchAuthMode('signup')">
+              <i class="bi bi-person-plus me-1"></i> Create Account
             </button>
           </div>
-        </div>
 
-        <!-- Remember Me Checkbox -->
-        <div class="d-flex align-items-center justify-content-between mb-4">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
-            <label class="form-check-label small text-secondary" for="rememberMeCheck">
-              Remember me on this browser
-            </label>
+          <!-- Active Session Notice (Shown if user is already logged in) -->
+          <div class="cr-alert cr-alert-info d-none mb-3" id="activeSessionAlert" role="alert">
+            <i class="bi bi-info-circle-fill fs-5 text-primary flex-shrink-0"></i>
+            <div class="small flex-grow-1">
+              Currently signed in as <strong id="activeSessionUser"></strong>.
+              <div class="mt-2 d-flex gap-2">
+                <a href="index.html" class="btn btn-sm btn-primary py-0.5 px-2.5" style="font-size: 0.75rem;">Dashboard</a>
+                <button type="button" class="btn btn-sm btn-outline-danger py-0.5 px-2.5" style="font-size: 0.75rem;" onclick="handleDirectSignOut()">Sign Out</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logout Success Alert (shown if ?logout=true) -->
+          <div class="cr-alert cr-alert-success d-none mb-3" id="logoutSuccessAlert" role="alert">
+            <i class="bi bi-check-circle-fill fs-5 text-success flex-shrink-0"></i>
+            <div class="small flex-grow-1" id="logoutSuccessMessage">You have been signed out safely.</div>
+            <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.parentElement.remove()"></button>
+          </div>
+
+          <!-- Error Alert (hidden by default, toggled via JS) -->
+          <div class="cr-alert cr-alert-danger d-none mb-3" id="authErrorAlert" role="alert">
+            <i class="bi bi-exclamation-octagon-fill fs-5 text-danger flex-shrink-0"></i>
+            <div class="small flex-grow-1" id="authErrorMessage">Please check the required fields.</div>
+            <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.parentElement.classList.add('d-none')"></button>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- 1. SIGN IN FORM                            -->
+          <!-- ========================================== -->
+          <div id="signInSection">
+            <div class="mb-3 text-center">
+              <h2 class="h5 fw-bold mb-1 text-dark">Sign in to your account</h2>
+              <p class="text-muted small mb-0">Enter your credentials to access your review workspace</p>
+            </div>
+
+            <form id="loginForm" action="index.html" method="get">
+              <input type="hidden" name="csrfmiddlewaretoken" value="django-csrf-preview-token">
+
+              <!-- Username -->
+              <div class="cr-form-group mb-2.5">
+                <label for="usernameInput" class="cr-label mb-1">Username <span class="required">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                  <input type="text" class="form-control cr-input border-start-0 ps-0" id="usernameInput" placeholder="Enter username" required autofocus>
+                </div>
+              </div>
+
+              <!-- Password with Show/Hide toggle -->
+              <div class="cr-form-group mb-2.5">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <label for="passwordInput" class="cr-label mb-0">Password <span class="required">*</span></label>
+                  <a href="javascript:void(0)" class="text-primary text-decoration-none small" style="font-size: 0.75rem;" onclick="alert('Demo accounts:\n- Mentor: dr_aris / password123\n- Student: rahul_intern / password123\n- Admin: admin / admin123')">Forgot password?</a>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-key"></i></span>
+                  <input type="password" class="form-control cr-input border-start-0 border-end-0 ps-0" id="passwordInput" placeholder="••••••••" required>
+                  <button class="btn btn-outline-secondary border border-start-0 bg-white" type="button" id="togglePasswordBtn" title="Toggle password visibility">
+                    <i class="bi bi-eye text-muted" id="passwordToggleIcon"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Remember Me Checkbox -->
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
+                  <label class="form-check-label small text-secondary" for="rememberMeCheck">
+                    Remember me on this workstation
+                  </label>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="cr-btn cr-btn-primary w-100 py-2 mb-2 fw-bold" id="loginSubmitBtn">
+                <span>Sign In</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </form>
+
+            <div class="text-center mt-2.5">
+              <span class="text-secondary small">Don't have an institutional account?</span>
+              <a href="javascript:void(0)" class="text-primary fw-semibold small text-decoration-none ms-1" onclick="switchAuthMode('signup')">Create account</a>
+            </div>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- 2. SIGN UP FORM (REGISTER)                 -->
+          <!-- ========================================== -->
+          <div id="signUpSection" class="d-none">
+            <div class="mb-3 text-center">
+              <h2 class="h5 fw-bold mb-1 text-dark">Create your account</h2>
+              <p class="text-muted small mb-0">Join CodeReview AI to submit or evaluate project repositories</p>
+            </div>
+
+            <form id="signUpForm" action="index.html" method="post">
+              <input type="hidden" name="csrfmiddlewaretoken" value="django-csrf-preview-token">
+
+              <!-- Full Name & Username in 2 columns -->
+              <div class="row g-2 mb-2.5">
+                <div class="col-6">
+                  <label for="regFullName" class="cr-label mb-1">Full Name <span class="required">*</span></label>
+                  <input type="text" class="form-control cr-input" id="regFullName" placeholder="e.g. Rahul Sharma" required>
+                </div>
+                <div class="col-6">
+                  <label for="regUsername" class="cr-label mb-1">Username <span class="required">*</span></label>
+                  <input type="text" class="form-control cr-input" id="regUsername" placeholder="e.g. rahul_s" required>
+                </div>
+              </div>
+
+              <!-- Institutional Email -->
+              <div class="cr-form-group mb-2.5">
+                <label for="regEmail" class="cr-label mb-1">Institutional Email <span class="required">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control cr-input border-start-0 ps-0" id="regEmail" placeholder="e.g. intern@university.edu" required>
+                </div>
+              </div>
+
+              <!-- Role Selector -->
+              <div class="cr-form-group mb-2.5">
+                <label class="cr-label mb-1">Account Role <span class="required">*</span></label>
+                <div class="cr-role-toggle-group">
+                  <div class="cr-role-toggle-option is-active" id="optRoleStudent" onclick="selectRegRole('student')">
+                    <i class="bi bi-person-fill text-success"></i>
+                    <span>Student / Intern</span>
+                  </div>
+                  <div class="cr-role-toggle-option" id="optRoleMentor" onclick="selectRegRole('mentor')">
+                    <i class="bi bi-mortarboard-fill text-primary"></i>
+                    <span>Mentor / Reviewer</span>
+                  </div>
+                </div>
+                <input type="hidden" id="regRole" value="student">
+              </div>
+
+              <!-- Password & Confirm Password in 2 columns -->
+              <div class="row g-2 mb-2.5">
+                <div class="col-6">
+                  <label for="regPassword" class="cr-label mb-1">Password <span class="required">*</span></label>
+                  <input type="password" class="form-control cr-input" id="regPassword" placeholder="Min. 6 chars" required>
+                </div>
+                <div class="col-6">
+                  <label for="regConfirmPassword" class="cr-label mb-1">Confirm <span class="required">*</span></label>
+                  <input type="password" class="form-control cr-input" id="regConfirmPassword" placeholder="Re-enter password" required>
+                </div>
+              </div>
+
+              <!-- Terms / Honor Code Checkbox -->
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="regTermsCheck" required>
+                <label class="form-check-label small text-secondary" for="regTermsCheck" style="font-size: 0.725rem;">
+                  I agree to academic review standards &amp; deterministic evaluation rules
+                </label>
+              </div>
+
+              <!-- Submit Register Button -->
+              <button type="submit" class="cr-btn cr-btn-primary w-100 py-2 mb-2 fw-bold" id="regSubmitBtn">
+                <span>Create Account</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </form>
+
+            <div class="text-center mt-2.5">
+              <span class="text-secondary small">Already registered?</span>
+              <a href="javascript:void(0)" class="text-primary fw-semibold small text-decoration-none ms-1" onclick="switchAuthMode('signin')">Sign in</a>
+            </div>
           </div>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="cr-btn cr-btn-primary w-100 py-2.5 mb-2 fw-bold" id="loginSubmitBtn">
-          <span>Sign In</span>
-          <i class="bi bi-arrow-right"></i>
-        </button>
-      </form>
-    </div>
-
-    <!-- Security & Rule-based Note -->
-    <div class="text-center mt-4 text-muted small">
-      <i class="bi bi-lock-fill text-secondary me-1"></i> Django Session-Based Authentication &bull; CSRF Protected
+        <!-- Security & Rule-based Note -->
+        <div class="text-center mt-2.5 text-muted small" style="font-size: 0.725rem;">
+          <i class="bi bi-shield-lock-fill text-secondary me-1"></i> Django Session-Based Authentication &bull; CSRF Protected
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    // 1. Check for logout redirect query param
+    // 1. Switch between Sign In and Sign Up modes
+    function switchAuthMode(mode) {
+      const signInSec = document.getElementById('signInSection');
+      const signUpSec = document.getElementById('signUpSection');
+      const tabSignIn = document.getElementById('tabSignIn');
+      const tabSignUp = document.getElementById('tabSignUp');
+      const errAlert = document.getElementById('authErrorAlert');
+
+      if (errAlert) errAlert.classList.add('d-none');
+
+      if (mode === 'signup') {
+        signInSec.classList.add('d-none');
+        signUpSec.classList.remove('d-none');
+        tabSignIn.classList.remove('is-active');
+        tabSignUp.classList.add('is-active');
+        document.title = 'Create Account \u2022 CodeReview AI';
+        const nameInput = document.getElementById('regFullName');
+        if (nameInput) nameInput.focus();
+      } else {
+        signUpSec.classList.add('d-none');
+        signInSec.classList.remove('d-none');
+        tabSignUp.classList.remove('is-active');
+        tabSignIn.classList.add('is-active');
+        document.title = 'Sign In \u2022 CodeReview AI';
+        const userInput = document.getElementById('usernameInput');
+        if (userInput) userInput.focus();
+      }
+    }
+
+    // 2. Role Selector helper for registration
+    function selectRegRole(role) {
+      document.getElementById('regRole').value = role;
+      const optStudent = document.getElementById('optRoleStudent');
+      const optMentor = document.getElementById('optRoleMentor');
+      if (role === 'mentor') {
+        optStudent.classList.remove('is-active');
+        optMentor.classList.add('is-active');
+      } else {
+        optMentor.classList.remove('is-active');
+        optStudent.classList.add('is-active');
+      }
+    }
+
+    // 3. URL Parameter checks (logout=true or mode=signup)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('logout') === 'true') {
       const logoutAlert = document.getElementById('logoutSuccessAlert');
@@ -164,12 +293,42 @@
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
+    if (urlParams.get('mode') === 'signup') {
+      switchAuthMode('signup');
+    }
 
-    // 2. Password visibility toggle
+    // 4. Check for already active session
+    const isAuth = sessionStorage.getItem('cr_logged_in');
+    const authUser = sessionStorage.getItem('cr_auth_user');
+    if (isAuth && authUser) {
+      const activeAlert = document.getElementById('activeSessionAlert');
+      const activeUserSpan = document.getElementById('activeSessionUser');
+      if (activeAlert && activeUserSpan) {
+        activeUserSpan.textContent = authUser;
+        activeAlert.classList.remove('d-none');
+      }
+    }
+
+    // 5. Direct Sign Out from active session alert
+    function handleDirectSignOut() {
+      sessionStorage.removeItem('cr_logged_in');
+      sessionStorage.removeItem('cr_auth_user');
+      sessionStorage.removeItem('cr_user_role');
+      sessionStorage.removeItem('cr_user_fullname');
+      sessionStorage.removeItem('cr_user_email');
+      const activeAlert = document.getElementById('activeSessionAlert');
+      if (activeAlert) activeAlert.classList.add('d-none');
+      const logoutAlert = document.getElementById('logoutSuccessAlert');
+      if (logoutAlert) {
+        document.getElementById('logoutSuccessMessage').textContent = 'Signed out successfully.';
+        logoutAlert.classList.remove('d-none');
+      }
+    }
+
+    // 6. Password visibility toggle
     const toggleBtn = document.getElementById('togglePasswordBtn');
     const passwordInput = document.getElementById('passwordInput');
     const toggleIcon = document.getElementById('passwordToggleIcon');
-
     if (toggleBtn && passwordInput && toggleIcon) {
       toggleBtn.addEventListener('click', () => {
         const isPassword = passwordInput.type === 'password';
@@ -178,81 +337,180 @@
       });
     }
 
-    // 3. Quick demo persona fill helper
-    function fillCredentials(user, pass, role, clickedBtn) {
-      document.getElementById('usernameInput').value = user;
-      document.getElementById('passwordInput').value = pass;
-      localStorage.setItem('cr_dev_role', role);
-
-      // Hide error alert if previously shown
-      const errorAlert = document.getElementById('loginErrorAlert');
-      if (errorAlert) errorAlert.classList.add('d-none');
-
-      // Update button active styling and badges
-      document.querySelectorAll('.cr-demo-pill-btn').forEach(btn => {
-        btn.classList.remove('is-active');
-        const badge = btn.querySelector('.demo-badge');
-        if (badge) {
-          badge.textContent = 'Fill';
-          badge.className = 'badge bg-secondary-subtle text-secondary border demo-badge';
-        }
-      });
-
-      if (clickedBtn) {
-        clickedBtn.classList.add('is-active');
-        const activeBadge = clickedBtn.querySelector('.demo-badge');
-        if (activeBadge) {
-          activeBadge.innerHTML = '<i class="bi bi-check2"></i> Selected';
-          activeBadge.className = 'badge bg-primary text-white border-primary demo-badge';
-        }
+    // 7. Error Shake Helper
+    function triggerCardShake(msg) {
+      const authCard = document.getElementById('authCard');
+      const errAlert = document.getElementById('authErrorAlert');
+      const errMsg = document.getElementById('authErrorMessage');
+      if (errMsg) errMsg.textContent = msg;
+      if (errAlert) errAlert.classList.remove('d-none');
+      if (authCard) {
+        authCard.classList.remove('cr-shake');
+        void authCard.offsetWidth; // Reflow to restart animation
+        authCard.classList.add('cr-shake');
+        setTimeout(() => authCard.classList.remove('cr-shake'), 450);
       }
     }
 
-    // 4. Submit handler with micro-interaction and realistic feedback
+    // 8. Sign In form submission
     const loginForm = document.getElementById('loginForm');
     const submitBtn = document.getElementById('loginSubmitBtn');
-    const authCard = document.getElementById('authCard');
-    const errorAlert = document.getElementById('loginErrorAlert');
-
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const user = document.getElementById('usernameInput').value.trim();
       const pass = document.getElementById('passwordInput').value.trim();
 
       if (!user || !pass) {
-        if (errorAlert) {
-          document.getElementById('loginErrorMessage').textContent = 'Please enter both your username and password.';
-          errorAlert.classList.remove('d-none');
-        }
-        if (authCard) {
-          authCard.classList.remove('cr-shake');
-          void authCard.offsetWidth; // Trigger reflow for animation restart
-          authCard.classList.add('cr-shake');
-          setTimeout(() => authCard.classList.remove('cr-shake'), 450);
-        }
+        triggerCardShake('Please enter both your username and password.');
         return;
       }
 
-      // Button loading state
+      // Check registered accounts credentials
+      const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
+      const lookupKey = user.toLowerCase();
+      if (registered[lookupKey] && registered[lookupKey].password) {
+        if (registered[lookupKey].password !== pass) {
+          triggerCardShake('Invalid credentials. Please verify your password.');
+          return;
+        }
+      }
+
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Authenticating...';
 
       // Record authenticated session
       sessionStorage.setItem('cr_logged_in', 'true');
       sessionStorage.setItem('cr_auth_user', user);
-      
-      let role = 'mentor';
-      if (user.includes('student') || user.includes('intern') || user.includes('rahul')) {
-        role = 'student';
-      } else if (user.includes('admin')) {
-        role = 'admin';
+
+      // Look up custom registered accounts or apply demo roles
+      if (registered[lookupKey]) {
+        sessionStorage.setItem('cr_user_role', registered[lookupKey].role);
+        sessionStorage.setItem('cr_user_fullname', registered[lookupKey].fullname);
+        sessionStorage.setItem('cr_user_email', registered[lookupKey].email);
+      } else {
+        let role = 'mentor';
+        const userLower = user.toLowerCase();
+        if (userLower.includes('student') || userLower.includes('intern') || userLower.includes('rahul')) {
+          role = 'student';
+        } else if (userLower.includes('admin') || userLower === 'root' || userLower === 'sysadmin') {
+          role = 'admin';
+        }
+        sessionStorage.setItem('cr_user_role', role);
       }
-      sessionStorage.setItem('cr_user_role', role);
-      localStorage.setItem('cr_dev_role', role);
 
       setTimeout(() => {
         window.location.href = 'index.html';
       }, 400);
+    });
+
+    // 9. Sign Up form submission & comprehensive validation & security sanity
+    const signUpForm = document.getElementById('signUpForm');
+    const regSubmitBtn = document.getElementById('regSubmitBtn');
+
+    signUpForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fullname = document.getElementById('regFullName').value.trim();
+      const rawUsername = document.getElementById('regUsername').value.trim();
+      const username = rawUsername.toLowerCase();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const role = document.getElementById('regRole').value;
+      const pass = document.getElementById('regPassword').value;
+      const confirmPass = document.getElementById('regConfirmPassword').value;
+      const terms = document.getElementById('regTermsCheck').checked;
+
+      // Sanity Check 1: Empty or whitespace-only inputs
+      if (!fullname || !username || !email || !pass || !confirmPass) {
+        triggerCardShake('Please fill out all required fields.');
+        return;
+      }
+
+      // Sanity Check 2: Full Name format & length (prevent HTML/scripts)
+      const namePattern = /^[a-zA-Z\s.'-]{2,60}$/;
+      if (!namePattern.test(fullname)) {
+        triggerCardShake('Full name must be 2–60 characters (letters, spaces, hyphens, and dots only).');
+        return;
+      }
+
+      // Sanity Check 3: Username format (alphanumeric + underscores, 3-20 chars)
+      const usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
+      if (!usernamePattern.test(rawUsername)) {
+        triggerCardShake('Username must be 3–20 characters and contain only letters, numbers, or underscores.');
+        return;
+      }
+
+      // Security Sanity 4: Reserved Administrative Handles (cannot self-register as admin)
+      const reservedUsernames = ['admin', 'administrator', 'root', 'superuser', 'sysadmin', 'codereview', 'system'];
+      if (reservedUsernames.includes(username)) {
+        triggerCardShake(`The username "${rawUsername}" is a reserved system handle. Please choose another.`);
+        return;
+      }
+
+      // Security Sanity 5: Institutional Email format (RFC compliant)
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(email)) {
+        triggerCardShake('Please enter a valid institutional email address (e.g. name@university.edu).');
+        return;
+      }
+
+      // Security Sanity 6: Duplicate detection (Username & Email uniqueness)
+      const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
+      if (registered[username]) {
+        triggerCardShake(`The username "${rawUsername}" is already taken. Please choose another or sign in.`);
+        return;
+      }
+
+      const emailExists = Object.values(registered).some(acc => acc.email === email);
+      if (emailExists) {
+        triggerCardShake('An account with this institutional email already exists. Please sign in.');
+        return;
+      }
+
+      // Security Sanity 7: Password length & bounds
+      if (pass.length < 6) {
+        triggerCardShake('Password must be at least 6 characters long.');
+        return;
+      }
+      if (pass.length > 128) {
+        triggerCardShake('Password cannot exceed 128 characters.');
+        return;
+      }
+
+      // Security Sanity 8: Strict password confirmation match
+      if (pass !== confirmPass) {
+        triggerCardShake('Passwords do not match. Please re-enter.');
+        return;
+      }
+
+      // Sanity Check 9: Terms & Honor Code agreement
+      if (!terms) {
+        triggerCardShake('Please agree to academic integrity & evaluation terms.');
+        return;
+      }
+
+      // Persist registered user into localStorage registry
+      registered[username] = {
+        fullname: fullname,
+        username: rawUsername,
+        email: email,
+        role: role,
+        password: pass
+      };
+      localStorage.setItem('cr_registered_users', JSON.stringify(registered));
+
+      // Button loading state
+      regSubmitBtn.disabled = true;
+      regSubmitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Creating Account...';
+
+      // Establish authenticated session immediately
+      sessionStorage.setItem('cr_logged_in', 'true');
+      sessionStorage.setItem('cr_auth_user', rawUsername);
+      sessionStorage.setItem('cr_user_role', role);
+      sessionStorage.setItem('cr_user_fullname', fullname);
+      sessionStorage.setItem('cr_user_email', email);
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 450);
     });
   </script>
 </body>

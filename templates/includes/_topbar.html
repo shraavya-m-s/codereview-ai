@@ -19,16 +19,6 @@
 
   <!-- Right Utility Controls -->
   <div class="cr-topbar-right">
-    <!-- Dev Role Simulator (Toggles view mode for preview testing) -->
-    <div class="d-none d-md-flex align-items-center gap-2 bg-light border px-2 py-1 rounded">
-      <span class="text-muted" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700;">Role:</span>
-      <select id="devRoleSelector" class="form-select form-select-sm border-0 bg-transparent py-0 ps-1 pe-4 text-dark fw-semibold" style="font-size: 0.775rem; width: auto; cursor: pointer;">
-        <option value="mentor">Mentor</option>
-        <option value="student">Student / Intern</option>
-        <option value="admin">Administrator</option>
-      </select>
-    </div>
-
     <!-- Quick Action: Upload Project (visible to mentors & admins) -->
     <a href="{% url 'project_create' %}" class="cr-btn cr-btn-primary cr-btn-sm d-none d-sm-inline-flex" data-role-perm="mentor-only">
       <i class="bi bi-plus-lg"></i>
