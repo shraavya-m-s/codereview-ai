@@ -30,7 +30,7 @@ function setGlobalTheme(theme) {
 }
 
 function initSignOutButtons() {
-  document.querySelectorAll('a[href="login.html"]').forEach(btn => {
+  document.querySelectorAll('a[href="login.html"], a[href="login.html?logout=true"]').forEach(btn => {
     btn.addEventListener('click', handleSignOut);
   });
 }
@@ -59,7 +59,7 @@ function handleSignOut(e) {
   sessionStorage.removeItem('cr_logged_in');
   sessionStorage.removeItem('cr_auth_user');
   sessionStorage.removeItem('cr_user_role');
-  window.location.href = 'login.html';
+  window.location.href = 'login.html?logout=true';
 }
 
 /**

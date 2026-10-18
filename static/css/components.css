@@ -733,3 +733,75 @@
   background-color: var(--cr-primary-subtle) !important;
 }
 
+/* --------------------------------------------------------------------------
+   12. Authentication Screen Styling & Micro-Animations
+   -------------------------------------------------------------------------- */
+.cr-auth-body {
+  background-color: var(--cr-canvas);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.04) 0px, transparent 50%);
+  min-height: 100vh;
+}
+
+.cr-auth-card {
+  background-color: var(--cr-surface);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-xl);
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+  padding: 2.25rem;
+  transition: transform var(--cr-transition-fast), box-shadow var(--cr-transition-fast);
+}
+
+.cr-auth-logo-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--cr-radius-lg);
+  background: linear-gradient(135deg, var(--cr-primary), #1d4ed8);
+  box-shadow: 0 4px 12px 0 rgba(37, 99, 235, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.cr-demo-pill-btn {
+  background-color: #ffffff;
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-md);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--cr-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--cr-transition-fast);
+  width: 100%;
+}
+
+.cr-demo-pill-btn:hover {
+  border-color: var(--cr-primary);
+  background-color: var(--cr-primary-subtle);
+  transform: translateY(-1px);
+}
+
+.cr-demo-pill-btn.is-active {
+  border-color: var(--cr-primary);
+  background-color: var(--cr-primary-subtle);
+  box-shadow: 0 0 0 2px var(--cr-primary-ring);
+}
+
+@keyframes crShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.cr-shake {
+  animation: crShake 0.4s ease-in-out;
+}
+
+

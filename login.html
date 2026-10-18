@@ -16,33 +16,96 @@
   <link rel="stylesheet" href="static/css/main.css">
   <link rel="stylesheet" href="static/css/components.css">
 </head>
-<body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-5">
+<body class="cr-auth-body d-flex align-items-center justify-content-center min-vh-100 py-4">
 
   <div class="container" style="max-width: 440px;">
     <!-- Logo & Brand Header -->
     <div class="text-center mb-4">
-      <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-3 shadow-sm mb-3" style="width: 52px; height: 52px;">
+      <div class="cr-auth-logo-badge mb-3">
         <i class="bi bi-shield-check fs-2"></i>
       </div>
       <h1 class="h3 fw-bold text-dark mb-1">CodeReview<span class="text-primary">AI</span></h1>
-      <p class="text-secondary small mb-0">Intern Project Review & SRS Verification System</p>
+      <p class="text-secondary small mb-0">Intern Project Review &amp; SRS Verification System</p>
     </div>
 
-    <!-- Login Card -->
-    <div class="cr-card p-4 shadow-sm border">
-      <div class="mb-4">
-        <h2 class="h5 fw-bold mb-1">Sign in to your account</h2>
-        <p class="text-muted small mb-0">Enter your credentials to access your dashboard</p>
+    <!-- Login Card Container -->
+    <div class="cr-auth-card shadow-sm" id="authCard">
+      <div class="mb-3 text-center">
+        <h2 class="h5 fw-bold mb-1 text-dark">Sign in to your account</h2>
+        <p class="text-muted small mb-0">Enter your credentials or choose a quick demo persona</p>
+      </div>
+
+      <!-- Logout Success Alert (shown if ?logout=true) -->
+      <div class="cr-alert cr-alert-success d-none mb-3" id="logoutSuccessAlert" role="alert">
+        <i class="bi bi-check-circle-fill fs-5 text-success flex-shrink-0"></i>
+        <div class="small flex-grow-1" id="logoutSuccessMessage">You have been signed out successfully.</div>
+        <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.parentElement.remove()"></button>
       </div>
 
       <!-- Error Alert (hidden by default, toggled via JS) -->
-      <div class="cr-alert cr-alert-danger d-none" id="loginErrorAlert" role="alert">
+      <div class="cr-alert cr-alert-danger d-none mb-3" id="loginErrorAlert" role="alert">
         <i class="bi bi-exclamation-octagon-fill fs-5 text-danger flex-shrink-0"></i>
-        <div class="small" id="loginErrorMessage">Invalid username or password. Please try again.</div>
+        <div class="small flex-grow-1" id="loginErrorMessage">Please enter both your username and password.</div>
+        <button type="button" class="btn-close btn-close-sm" aria-label="Close" onclick="this.parentElement.classList.add('d-none')"></button>
+      </div>
+
+      <!-- Demo Role Quick-Fill Buttons -->
+      <div class="mb-3">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="text-muted text-uppercase fw-bold" style="font-size: 0.6875rem; letter-spacing: 0.05em;">Quick Demo Personas</span>
+          <span class="badge bg-light text-secondary border" style="font-size: 0.65rem;">One-Click Fill</span>
+        </div>
+        <div class="d-grid gap-2">
+          <!-- Mentor Persona -->
+          <button type="button" class="cr-demo-pill-btn" id="demoMentorBtn" onclick="fillCredentials('dr_aris', 'password123', 'mentor', this)">
+            <div class="d-flex align-items-center gap-2">
+              <div class="cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.7rem; background-color: #2563EB; color: #fff;">DA</div>
+              <div>
+                <div class="fw-semibold text-dark" style="font-size: 0.8125rem;">Dr. Aris (Mentor)</div>
+                <div class="text-secondary" style="font-size: 0.7rem;">dr_aris &bull; Full Review Access</div>
+              </div>
+            </div>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle demo-badge" style="font-size: 0.6875rem;">Fill</span>
+          </button>
+
+          <!-- Student Persona -->
+          <button type="button" class="cr-demo-pill-btn" id="demoStudentBtn" onclick="fillCredentials('rahul_intern', 'password123', 'student', this)">
+            <div class="d-flex align-items-center gap-2">
+              <div class="cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.7rem; background-color: #0D9488; color: #fff;">RS</div>
+              <div>
+                <div class="fw-semibold text-dark" style="font-size: 0.8125rem;">Rahul Sharma (Intern)</div>
+                <div class="text-secondary" style="font-size: 0.7rem;">rahul_intern &bull; Student View</div>
+              </div>
+            </div>
+            <span class="badge bg-secondary-subtle text-secondary border demo-badge" style="font-size: 0.6875rem;">Fill</span>
+          </button>
+
+          <!-- Administrator Persona -->
+          <button type="button" class="cr-demo-pill-btn" id="demoAdminBtn" onclick="fillCredentials('admin', 'admin123', 'admin', this)">
+            <div class="d-flex align-items-center gap-2">
+              <div class="cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.7rem; background-color: #475569; color: #fff;">AD</div>
+              <div>
+                <div class="fw-semibold text-dark" style="font-size: 0.8125rem;">System Administrator</div>
+                <div class="text-secondary" style="font-size: 0.7rem;">admin &bull; User &amp; Audit Control</div>
+              </div>
+            </div>
+            <span class="badge bg-secondary-subtle text-secondary border demo-badge" style="font-size: 0.6875rem;">Fill</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="d-flex align-items-center my-3">
+        <hr class="flex-grow-1 my-0 text-muted">
+        <span class="px-2 text-muted fw-semibold" style="font-size: 0.6875rem; letter-spacing: 0.05em;">OR SIGN IN WITH USERNAME</span>
+        <hr class="flex-grow-1 my-0 text-muted">
       </div>
 
       <!-- Login Form -->
       <form id="loginForm" action="index.html" method="get">
+        <!-- Django CSRF Token Placeholder -->
+        <input type="hidden" name="csrfmiddlewaretoken" value="django-csrf-preview-token">
+
         <!-- Username -->
         <div class="cr-form-group mb-3">
           <label for="usernameInput" class="cr-label">Username <span class="required">*</span></label>
@@ -53,10 +116,10 @@
         </div>
 
         <!-- Password with Show/Hide toggle -->
-        <div class="cr-form-group mb-4">
+        <div class="cr-form-group mb-3">
           <div class="d-flex justify-content-between align-items-center mb-1">
             <label for="passwordInput" class="cr-label mb-0">Password <span class="required">*</span></label>
-            <span class="text-muted" style="font-size: 0.75rem;">Standard session auth</span>
+            <a href="javascript:void(0)" class="text-primary text-decoration-none small" style="font-size: 0.75rem;" onclick="alert('Demo environment: Use password123 or select a persona pill above.')">Forgot password?</a>
           </div>
           <div class="input-group">
             <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-key"></i></span>
@@ -67,61 +130,88 @@
           </div>
         </div>
 
+        <!-- Remember Me Checkbox -->
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
+            <label class="form-check-label small text-secondary" for="rememberMeCheck">
+              Remember me on this browser
+            </label>
+          </div>
+        </div>
+
         <!-- Submit Button -->
-        <button type="submit" class="cr-btn cr-btn-primary w-100 py-2.5 mb-3 fw-bold" id="loginSubmitBtn">
+        <button type="submit" class="cr-btn cr-btn-primary w-100 py-2.5 mb-2 fw-bold" id="loginSubmitBtn">
           <span>Sign In</span>
           <i class="bi bi-arrow-right"></i>
         </button>
       </form>
-
-      <!-- Demo Role Quick-Fill Buttons -->
-      <div class="pt-3 border-top mt-2">
-        <div class="text-muted text-uppercase fw-bold mb-2 text-center" style="font-size: 0.68rem; letter-spacing: 0.05em;">Quick Demo Credentials</div>
-        <div class="d-grid gap-2">
-          <button class="btn btn-sm btn-outline-primary py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('dr_aris', 'password123', 'mentor')">
-            <span class="fw-semibold small"><i class="bi bi-mortarboard-fill me-1"></i> Mentor: Dr. Aris</span>
-            <span class="badge bg-primary-subtle text-primary" style="font-size: 0.7rem;">Click to Fill</span>
-          </button>
-          <button class="btn btn-sm btn-outline-success py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('rahul_intern', 'password123', 'student')">
-            <span class="fw-semibold small"><i class="bi bi-person-fill me-1"></i> Student: Rahul</span>
-            <span class="badge bg-success-subtle text-success" style="font-size: 0.7rem;">Click to Fill</span>
-          </button>
-          <button class="btn btn-sm btn-outline-secondary py-1 px-2 d-flex justify-content-between align-items-center" onclick="fillCredentials('admin', 'admin123', 'admin')">
-            <span class="fw-semibold small"><i class="bi bi-shield-lock-fill me-1"></i> Administrator</span>
-            <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.7rem;">Click to Fill</span>
-          </button>
-        </div>
-      </div>
     </div>
 
     <!-- Security & Rule-based Note -->
     <div class="text-center mt-4 text-muted small">
-      <i class="bi bi-lock-fill text-secondary"></i> Django Session-Based Authentication &bull; CSRF Protected
+      <i class="bi bi-lock-fill text-secondary me-1"></i> Django Session-Based Authentication &bull; CSRF Protected
     </div>
   </div>
 
   <script>
-    // Password toggle
+    // 1. Check for logout redirect query param
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('logout') === 'true') {
+      const logoutAlert = document.getElementById('logoutSuccessAlert');
+      if (logoutAlert) {
+        logoutAlert.classList.remove('d-none');
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+
+    // 2. Password visibility toggle
     const toggleBtn = document.getElementById('togglePasswordBtn');
     const passwordInput = document.getElementById('passwordInput');
     const toggleIcon = document.getElementById('passwordToggleIcon');
 
-    toggleBtn.addEventListener('click', () => {
-      const isPassword = passwordInput.type === 'password';
-      passwordInput.type = isPassword ? 'text' : 'password';
-      toggleIcon.className = isPassword ? 'bi bi-eye-slash text-primary' : 'bi bi-eye text-muted';
-    });
+    if (toggleBtn && passwordInput && toggleIcon) {
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        toggleIcon.className = isPassword ? 'bi bi-eye-slash text-primary' : 'bi bi-eye text-muted';
+      });
+    }
 
-    // Quick demo fill helper
-    function fillCredentials(user, pass, role) {
+    // 3. Quick demo persona fill helper
+    function fillCredentials(user, pass, role, clickedBtn) {
       document.getElementById('usernameInput').value = user;
       document.getElementById('passwordInput').value = pass;
       localStorage.setItem('cr_dev_role', role);
+
+      // Hide error alert if previously shown
+      const errorAlert = document.getElementById('loginErrorAlert');
+      if (errorAlert) errorAlert.classList.add('d-none');
+
+      // Update button active styling and badges
+      document.querySelectorAll('.cr-demo-pill-btn').forEach(btn => {
+        btn.classList.remove('is-active');
+        const badge = btn.querySelector('.demo-badge');
+        if (badge) {
+          badge.textContent = 'Fill';
+          badge.className = 'badge bg-secondary-subtle text-secondary border demo-badge';
+        }
+      });
+
+      if (clickedBtn) {
+        clickedBtn.classList.add('is-active');
+        const activeBadge = clickedBtn.querySelector('.demo-badge');
+        if (activeBadge) {
+          activeBadge.innerHTML = '<i class="bi bi-check2"></i> Selected';
+          activeBadge.className = 'badge bg-primary text-white border-primary demo-badge';
+        }
+      }
     }
 
-    // Submit handler with realistic feedback
+    // 4. Submit handler with micro-interaction and realistic feedback
     const loginForm = document.getElementById('loginForm');
     const submitBtn = document.getElementById('loginSubmitBtn');
+    const authCard = document.getElementById('authCard');
     const errorAlert = document.getElementById('loginErrorAlert');
 
     loginForm.addEventListener('submit', (e) => {
@@ -130,7 +220,16 @@
       const pass = document.getElementById('passwordInput').value.trim();
 
       if (!user || !pass) {
-        errorAlert.classList.remove('d-none');
+        if (errorAlert) {
+          document.getElementById('loginErrorMessage').textContent = 'Please enter both your username and password.';
+          errorAlert.classList.remove('d-none');
+        }
+        if (authCard) {
+          authCard.classList.remove('cr-shake');
+          void authCard.offsetWidth; // Trigger reflow for animation restart
+          authCard.classList.add('cr-shake');
+          setTimeout(() => authCard.classList.remove('cr-shake'), 450);
+        }
         return;
       }
 
@@ -143,8 +242,11 @@
       sessionStorage.setItem('cr_auth_user', user);
       
       let role = 'mentor';
-      if (user.includes('student') || user.includes('intern') || user.includes('rahul')) role = 'student';
-      if (user.includes('admin')) role = 'admin';
+      if (user.includes('student') || user.includes('intern') || user.includes('rahul')) {
+        role = 'student';
+      } else if (user.includes('admin')) {
+        role = 'admin';
+      }
       sessionStorage.setItem('cr_user_role', role);
       localStorage.setItem('cr_dev_role', role);
 
