@@ -3,41 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Management — CodeReview AI</title>
+  <title>Admin & User Management — CodeReview AI</title>
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   
+  <!-- CodeReview AI Core Design System -->
   <link rel="stylesheet" href="static/css/main.css">
   <link rel="stylesheet" href="static/css/components.css">
+
+  <style>
+    /* Phase 10 Admin Console Styles */
+    .cr-admin-tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--cr-border-color, #334155);
+      margin-bottom: 1.5rem;
+    }
+    .cr-admin-tab-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    .cr-admin-tab-btn:hover {
+      color: #f8fafc;
+    }
+    .cr-admin-tab-btn.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+      font-weight: 600;
+    }
+    .cr-config-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
 
   <div class="cr-app-layout">
-    <!-- Sidebar -->
+    <!-- Left Sidebar -->
     <aside class="cr-sidebar" id="crSidebar">
       <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
         <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
-          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;">
+            <i class="bi bi-shield-check fs-5"></i>
+          </div>
           <div class="cr-sidebar-brand-text">
-            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <div class="fw-bold lh-1 text-white" style="letter-spacing: -0.01em;">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
             <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
           </div>
         </a>
       </div>
 
+      <!-- User Role Indicator (Admin Persona) -->
       <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
         <div class="d-flex align-items-center gap-2">
-          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">AD</div>
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">
+            AD
+          </div>
           <div class="min-w-0 flex-grow-1">
-            <div class="text-white fw-semibold text-truncate small cr-user-name">Admin Console</div>
-            <div class="mt-0.5"><span class="cr-role-badge admin" data-role-badge><i class="bi bi-shield-lock-fill"></i> Admin</span></div>
+            <div class="text-white fw-semibold text-truncate small cr-user-name">System Admin</div>
+            <div class="mt-0.5">
+              <span class="cr-role-badge admin" data-role-badge>
+                <i class="bi bi-shield-lock-fill"></i> Admin
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Navigation Links -->
       <div class="py-3 flex-grow-1 overflow-y-auto">
         <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
           <span class="cr-nav-label">Core Workspace</span>
@@ -55,6 +107,12 @@
               <span class="cr-nav-label">Projects</span>
             </a>
           </li>
+          <li class="nav-item" data-role-perm="mentor-only">
+            <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
+              <i class="bi bi-cloud-arrow-up-fill"></i>
+              <span class="cr-nav-label">Upload Project</span>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="history.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
               <i class="bi bi-clock-history"></i>
@@ -63,6 +121,7 @@
           </li>
         </ul>
 
+        <!-- Administration Section (Active) -->
         <div class="mt-4">
           <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
             <span class="cr-nav-label">Administration</span>
@@ -71,7 +130,7 @@
             <li class="nav-item">
               <a href="admin_users.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-white bg-primary fw-semibold">
                 <i class="bi bi-people-fill"></i>
-                <span class="cr-nav-label">User Management</span>
+                <span class="cr-nav-label">User & System Admin</span>
               </a>
             </li>
           </ul>
@@ -79,21 +138,27 @@
       </div>
 
       <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn" title="Collapse Sidebar">
+          <i class="bi bi-layout-sidebar-inset-reverse fs-6"></i>
+          <span class="cr-nav-label small">Collapse View</span>
+        </button>
       </div>
     </aside>
 
     <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
 
-    <!-- Main Content -->
+    <!-- Main Content Wrapper -->
     <div class="cr-main-wrapper">
+      <!-- Topbar Header -->
       <header class="cr-topbar">
         <div class="cr-topbar-left">
-          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation"><i class="bi bi-list fs-5"></i></button>
-          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block text-truncate">
             <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
               <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
-              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">User Management</li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Admin &amp; User Management</li>
             </ol>
           </nav>
         </div>
@@ -101,170 +166,532 @@
         <div class="cr-topbar-right">
           <div class="dropdown">
             <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center fw-bold cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.75rem;">AD</div>
+              <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center fw-bold cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.75rem;">AD</div>
               <span class="small fw-semibold text-dark d-none d-md-inline cr-user-handle">admin</span>
               <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1" style="min-width: 200px;">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
               <li class="px-3 py-2 border-bottom">
                 <div class="fw-bold small text-dark cr-user-fullname">System Admin</div>
                 <div class="text-muted cr-user-email" style="font-size: 0.75rem;">admin@codereview.ai</div>
               </li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="project_list.html"><i class="bi bi-folder2 text-secondary"></i> My Projects</a></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review Log</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="project_list.html"><i class="bi bi-folder2 text-secondary"></i> All Projects</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review History</a></li>
               <li><hr class="dropdown-divider my-1"></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html?logout=true"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
             </ul>
           </div>
         </div>
       </header>
 
-      <main class="cr-page-content">
-        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+      <!-- Main Content Page Body -->
+      <main class="cr-page-content" style="max-width: 1200px; margin: 0 auto;">
+
+        <!-- Header -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
           <div>
-            <h1 class="h3 mb-1">User & Role Management</h1>
-            <p class="text-secondary small mb-0">Manage system accounts, assign roles (Admin, Mentor, Student), and enforce access permissions.</p>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <h1 class="h3 mb-0 fw-bold text-light">Admin &amp; System Governance</h1>
+              <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30" style="font-size: 0.72rem;">Phase 10 Console</span>
+            </div>
+            <p class="text-secondary small mb-0">Manage platform users, role assignments, review strictness policies, and archive capacity limits.</p>
           </div>
-          <button class="cr-btn cr-btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            <i class="bi bi-person-plus-fill"></i> Add New User
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="cr-btn cr-btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
+              <i class="bi bi-person-plus-fill"></i> Add New User
+            </button>
+          </div>
+        </div>
+
+        <!-- Admin View Switcher (Tabs) -->
+        <div class="cr-admin-tab-nav">
+          <button type="button" class="cr-admin-tab-btn active" id="tabUsersBtn" onclick="switchAdminTab('users')">
+            <i class="bi bi-people-fill text-primary"></i> User &amp; Role Directory (6)
+          </button>
+          <button type="button" class="cr-admin-tab-btn" id="tabConfigBtn" onclick="switchAdminTab('config')">
+            <i class="bi bi-sliders text-warning"></i> Audit Engine &amp; Policy Settings
           </button>
         </div>
 
-        <div class="cr-card">
-          <div class="cr-card-header">
-            <div class="cr-card-title">
-              <i class="bi bi-people text-primary"></i>
-              <span>Registered Accounts</span>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="cr-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Email</th>
-                  <th>Assigned Role</th>
-                  <th>Status</th>
-                  <th>Projects Assigned</th>
-                  <th class="text-end">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="fw-bold text-dark">Dr. Aris</div>
-                    <div class="text-muted small">Username: dr_aris</div>
-                  </td>
-                  <td class="text-secondary small">aris.mentor@university.edu</td>
-                  <td><span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span></td>
-                  <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
-                  <td>12 Projects Reviewed</td>
-                  <td class="text-end">
-                    <button class="cr-btn cr-btn-secondary cr-btn-sm" onclick="alert('Editing user: Dr. Aris')"><i class="bi bi-pencil"></i> Edit Role</button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div class="fw-bold text-dark">System Administrator</div>
-                    <div class="text-muted small">Username: admin</div>
-                  </td>
-                  <td class="text-secondary small">admin@codereview.internal</td>
-                  <td><span class="cr-role-badge admin"><i class="bi bi-shield-lock-fill"></i> Admin</span></td>
-                  <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
-                  <td>Full System Access</td>
-                  <td class="text-end">
-                    <button class="cr-btn cr-btn-secondary cr-btn-sm" disabled>Protected</button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div class="fw-bold text-dark">Rahul Sharma</div>
-                    <div class="text-muted small">Username: rahul_intern</div>
-                  </td>
-                  <td class="text-secondary small">rahul.sharma@intern.org</td>
-                  <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
-                  <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
-                  <td>1 Project (Hospital_Management_System)</td>
-                  <td class="text-end">
-                    <button class="cr-btn cr-btn-secondary cr-btn-sm" onclick="alert('Editing user: Rahul Sharma')"><i class="bi bi-pencil"></i> Edit Role</button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div class="fw-bold text-dark">Ananya Patel</div>
-                    <div class="text-muted small">Username: ananya_intern</div>
-                  </td>
-                  <td class="text-secondary small">ananya.patel@intern.org</td>
-                  <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
-                  <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
-                  <td>1 Project (ECommerce_REST_API)</td>
-                  <td class="text-end">
-                    <button class="cr-btn cr-btn-secondary cr-btn-sm" onclick="alert('Editing user: Ananya Patel')"><i class="bi bi-pencil"></i> Edit Role</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Add User Modal -->
-        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="addUserModalLabel">Create New Account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- TAB PANE 1: User & Role Directory -->
+        <div id="paneUsers">
+          <!-- Filter Toolbar -->
+          <div class="cr-card p-3 mb-3">
+            <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-2">
+              <div class="d-flex flex-wrap gap-1.5" id="userRoleFilters">
+                <button type="button" class="cr-filter-pill-btn active" onclick="filterUsersRole('all', this)">All Accounts (6)</button>
+                <button type="button" class="cr-filter-pill-btn" onclick="filterUsersRole('mentor', this)"><i class="bi bi-mortarboard-fill text-primary"></i> Mentors (2)</button>
+                <button type="button" class="cr-filter-pill-btn" onclick="filterUsersRole('student', this)"><i class="bi bi-person-fill text-info"></i> Students / Interns (3)</button>
+                <button type="button" class="cr-filter-pill-btn" onclick="filterUsersRole('admin', this)"><i class="bi bi-shield-lock-fill text-danger"></i> Admins (1)</button>
               </div>
-              <form onsubmit="event.preventDefault(); alert('User account created!'); bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();">
-                <div class="modal-body">
-                  <div class="cr-form-group mb-3">
-                    <label class="cr-label">Full Name <span class="required">*</span></label>
-                    <input type="text" class="cr-input" placeholder="e.g. Elena Rostova" required>
-                  </div>
-                  <div class="cr-form-group mb-3">
-                    <label class="cr-label">Username <span class="required">*</span></label>
-                    <input type="text" class="cr-input" placeholder="e.g. elena_mentor" required>
-                  </div>
-                  <div class="cr-form-group mb-3">
-                    <label class="cr-label">Email Address <span class="required">*</span></label>
-                    <input type="email" class="cr-input" placeholder="e.g. elena@university.edu" required>
-                  </div>
-                  <div class="cr-form-group mb-3">
-                    <label class="cr-label">Assigned Role <span class="required">*</span></label>
-                    <select class="cr-select" required>
-                      <option value="mentor">Mentor (Can create projects & review findings)</option>
-                      <option value="student">Student / Intern (Read-only access to permitted reports)</option>
-                      <option value="admin">Administrator (Full administrative privileges)</option>
-                    </select>
-                  </div>
-                  <div class="cr-form-group mb-0">
-                    <label class="cr-label">Temporary Password <span class="required">*</span></label>
-                    <input type="password" class="cr-input" placeholder="••••••••" required>
-                  </div>
+
+              <div style="min-width: 260px;">
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
+                  <input type="text" class="cr-input form-control form-control-sm bg-dark text-light border-secondary" id="userSearchInput" placeholder="Search user by name, email, or role..." oninput="searchUsers(this.value)">
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="cr-btn cr-btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="cr-btn cr-btn-primary">Create Account</button>
-                </div>
-              </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Registered Accounts Table -->
+          <div class="cr-card mb-4">
+            <div class="table-responsive">
+              <table class="cr-table align-middle mb-0" id="usersTable">
+                <thead>
+                  <tr>
+                    <th>User &amp; Username</th>
+                    <th>Email Address</th>
+                    <th>Assigned Role</th>
+                    <th>Status</th>
+                    <th>Projects In Charge</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <!-- Row 1: Admin -->
+                  <tr data-role="admin">
+                    <td>
+                      <div class="fw-bold text-light">System Administrator</div>
+                      <div class="text-secondary small"><code>@admin</code></div>
+                    </td>
+                    <td class="text-secondary small">admin@codereview.ai</td>
+                    <td><span class="cr-role-badge admin"><i class="bi bi-shield-lock-fill"></i> Admin</span></td>
+                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td class="text-secondary small">Full Infrastructure Access</td>
+                    <td class="text-end">
+                      <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" disabled>Protected</button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 2: Dr. Aris -->
+                  <tr data-role="mentor">
+                    <td>
+                      <div class="fw-bold text-light">Dr. Aris</div>
+                      <div class="text-secondary small"><code>@dr_aris</code></div>
+                    </td>
+                    <td class="text-secondary small">aris.mentor@university.edu</td>
+                    <td><span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span></td>
+                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td class="text-secondary small">14 Projects Reviewed</td>
+                    <td class="text-end">
+                      <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Dr. Aris', 'dr_aris', 'mentor')">
+                        <i class="bi bi-pencil"></i> Edit
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 3: Elena Rostova -->
+                  <tr data-role="mentor">
+                    <td>
+                      <div class="fw-bold text-light">Dr. Elena Rostova</div>
+                      <div class="text-secondary small"><code>@elena_mentor</code></div>
+                    </td>
+                    <td class="text-secondary small">elena.rostova@university.edu</td>
+                    <td><span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span></td>
+                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td class="text-secondary small">9 Projects Reviewed</td>
+                    <td class="text-end">
+                      <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Dr. Elena Rostova', 'elena_mentor', 'mentor')">
+                        <i class="bi bi-pencil"></i> Edit
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 4: Rahul Sharma -->
+                  <tr data-role="student">
+                    <td>
+                      <div class="fw-bold text-light">Rahul Sharma</div>
+                      <div class="text-secondary small"><code>@rahul_intern</code></div>
+                    </td>
+                    <td class="text-secondary small">rahul.sharma@intern.org</td>
+                    <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
+                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td class="text-secondary small">Hospital_Management_System</td>
+                    <td class="text-end">
+                      <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Rahul Sharma', 'rahul_intern', 'student')">
+                        <i class="bi bi-pencil"></i> Edit
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 5: Neha Deshmukh -->
+                  <tr data-role="student">
+                    <td>
+                      <div class="fw-bold text-light">Neha Deshmukh</div>
+                      <div class="text-secondary small"><code>@neha_intern</code></div>
+                    </td>
+                    <td class="text-secondary small">neha.deshmukh@intern.org</td>
+                    <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
+                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td class="text-secondary small">ECommerce_Microservices_API</td>
+                    <td class="text-end">
+                      <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Neha Deshmukh', 'neha_intern', 'student')">
+                        <i class="bi bi-pencil"></i> Edit
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Row 6: Aman Verma -->
+                  <tr data-role="student">
+                    <td>
+                      <div class="fw-bold text-light">Aman Verma</div>
+                      <div class="text-secondary small"><code>@aman_intern</code></div>
+                    </td>
+                    <td class="text-secondary small">aman.verma@intern.org</td>
+                    <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
+                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td class="text-secondary small">FinTech_Ledger_Service</td>
+                    <td class="text-end">
+                      <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Aman Verma', 'aman_intern', 'student')">
+                        <i class="bi bi-pencil"></i> Edit
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+
+        <!-- TAB PANE 2: Audit Engine & Policy Settings -->
+        <div id="paneConfig" style="display: none;">
+          <form id="systemConfigForm" onsubmit="saveSystemConfig(event)">
+            
+            <!-- Policy Card 1: Review Scoring Thresholds -->
+            <div class="cr-config-card">
+              <h2 class="h6 fw-bold text-light mb-3 d-flex align-items-center gap-2">
+                <i class="bi bi-award-fill text-primary"></i> <span>Passing Score &amp; Grade Thresholds</span>
+              </h2>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small text-secondary fw-semibold">Passing Compliance Threshold (%):</label>
+                  <div class="d-flex align-items-center gap-3">
+                    <input type="range" class="form-range" min="50" max="90" step="5" value="70" id="passThresholdRange" oninput="document.getElementById('passThresholdVal').textContent = this.value + '%'">
+                    <span class="badge bg-primary fs-6" id="passThresholdVal">70%</span>
+                  </div>
+                  <div class="cr-form-hint">Projects below this threshold require formal remediation before graduation.</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small text-secondary fw-semibold">Distinction / Grade A+ Threshold (%):</label>
+                  <div class="d-flex align-items-center gap-3">
+                    <input type="range" class="form-range" min="80" max="98" step="1" value="90" id="distinctionThresholdRange" oninput="document.getElementById('distinctionThresholdVal').textContent = this.value + '%'">
+                    <span class="badge bg-success fs-6" id="distinctionThresholdVal">90%</span>
+                  </div>
+                  <div class="cr-form-hint">Threshold for automatic capstone excellence certification.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Policy Card 2: Ingestion & Upload Limits -->
+            <div class="cr-config-card">
+              <h2 class="h6 fw-bold text-light mb-3 d-flex align-items-center gap-2">
+                <i class="bi bi-cloud-arrow-up text-info"></i> <span>Ingestion File Size &amp; Timeout Policy</span>
+              </h2>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label small text-secondary fw-semibold">Max Source ZIP Limit (MB):</label>
+                  <input type="number" class="cr-input form-control bg-dark text-light border-secondary" id="maxZipMbInput" value="100" min="10" max="250">
+                  <div class="cr-form-hint">Configured in Phase 5 to 100 MB.</div>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small text-secondary fw-semibold">Max SRS Document Limit (MB):</label>
+                  <input type="number" class="cr-input form-control bg-dark text-light border-secondary" value="25" min="5" max="50">
+                  <div class="cr-form-hint">PDF/DOCX spec file limit.</div>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small text-secondary fw-semibold">AST Extraction Timeout (sec):</label>
+                  <input type="number" class="cr-input form-control bg-dark text-light border-secondary" value="30" min="5" max="120">
+                  <div class="cr-form-hint">Prevents regex denial of service.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Policy Card 3: Rule Checker Modules -->
+            <div class="cr-config-card">
+              <h2 class="h6 fw-bold text-light mb-3 d-flex align-items-center gap-2">
+                <i class="bi bi-shield-check text-success"></i> <span>Automated Rule Audit Modules</span>
+              </h2>
+              <div class="row g-2 small">
+                <div class="col-md-6">
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="chkEnforceOwasp" checked>
+                    <label class="form-check-label text-light" for="chkEnforceOwasp">OWASP Top 10 Security &amp; SQL Injection Scanners</label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="chkEnforceSecret" checked>
+                    <label class="form-check-label text-light" for="chkEnforceSecret">Hardcoded Production Secret Scanning</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="chkEnforceTests" checked>
+                    <label class="form-check-label text-light" for="chkEnforceTests">Automated Unit Test Execution Enforcement</label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="chkEnforceTrace" checked>
+                    <label class="form-check-label text-light" for="chkEnforceTrace">SRS Functional Clause Cross-Traceability</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <button type="submit" class="cr-btn cr-btn-primary">
+                <i class="bi bi-check2-circle"></i> Save System Configuration
+              </button>
+            </div>
+          </form>
+        </div>
+
       </main>
 
-      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
-          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
-          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+      <!-- Application Footer -->
+      <footer class="cr-footer py-3 px-4 border-top border-secondary border-opacity-25 bg-black bg-opacity-20 mt-5">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-secondary small">
+          <div><span class="fw-semibold text-light">CodeReview AI</span> &bull; Intern Automated Review & Verification System <span class="badge bg-secondary text-light">v1.2.0</span></div>
+          <div>Administrative User Governance &bull; Rule Policy Control</div>
         </div>
       </footer>
     </div>
   </div>
 
+  <!-- Add New User Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-light border-secondary shadow-lg">
+        <div class="modal-header border-secondary border-opacity-50">
+          <h5 class="modal-title h6 fw-bold" id="addUserModalLabel">
+            <i class="bi bi-person-plus text-primary me-1"></i> Register New Platform Account
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="addUserForm" onsubmit="createUserAccount(event)">
+          <div class="modal-body p-3">
+            <div class="mb-3">
+              <label class="form-label small text-secondary fw-semibold">Full Legal Name <span class="text-danger">*</span></label>
+              <input type="text" class="cr-input form-control bg-dark text-light border-secondary" id="newFullName" placeholder="e.g. Vikram Malhotra" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-secondary fw-semibold">Username Handle <span class="text-danger">*</span></label>
+              <input type="text" class="cr-input form-control bg-dark text-light border-secondary" id="newUsername" placeholder="e.g. vikram_intern" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-secondary fw-semibold">Email Address <span class="text-danger">*</span></label>
+              <input type="email" class="cr-input form-control bg-dark text-light border-secondary" id="newEmail" placeholder="e.g. vikram@intern.org" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-secondary fw-semibold">Assigned System Role <span class="text-danger">*</span></label>
+              <select class="cr-input form-select bg-dark text-light border-secondary" id="newRole" required>
+                <option value="mentor">Mentor (Can upload projects, review findings & sign reports)</option>
+                <option value="student" selected>Student / Intern (Read-only access to own project dossier)</option>
+                <option value="admin">Administrator (Full administrative & policy privileges)</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer border-secondary border-opacity-50 py-2">
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-sm btn-primary">Create Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Role Modal -->
+  <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-light border-secondary shadow-lg">
+        <div class="modal-header border-secondary border-opacity-50">
+          <h5 class="modal-title h6 fw-bold" id="editUserModalLabel">
+            <i class="bi bi-shield-check text-warning me-1"></i> Modify User Permissions
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form onsubmit="saveEditedUser(event)">
+          <div class="modal-body p-3">
+            <div class="mb-2">
+              <label class="form-label small text-secondary fw-semibold">Account Target:</label>
+              <div class="fw-bold text-light" id="editUserTargetName">Dr. Aris</div>
+              <div class="text-secondary small" id="editUserTargetUsername">@dr_aris</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-secondary fw-semibold">Role Privilege Tier:</label>
+              <select class="cr-input form-select bg-dark text-light border-secondary" id="editUserRoleSelect">
+                <option value="mentor">Mentor</option>
+                <option value="student">Student / Intern</option>
+                <option value="admin">Administrator</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer border-secondary border-opacity-50 py-2">
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Toast Notification Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+    <div id="liveActionToast" class="toast align-items-center text-bg-dark border-secondary shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+          <i class="bi bi-check-circle-fill text-success fs-5"></i>
+          <span>Action completed successfully.</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="static/js/app.js"></script>
+
+  <script>
+    // 1. Admin Tab Navigation
+    function switchAdminTab(tab) {
+      const tabUsers = document.getElementById('tabUsersBtn');
+      const tabConfig = document.getElementById('tabConfigBtn');
+      const paneUsers = document.getElementById('paneUsers');
+      const paneConfig = document.getElementById('paneConfig');
+
+      if (tab === 'users') {
+        tabUsers.classList.add('active');
+        tabConfig.classList.remove('active');
+        paneUsers.style.display = 'block';
+        paneConfig.style.display = 'none';
+      } else {
+        tabConfig.classList.add('active');
+        tabUsers.classList.remove('active');
+        paneUsers.style.display = 'none';
+        paneConfig.style.display = 'block';
+      }
+    }
+
+    // 2. User Role Filtering
+    let currentRoleFilter = 'all';
+
+    function filterUsersRole(role, btn) {
+      currentRoleFilter = role;
+      document.querySelectorAll('#userRoleFilters button').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      applyUserFilters();
+    }
+
+    function searchUsers(query) {
+      applyUserFilters((query || '').toLowerCase());
+    }
+
+    function applyUserFilters(search = '') {
+      const q = search || document.getElementById('userSearchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#usersTableBody tr');
+
+      rows.forEach(row => {
+        const role = row.getAttribute('data-role') || '';
+        const text = row.textContent.toLowerCase();
+
+        const matchesRole = (currentRoleFilter === 'all' || role === currentRoleFilter);
+        const matchesSearch = (!q || text.includes(q));
+
+        if (matchesRole && matchesSearch) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // 3. Create User Account
+    function createUserAccount(e) {
+      e.preventDefault();
+      const name = document.getElementById('newFullName').value.trim();
+      const username = document.getElementById('newUsername').value.trim();
+      const email = document.getElementById('newEmail').value.trim();
+      const role = document.getElementById('newRole').value;
+
+      if (!name || !username || !email) return;
+
+      const roleBadgeMap = {
+        mentor: '<span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span>',
+        student: '<span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span>',
+        admin: '<span class="cr-role-badge admin"><i class="bi bi-shield-lock-fill"></i> Admin</span>'
+      };
+
+      const tbody = document.getElementById('usersTableBody');
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-role', role);
+      tr.innerHTML = `
+        <td>
+          <div class="fw-bold text-light">${escapeHtml(name)}</div>
+          <div class="text-secondary small"><code>@${escapeHtml(username)}</code></div>
+        </td>
+        <td class="text-secondary small">${escapeHtml(email)}</td>
+        <td>${roleBadgeMap[role] || role}</td>
+        <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+        <td class="text-secondary small">0 Projects Assigned</td>
+        <td class="text-end">
+          <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('${escapeHtml(name)}', '${escapeHtml(username)}', '${role}')">
+            <i class="bi bi-pencil"></i> Edit
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+
+      // Hide modal
+      const modalEl = document.getElementById('addUserModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+
+      // Reset form
+      document.getElementById('addUserForm').reset();
+
+      showToast(`User account <strong>@${username}</strong> successfully registered.`, 'bi-person-check-fill text-success');
+    }
+
+    // 4. Edit Role Modal
+    let targetEditingUser = '';
+    function editUserRole(name, username, role) {
+      targetEditingUser = name;
+      document.getElementById('editUserTargetName').textContent = name;
+      document.getElementById('editUserTargetUsername').textContent = `@${username}`;
+      document.getElementById('editUserRoleSelect').value = role;
+
+      const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+      modal.show();
+    }
+
+    function saveEditedUser(e) {
+      e.preventDefault();
+      const modalEl = document.getElementById('editUserModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+
+      showToast(`Role permissions updated for <strong>${targetEditingUser}</strong>.`, 'bi-shield-check text-info');
+    }
+
+    // 5. System Configuration Save
+    function saveSystemConfig(e) {
+      e.preventDefault();
+      showToast('System audit policies & size limits saved successfully!', 'bi-sliders text-success');
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // 6. Live Action Toast Helper
+    function showToast(message, iconClass = 'bi-check-circle-fill text-success') {
+      const toastEl = document.getElementById('liveActionToast');
+      const toastMsg = document.getElementById('toastMessage');
+      if (toastEl && toastMsg) {
+        toastMsg.innerHTML = `<i class="bi ${iconClass} fs-5"></i> <span>${message}</span>`;
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+      }
+    }
+  </script>
 </body>
 </html>
