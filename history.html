@@ -7,37 +7,92 @@
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   
+  <!-- CodeReview AI Core Design System -->
   <link rel="stylesheet" href="static/css/main.css">
   <link rel="stylesheet" href="static/css/components.css">
+
+  <style>
+    /* Phase 9 Specialized Timeline & Audit Styles */
+    .cr-history-stat-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      transition: all 0.2s ease;
+    }
+    .cr-history-stat-card:hover {
+      border-color: #64748b;
+      transform: translateY(-2px);
+    }
+    .score-delta-badge {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .score-delta-badge.positive {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .score-delta-badge.neutral {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .audit-diff-box {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-size: 0.82rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+  </style>
 </head>
 <body>
 
   <div class="cr-app-layout">
-    <!-- Sidebar -->
+    <!-- Left Role-Aware Sidebar -->
     <aside class="cr-sidebar" id="crSidebar">
       <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
         <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
-          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;">
+            <i class="bi bi-shield-check fs-5"></i>
+          </div>
           <div class="cr-sidebar-brand-text">
-            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <div class="fw-bold lh-1 text-white" style="letter-spacing: -0.01em;">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
             <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
           </div>
         </a>
       </div>
 
+      <!-- User Role Indicator -->
       <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
         <div class="d-flex align-items-center gap-2">
-          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">
+            DA
+          </div>
           <div class="min-w-0 flex-grow-1">
             <div class="text-white fw-semibold text-truncate small cr-user-name">Dr. Aris (Mentor)</div>
-            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+            <div class="mt-0.5">
+              <span class="cr-role-badge mentor" data-role-badge>
+                <i class="bi bi-mortarboard-fill"></i> Mentor
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Nav Items -->
       <div class="py-3 flex-grow-1 overflow-y-auto">
         <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
           <span class="cr-nav-label">Core Workspace</span>
@@ -68,38 +123,30 @@
             </a>
           </li>
         </ul>
-
-        <div class="mt-4" data-role-perm="admin-only" style="display: none;">
-          <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
-            <span class="cr-nav-label">Administration</span>
-          </div>
-          <ul class="nav flex-column gap-1 px-2">
-            <li class="nav-item">
-              <a href="admin_users.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
-                <i class="bi bi-people-fill"></i>
-                <span class="cr-nav-label">User Management</span>
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
 
       <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn" title="Collapse Sidebar">
+          <i class="bi bi-layout-sidebar-inset-reverse fs-6"></i>
+          <span class="cr-nav-label small">Collapse View</span>
+        </button>
       </div>
     </aside>
 
     <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
 
-    <!-- Main Content -->
+    <!-- Main Content Wrapper -->
     <div class="cr-main-wrapper">
+      <!-- Topbar Header -->
       <header class="cr-topbar">
         <div class="cr-topbar-left">
-          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation"><i class="bi bi-list fs-5"></i></button>
-          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block text-truncate">
             <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
               <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
-              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Review History</li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Review History &amp; Audit Log</li>
             </ol>
           </nav>
         </div>
@@ -111,126 +158,451 @@
               <span class="small fw-semibold text-dark d-none d-md-inline cr-user-handle">dr_aris</span>
               <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1" style="min-width: 200px;">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
               <li class="px-3 py-2 border-bottom">
                 <div class="fw-bold small text-dark cr-user-fullname">Dr. Aris</div>
                 <div class="text-muted cr-user-email" style="font-size: 0.75rem;">aris.mentor@university.edu</div>
               </li>
               <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="project_list.html"><i class="bi bi-folder2 text-secondary"></i> My Projects</a></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review Log</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review History</a></li>
               <li><hr class="dropdown-divider my-1"></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html?logout=true"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
             </ul>
           </div>
         </div>
       </header>
 
-      <main class="cr-page-content">
-        <div class="mb-4">
-          <h1 class="h3 mb-1">Audit Log & Review History</h1>
-          <p class="text-secondary small mb-0">Complete historical timeline of automated rule executions, mentor status overrides, and score evolutions.</p>
+      <!-- Main Content Container -->
+      <main class="cr-page-content" style="max-width: 1200px; margin: 0 auto;">
+
+        <!-- Page Header -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <h1 class="h3 mb-0 fw-bold text-light">Audit Log &amp; Review History</h1>
+              <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30" style="font-size: 0.72rem;">Phase 9 Archive</span>
+            </div>
+            <p class="text-secondary small mb-0">Immutable historical timeline of automated AST rule audits, mentor status overrides, and candidate score progressions.</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="cr-btn cr-btn-secondary btn-sm" onclick="exportFullAuditLog()">
+              <i class="bi bi-download"></i> Export Audit CSV
+            </button>
+          </div>
         </div>
 
-        <div class="cr-card">
-          <div class="cr-card-header">
-            <div class="cr-card-title">
-              <i class="bi bi-clock-history text-primary"></i>
-              <span>All Historical Review Runs</span>
+        <!-- Metric KPI Cards Bar -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="cr-history-stat-card">
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Total Audits Run</div>
+              <div class="fs-4 fw-bold text-light mb-0">48 Cycles</div>
+              <div class="text-secondary" style="font-size: 0.73rem;">Across 4 intern cohorts</div>
             </div>
           </div>
+          <div class="col-6 col-md-3">
+            <div class="cr-history-stat-card">
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Average Score Gain</div>
+              <div class="fs-4 fw-bold text-success mb-0">+14.2%</div>
+              <div class="text-secondary" style="font-size: 0.73rem;">After mentor remediation</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="cr-history-stat-card">
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Rule Concordance</div>
+              <div class="fs-4 fw-bold text-primary mb-0">87.5%</div>
+              <div class="text-secondary" style="font-size: 0.73rem;">Automated vs Mentor alignment</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="cr-history-stat-card">
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Remediations Closed</div>
+              <div class="fs-4 fw-bold text-info mb-0">29 Closed</div>
+              <div class="text-secondary" style="font-size: 0.73rem;">5 active reviews pending</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="cr-card p-3 mb-4">
+          <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-2">
+            <!-- Filter Pills -->
+            <div class="d-flex flex-wrap gap-1.5" id="historyFilters">
+              <button type="button" class="cr-filter-pill-btn active" onclick="setHistoryFilter('all', this)">All Runs (6)</button>
+              <button type="button" class="cr-filter-pill-btn" onclick="setHistoryFilter('mentor', this)"><i class="bi bi-mortarboard-fill text-primary"></i> Mentor Evaluations (3)</button>
+              <button type="button" class="cr-filter-pill-btn" onclick="setHistoryFilter('automated', this)"><i class="bi bi-cpu text-info"></i> Automated Rule Runs (2)</button>
+              <button type="button" class="cr-filter-pill-btn" onclick="setHistoryFilter('remediation', this)"><i class="bi bi-arrow-clockwise text-warning"></i> Remediation Cycles (1)</button>
+            </div>
+
+            <!-- Search box -->
+            <div style="min-width: 250px;">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
+                <input type="text" class="cr-input form-control form-control-sm bg-dark text-light border-secondary" id="historySearchInput" placeholder="Search project, intern, or audit ID..." oninput="searchHistoryTable(this.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Review Runs Table Card -->
+        <div class="cr-card mb-4">
           <div class="table-responsive">
-            <table class="cr-table">
+            <table class="cr-table align-middle mb-0" id="historyTable">
               <thead>
                 <tr>
-                  <th>Timestamp</th>
-                  <th>Project</th>
-                  <th>Review Run Type</th>
-                  <th>Score Evolution</th>
-                  <th>Evaluator / Action</th>
-                  <th class="text-end">Actions</th>
+                  <th style="width: 170px;">Timestamp</th>
+                  <th>Project &amp; Intern Candidate</th>
+                  <th style="width: 180px;">Review Run Type</th>
+                  <th style="width: 170px;">Score Evolution</th>
+                  <th>Evaluator &amp; Key Action</th>
+                  <th class="text-end" style="width: 130px;">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td class="text-muted small">Oct 16, 2026, 4:30 PM</td>
-                  <td>
-                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">Hospital_Management_System</a>
-                    <div class="text-muted small">Student: Rahul Sharma</div>
+              <tbody id="historyTableBody">
+                
+                <!-- Run 1 -->
+                <tr data-type="mentor">
+                  <td class="text-secondary small">
+                    <div class="text-light fw-semibold">Oct 19, 2026</div>
+                    <div style="font-size: 0.72rem;">04:30 PM &bull; Today</div>
                   </td>
-                  <td><span class="badge bg-primary-subtle text-primary border border-primary-subtle">Final Mentor Evaluation</span></td>
                   <td>
-                    <div class="d-flex align-items-center gap-2">
-                      <span class="text-muted small">72% &rarr;</span>
-                      <span class="fw-bold text-success fs-6">84 / 100</span>
-                      <span class="badge bg-success-subtle text-success small">+12% Gain</span>
+                    <a href="project_detail.html" class="fw-bold text-light text-decoration-none">Hospital_Management_System</a>
+                    <div class="text-secondary small">Student: Rahul Sharma &bull; Python 3.12 / Django</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30">
+                      <i class="bi bi-mortarboard-fill"></i> Final Mentor Audit
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-1.5">
+                      <span class="text-secondary small">72% &rarr;</span>
+                      <span class="fw-bold text-success">86 / 100</span>
+                      <span class="score-delta-badge positive">+14% Gain</span>
                     </div>
                   </td>
                   <td>
-                    <div class="fw-semibold small">Dr. Aris (Mentor)</div>
-                    <div class="text-muted" style="font-size: 0.75rem;">Approved 4 manual overrides & added improvement plan</div>
+                    <div class="fw-semibold text-light small">Dr. Aris (Lead Mentor)</div>
+                    <div class="text-secondary" style="font-size: 0.73rem;">Approved SQL injection fix &amp; verified appointment service.</div>
                   </td>
                   <td class="text-end">
-                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">View Report</a>
+                    <button type="button" class="cr-btn cr-btn-subtle cr-btn-sm py-1 px-2" onclick="openAuditDiff('Hospital_Management_System', 72, 86, 'SEC-SQLI-01 resolved, REQ-INV-01 pending')">
+                      Diff &rarr;
+                    </button>
+                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm py-1 px-2 ms-1">Report</a>
                   </td>
                 </tr>
 
-                <tr>
-                  <td class="text-muted small">Oct 16, 2026, 11:15 AM</td>
-                  <td>
-                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">Hospital_Management_System</a>
-                    <div class="text-muted small">Student: Rahul Sharma</div>
-                  </td>
-                  <td><span class="badge bg-secondary-subtle text-secondary border">Automated Rule Engine</span></td>
-                  <td>
-                    <span class="fw-bold text-dark">72 / 100</span>
-                    <span class="text-muted small ms-1">(Initial baseline)</span>
+                <!-- Run 2 -->
+                <tr data-type="automated">
+                  <td class="text-secondary small">
+                    <div class="text-light fw-semibold">Oct 18, 2026</div>
+                    <div style="font-size: 0.72rem;">11:15 AM &bull; Yesterday</div>
                   </td>
                   <td>
-                    <div class="fw-semibold small">Automated Rule Engine</div>
-                    <div class="text-muted" style="font-size: 0.75rem;">Processed 48 requirements in 3.4 seconds</div>
+                    <a href="project_detail.html" class="fw-bold text-light text-decoration-none">Hospital_Management_System</a>
+                    <div class="text-secondary small">Student: Rahul Sharma &bull; Python 3.12 / Django</div>
                   </td>
-                  <td class="text-end">
-                    <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm">Inspect Findings</a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="text-muted small">Oct 15, 2026, 2:10 PM</td>
                   <td>
-                    <a href="project_detail.html" class="fw-bold text-dark text-decoration-none">Student_Attendance_Portal</a>
-                    <div class="text-muted small">Student: Pooja Nair</div>
+                    <span class="badge bg-secondary border border-secondary text-light">
+                      <i class="bi bi-cpu"></i> Automated Rule Engine
+                    </span>
                   </td>
-                  <td><span class="badge bg-primary-subtle text-primary border border-primary-subtle">Final Mentor Evaluation</span></td>
                   <td>
-                    <div class="d-flex align-items-center gap-2">
-                      <span class="fw-bold text-success fs-6">91 / 100</span>
-                      <span class="badge bg-success-subtle text-success small">Passed</span>
+                    <div class="d-flex align-items-center gap-1.5">
+                      <span class="fw-bold text-warning">72 / 100</span>
+                      <span class="score-delta-badge neutral">Baseline</span>
                     </div>
                   </td>
                   <td>
-                    <div class="fw-semibold small">Dr. Aris (Mentor)</div>
-                    <div class="text-muted" style="font-size: 0.75rem;">Verified requirements and finalized assessment</div>
+                    <div class="fw-semibold text-light small">Rule Engine v1.2</div>
+                    <div class="text-secondary" style="font-size: 0.73rem;">Processed 48 requirements; flagged raw SQL string in billing.</div>
                   </td>
                   <td class="text-end">
-                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm">View Report</a>
+                    <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Findings</a>
                   </td>
                 </tr>
+
+                <!-- Run 3 -->
+                <tr data-type="mentor">
+                  <td class="text-secondary small">
+                    <div class="text-light fw-semibold">Oct 17, 2026</div>
+                    <div style="font-size: 0.72rem;">03:10 PM</div>
+                  </td>
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-light text-decoration-none">ECommerce_Microservices_API</a>
+                    <div class="text-secondary small">Student: Neha Deshmukh &bull; Django REST Framework</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30">
+                      <i class="bi bi-mortarboard-fill"></i> Mid-Term Milestone
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-1.5">
+                      <span class="fw-bold text-warning">78 / 100</span>
+                      <span class="score-delta-badge neutral">Under Review</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-light small">Dr. Aris (Lead Mentor)</div>
+                    <div class="text-secondary" style="font-size: 0.73rem;">Flagged unverified webhook signatures in payment reconciliation.</div>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="cr-btn cr-btn-subtle cr-btn-sm py-1 px-2" onclick="openAuditDiff('ECommerce_Microservices_API', 68, 78, 'JWT Auth approved, webhook signature pending')">
+                      Diff &rarr;
+                    </button>
+                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm py-1 px-2 ms-1">Report</a>
+                  </td>
+                </tr>
+
+                <!-- Run 4 -->
+                <tr data-type="mentor">
+                  <td class="text-secondary small">
+                    <div class="text-light fw-semibold">Oct 16, 2026</div>
+                    <div style="font-size: 0.72rem;">02:15 PM</div>
+                  </td>
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-light text-decoration-none">FinTech_Ledger_Service</a>
+                    <div class="text-secondary small">Student: Aman Verma &bull; Java / Spring Boot</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">
+                      <i class="bi bi-patch-check-fill"></i> Capstone Distinction
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-1.5">
+                      <span class="text-secondary small">88% &rarr;</span>
+                      <span class="fw-bold text-success">94 / 100</span>
+                      <span class="score-delta-badge positive">+6% Gain</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-light small">Dr. Aris (Lead Mentor)</div>
+                    <div class="text-secondary" style="font-size: 0.73rem;">Signed off capstone; 94% unit test coverage verified.</div>
+                  </td>
+                  <td class="text-end">
+                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm py-1 px-2">Report</a>
+                  </td>
+                </tr>
+
+                <!-- Run 5 -->
+                <tr data-type="automated">
+                  <td class="text-secondary small">
+                    <div class="text-light fw-semibold">Oct 15, 2026</div>
+                    <div style="font-size: 0.72rem;">10:45 AM</div>
+                  </td>
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-light text-decoration-none">Student_Attendance_Portal</a>
+                    <div class="text-secondary small">Student: Pooja Nair &bull; Node.js / Express</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-secondary border border-secondary text-light">
+                      <i class="bi bi-cpu"></i> Automated Rule Engine
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-1.5">
+                      <span class="fw-bold text-success">91 / 100</span>
+                      <span class="score-delta-badge positive">Passed</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-light small">Rule Engine v1.2</div>
+                    <div class="text-secondary" style="font-size: 0.73rem;">Processed 36 requirements; 0 critical vulnerabilities.</div>
+                  </td>
+                  <td class="text-end">
+                    <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Findings</a>
+                  </td>
+                </tr>
+
+                <!-- Run 6 -->
+                <tr data-type="remediation">
+                  <td class="text-secondary small">
+                    <div class="text-light fw-semibold">Oct 14, 2026</div>
+                    <div style="font-size: 0.72rem;">05:20 PM</div>
+                  </td>
+                  <td>
+                    <a href="project_detail.html" class="fw-bold text-light text-decoration-none">AI_Chatbot_Microservice</a>
+                    <div class="text-secondary small">Student: Vikram Malhotra &bull; FastAPI / Python</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30">
+                      <i class="bi bi-arrow-clockwise"></i> Remediation Re-audit
+                    </span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-1.5">
+                      <span class="text-secondary small">58% &rarr;</span>
+                      <span class="fw-bold text-success">85 / 100</span>
+                      <span class="score-delta-badge positive">+27% Gain</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-light small">Automated + Mentor Verify</div>
+                    <div class="text-secondary" style="font-size: 0.73rem;">Rate limiting &amp; API key protection implemented successfully.</div>
+                  </td>
+                  <td class="text-end">
+                    <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm py-1 px-2">Report</a>
+                  </td>
+                </tr>
+
               </tbody>
             </table>
           </div>
         </div>
+
       </main>
 
-      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
-          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
-          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+      <!-- Application Footer -->
+      <footer class="cr-footer py-3 px-4 border-top border-secondary border-opacity-25 bg-black bg-opacity-20 mt-5">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-secondary small">
+          <div><span class="fw-semibold text-light">CodeReview AI</span> &bull; Intern Automated Review & Verification System <span class="badge bg-secondary text-light">v1.2.0</span></div>
+          <div>Audit History Logs &bull; Immutable Revision Audit Trail</div>
         </div>
       </footer>
     </div>
   </div>
 
+  <!-- Audit Revision Diff Modal -->
+  <div class="modal fade" id="auditDiffModal" tabindex="-1" aria-labelledby="auditDiffModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-light border-secondary shadow-lg">
+        <div class="modal-header border-secondary border-opacity-50">
+          <div>
+            <h5 class="modal-title h6 fw-bold mb-0" id="diffModalTitle">Audit Revision Comparison</h5>
+            <small class="text-secondary" id="diffModalProject">Hospital_Management_System &bull; Run #1 vs Run #2</small>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-3">
+          <div class="d-flex align-items-center justify-content-between p-3 rounded bg-black bg-opacity-30 border border-secondary border-opacity-25 mb-3">
+            <div>
+              <div class="text-secondary small">Initial Automated Score:</div>
+              <div class="fw-bold text-warning fs-5" id="diffModalOldScore">72 / 100</div>
+            </div>
+            <div class="fs-4 text-secondary">&rarr;</div>
+            <div>
+              <div class="text-secondary small">Evaluated Final Score:</div>
+              <div class="fw-bold text-success fs-5" id="diffModalNewScore">86 / 100</div>
+            </div>
+            <div>
+              <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 fs-6">+14% Gain</span>
+            </div>
+          </div>
+
+          <div class="audit-diff-box mb-2">
+            <div class="text-info mb-1 fw-bold">// Revision Changelog Summary:</div>
+            <div class="text-success">+ [RESOLVED] SEC-SQLI-01: Parameterized Django ORM query implemented in billing/views.py.</div>
+            <div class="text-success">+ [RESOLVED] REQ-AUTH-02: RBAC doctor_required decorator verified and unit test added.</div>
+            <div class="text-danger">- [UNRESOLVED] REQ-INV-01: Automated PDF invoice generation module still missing.</div>
+            <div class="text-warning">~ [MENTOR OVERRIDE] REQ-PAT-01: Approved phone number format check with custom regex.</div>
+          </div>
+        </div>
+        <div class="modal-footer border-secondary border-opacity-50 py-2">
+          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Toast Notification Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+    <div id="liveActionToast" class="toast align-items-center text-bg-dark border-secondary shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+          <i class="bi bi-check-circle-fill text-success fs-5"></i>
+          <span>Action completed successfully.</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="static/js/app.js"></script>
+
+  <script>
+    // 1. History Filtering & Search
+    let activeFilterType = 'all';
+
+    function setHistoryFilter(type, btn) {
+      activeFilterType = type;
+      document.querySelectorAll('#historyFilters button').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      filterHistory();
+    }
+
+    function searchHistoryTable(query) {
+      filterHistory((query || '').toLowerCase());
+    }
+
+    function filterHistory(query = '') {
+      const q = (query || document.getElementById('historySearchInput').value || '').toLowerCase();
+      const rows = document.querySelectorAll('#historyTableBody tr');
+
+      rows.forEach(row => {
+        const rowType = row.getAttribute('data-type') || '';
+        const rowText = row.textContent.toLowerCase();
+
+        const matchesType = (activeFilterType === 'all' || rowType === activeFilterType);
+        const matchesQuery = (!q || rowText.includes(q));
+
+        if (matchesType && matchesQuery) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // 2. Interactive Audit Diff Modal
+    function openAuditDiff(projName, oldScore, newScore, notes) {
+      document.getElementById('diffModalTitle').textContent = `Audit Revision Comparison`;
+      document.getElementById('diffModalProject').textContent = `${projName} • Run #1 vs Run #2`;
+      document.getElementById('diffModalOldScore').textContent = `${oldScore} / 100`;
+      document.getElementById('diffModalNewScore').textContent = `${newScore} / 100`;
+
+      const modal = new bootstrap.Modal(document.getElementById('auditDiffModal'));
+      modal.show();
+    }
+
+    // 3. Export CSV Helper
+    function exportFullAuditLog() {
+      const rows = [
+        ['Timestamp', 'Project', 'Student', 'Run_Type', 'Score', 'Evaluator'],
+        ['2026-10-19 16:30', 'Hospital_Management_System', 'Rahul Sharma', 'Mentor Evaluation', '86', 'Dr. Aris'],
+        ['2026-10-18 11:15', 'Hospital_Management_System', 'Rahul Sharma', 'Automated Rule Engine', '72', 'Rule Engine v1.2'],
+        ['2026-10-17 15:10', 'ECommerce_Microservices_API', 'Neha Deshmukh', 'Mid-Term Milestone', '78', 'Dr. Aris'],
+        ['2026-10-16 14:15', 'FinTech_Ledger_Service', 'Aman Verma', 'Capstone Final', '94', 'Dr. Aris'],
+        ['2026-10-15 10:45', 'Student_Attendance_Portal', 'Pooja Nair', 'Automated Rule Engine', '91', 'Rule Engine v1.2']
+      ];
+
+      const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'CodeReviewAI_Audit_Log.csv');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      showToast('Exported complete audit log to CSV format.', 'bi-file-earmark-spreadsheet text-success');
+    }
+
+    // 4. Live Action Toast Helper
+    function showToast(message, iconClass = 'bi-check-circle-fill text-success') {
+      const toastEl = document.getElementById('liveActionToast');
+      const toastMsg = document.getElementById('toastMessage');
+      if (toastEl && toastMsg) {
+        toastMsg.innerHTML = `<i class="bi ${iconClass} fs-5"></i> <span>${message}</span>`;
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+      }
+    }
+  </script>
 </body>
 </html>
