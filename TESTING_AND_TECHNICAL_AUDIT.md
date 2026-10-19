@@ -120,6 +120,17 @@ All functional edge cases and RBAC anomalies discovered during the multi-role au
   - Max SRS Document Limit: Clamped between `5 MB` and `50 MB`.
   - AST Extraction Timeout: Clamped between `5s` and `120s`.
 
+### Issue #6: Unregistered Account Authentication Bypass on `login.html` [RESOLVED]
+- **Severity:** Critical (Authentication Integrity & Access Control)
+- **Status:** **FIXED & VERIFIED** (Browser Test Video `auth_strict_verification_1792428920659.webp`)
+- **Root Cause:** A loose client-side fallback in `login.html` previously established authenticated sessions for any uncreated username and arbitrary password, bypassing the need for account registration.
+- **Resolution:**
+  1. Enforced strict account existence verification against `SYSTEM_ACCOUNTS` and `cr_registered_users`. Any unregistered username is strictly rejected with a red error card shake: `Account "@<user>" not found. Please create an account via the Create Account tab before signing in.`
+  2. Enforced exact password credential validation. Invalid passwords trigger `Invalid credentials. Please verify your password.`
+  3. Integrated account deactivation blocking: suspended users in `cr_deactivated_users` cannot sign in.
+  4. Added a collapsible **"Show pre-configured credentials"** accordion on `login.html` clearly listing preset accounts (`admin`, `dr_aris`, `rahul_intern`) with passwords for evaluation.
+  5. Wired `admin_users.html` account creation and deactivation to `localStorage` for complete persistence.
+
 ---
 
 ## 6. Visual Quality & Contrast Audit Log [RESOLVED]

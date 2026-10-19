@@ -7,23 +7,33 @@
 
 ---
 
-## 1. User Onboarding & Access Control
+## 1. User Onboarding & Strict Access Control
 
-CodeReview AI uses institutional session-based authentication with self-service account registration and role-based permissions:
+CodeReview AI enforces strict credential authentication with role-based permissions, pre-configured institutional logins, and self-service registration. **Unregistered accounts cannot log in under any circumstances.**
 
-### 1.1 Self-Service Account Creation (Sign Up)
-New users are directed to click the **"Create Account"** tab on `login.html` to register their institutional profile:
+### 1.1 Pre-Configured System Credentials
+
+The platform provides pre-seeded accounts for role evaluation and platform administration:
+
+| Role | Username | Password | Full Name & Email | Scope & Permissions |
+|:---|:---|:---|:---|:---|
+| **Administrator** | `admin` (or `sysadmin`) | `password123` (or `admin123`) | System Admin (`admin@codereview.ai`) | Full governance: User directory, role modifications, account deactivation/activation, audit policy limits. |
+| **Mentor / Faculty** | `dr_aris` | `password123` | Dr. Aris (`aris.mentor@university.edu`) | Project review queue, AST diff inspection, patch acceptance, mentor evaluation notes & sign-offs. |
+| **Student / Intern** | `rahul_intern` | `password123` | Rahul Sharma (`rahul.sharma@intern.org`) | Project submission intake (100MB ZIP / 25MB SRS), student scorecard inspection, locked mentor evaluations. |
+
+### 1.2 Self-Service Account Creation (Sign Up)
+New users who do not use pre-seeded accounts must register via the **"Create Account"** tab on `login.html`:
 - **Full Name:** Institutional identification (e.g., `Neha Deshmukh`, `Dr. Vikramaditya`).
 - **Username:** Unique alphanumeric handle (e.g., `neha_d`, `dr_vikram`). Reserved handles (`admin`, `root`, `sysadmin`) are protected against public self-registration.
-- **Institutional Email:** University or organizational email address.
-- **Role Tier:** Choose between:
-  - **Student / Intern:** Enables project intake submission (100MB ZIP / 25MB SRS / Git), AST re-audit triggers, code findings inspection, and student scorecard viewing.
-  - **Mentor / Reviewer:** Enables review queue oversight, AST diff inspection, automated patch acceptance, score overrides, and report accreditation sign-off.
-- **Password:** Minimum 6-character secure credential with real-time confirmation validation.
+- **Institutional Email:** Unique university or organizational email address.
+- **Role Tier:** Choose between **Student / Intern** or **Mentor / Reviewer**.
+- **Password:** Minimum 6-character credential, securely confirmed.
 - **Academic Honor Code:** Mandatory agreement to deterministic evaluation rules.
 
-### 1.2 Administrative Accounts & Governance
-Administrative privileges (System Admin) are strictly provisioned by existing administrators through the **User & System Admin Console (`admin_users.html`)** or backend provisioning. Public self-registration as an administrator is restricted to prevent unauthorized privilege escalation.
+### 1.3 Strict Credential & Deactivation Enforcement
+- **Unregistered Login Rejection:** Any username that is not in the pre-configured system accounts or registered via "Create Account" is immediately rejected with `Account "@<username>" not found. Please create an account via the Create Account tab before signing in.`
+- **Password Verification:** All logins require exact password matching. Incorrect passwords trigger `Invalid credentials. Please verify your password.`
+- **Deactivated Accounts:** Accounts deactivated by an administrator in `admin_users.html` are strictly blocked from signing in with `Account "@<username>" has been deactivated. Access suspended.`
 
 ---
 

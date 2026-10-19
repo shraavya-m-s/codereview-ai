@@ -629,6 +629,18 @@
 
       if (!name || !username || !email) return;
 
+      const lookupKey = username.toLowerCase();
+      // Persist to localStorage so the account can actually sign in
+      const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
+      registered[lookupKey] = {
+        fullname: name,
+        username: username,
+        email: email,
+        role: role,
+        password: 'password123'
+      };
+      localStorage.setItem('cr_registered_users', JSON.stringify(registered));
+
       const roleBadgeMap = {
         mentor: '<span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span>',
         student: '<span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span>',
@@ -666,7 +678,7 @@
       // Reset form
       document.getElementById('addUserForm').reset();
 
-      showToast(`User account <strong>@${username}</strong> successfully registered.`, 'bi-person-check-fill text-success');
+      showToast(`User account <strong>@${username}</strong> registered (Default Password: <code>password123</code>).`, 'bi-person-check-fill text-success');
     }
 
     // 4. Edit Role Modal
@@ -713,6 +725,14 @@
         }
       }
 
+      // Update in registered accounts if present
+      const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
+      const lookupKey = targetEditingUsername.toLowerCase();
+      if (registered[lookupKey]) {
+        registered[lookupKey].role = newRole;
+        localStorage.setItem('cr_registered_users', JSON.stringify(registered));
+      }
+
       showToast(`Role permissions updated for <strong>${targetEditingUser}</strong> to <strong>${newRole.toUpperCase()}</strong>.`, 'bi-shield-check text-info');
     }
 
@@ -725,17 +745,26 @@
       const labelSpan = btn.querySelector('.status-btn-text');
       const icon = btn.querySelector('i');
       
+      const deactivated = JSON.parse(localStorage.getItem('cr_deactivated_users') || '[]');
+      const userKey = username.toLowerCase();
+
       if (isCurrentlyActive) {
         statusCell.innerHTML = '<span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">Inactive</span>';
         btn.className = 'cr-btn cr-btn-outline-success cr-btn-sm py-1 px-2 ms-1';
         if (labelSpan) labelSpan.textContent = 'Activate';
         if (icon) icon.className = 'bi bi-check-circle';
+        if (!deactivated.includes(userKey)) {
+          deactivated.push(userKey);
+          localStorage.setItem('cr_deactivated_users', JSON.stringify(deactivated));
+        }
         showToast(`Account <strong>@${username}</strong> deactivated. Access suspended.`, 'bi-pause-circle-fill text-warning');
       } else {
         statusCell.innerHTML = '<span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span>';
         btn.className = 'cr-btn cr-btn-outline-danger cr-btn-sm py-1 px-2 ms-1';
         if (labelSpan) labelSpan.textContent = 'Deactivate';
         if (icon) icon.className = 'bi bi-power';
+        const filtered = deactivated.filter(u => u !== userKey);
+        localStorage.setItem('cr_deactivated_users', JSON.stringify(filtered));
         showToast(`Account <strong>@${username}</strong> successfully reactivated.`, 'bi-check-circle-fill text-success');
       }
     }
@@ -781,6 +810,71 @@
         toast.show();
       }
     }
+
+    // 7. Sync Registered & Deactivated Accounts from localStorage on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
+      const deactivated = JSON.parse(localStorage.getItem('cr_deactivated_users') || '[]');
+      const tbody = document.getElementById('usersTableBody');
+      if (!tbody) return;
+
+      const existingUsernames = new Set();
+      tbody.querySelectorAll('tr').forEach(row => {
+        const codeEl = row.querySelector('code');
+        if (codeEl) {
+          const u = codeEl.textContent.replace('@', '').trim().toLowerCase();
+          existingUsernames.add(u);
+          // If deactivated, apply inactive state to existing row
+          if (deactivated.includes(u)) {
+            const statusCell = row.cells[3];
+            const btn = row.querySelector('button[onclick^="toggleUserStatus"]');
+            if (statusCell) statusCell.innerHTML = '<span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">Inactive</span>';
+            if (btn) {
+              btn.className = 'cr-btn cr-btn-outline-success cr-btn-sm py-1 px-2 ms-1';
+              const labelSpan = btn.querySelector('.status-btn-text');
+              const icon = btn.querySelector('i');
+              if (labelSpan) labelSpan.textContent = 'Activate';
+              if (icon) icon.className = 'bi bi-check-circle';
+            }
+          }
+        }
+      });
+
+      const roleBadgeMap = {
+        mentor: '<span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span>',
+        student: '<span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span>',
+        admin: '<span class="cr-role-badge admin"><i class="bi bi-shield-lock-fill"></i> Admin</span>'
+      };
+
+      // Append any newly registered users
+      Object.keys(registered).forEach(usernameKey => {
+        if (!existingUsernames.has(usernameKey)) {
+          const userObj = registered[usernameKey];
+          const isDeactivated = deactivated.includes(usernameKey);
+          const tr = document.createElement('tr');
+          tr.setAttribute('data-role', userObj.role);
+          tr.innerHTML = `
+            <td>
+              <div class="fw-bold text-dark">${escapeHtml(userObj.fullname || userObj.username)}</div>
+              <div class="text-secondary small"><code>@${escapeHtml(userObj.username)}</code></div>
+            </td>
+            <td class="text-secondary small">${escapeHtml(userObj.email || '')}</td>
+            <td>${roleBadgeMap[userObj.role] || userObj.role}</td>
+            <td><span class="badge ${isDeactivated ? 'bg-danger text-danger' : 'bg-success text-success'} bg-opacity-20 border ${isDeactivated ? 'border-danger' : 'border-success'} border-opacity-30">${isDeactivated ? 'Inactive' : 'Active'}</span></td>
+            <td class="text-secondary small">Registered via Portal</td>
+            <td class="text-end" style="white-space: nowrap;">
+              <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('${escapeHtml(userObj.fullname || userObj.username)}', '${escapeHtml(userObj.username)}', '${userObj.role}', this)">
+                <i class="bi bi-pencil"></i> Edit
+              </button>
+              <button type="button" class="cr-btn ${isDeactivated ? 'cr-btn-outline-success' : 'cr-btn-outline-danger'} cr-btn-sm py-1 px-2 ms-1" onclick="toggleUserStatus(this, '${escapeHtml(userObj.username)}')">
+                <i class="bi ${isDeactivated ? 'bi-check-circle' : 'bi-power'}"></i> <span class="status-btn-text">${isDeactivated ? 'Activate' : 'Deactivate'}</span>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        }
+      });
+    });
   </script>
 </body>
 </html>

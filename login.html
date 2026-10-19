@@ -147,6 +147,32 @@
               <span class="text-secondary small">Don't have an institutional account?</span>
               <a href="javascript:void(0)" class="text-primary fw-semibold small text-decoration-none ms-1" onclick="switchAuthMode('signup')">Create account</a>
             </div>
+
+            <!-- Pre-configured Credentials Helper Accordion -->
+            <div class="mt-3 pt-2 border-top text-center">
+              <a href="javascript:void(0)" class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1" style="font-size: 0.73rem;" onclick="toggleDemoCreds()">
+                <i class="bi bi-key-fill text-primary"></i>
+                <span id="demoCredsToggleText">Show pre-configured credentials</span>
+                <i class="bi bi-chevron-down" id="demoCredsChevron"></i>
+              </a>
+              <div id="demoCredsBox" class="d-none mt-2 text-start p-2.5 rounded bg-light border small" style="font-size: 0.725rem;">
+                <div class="fw-bold text-dark mb-1 d-flex align-items-center gap-1">
+                  <i class="bi bi-shield-check text-primary"></i> Pre-configured Platform Credentials:
+                </div>
+                <div class="text-secondary mb-1">
+                  &bull; <strong>Admin:</strong> <code>admin</code> &bull; Pass: <code>password123</code> (or <code>admin123</code>)
+                </div>
+                <div class="text-secondary mb-1">
+                  &bull; <strong>Mentor:</strong> <code>dr_aris</code> &bull; Pass: <code>password123</code>
+                </div>
+                <div class="text-secondary mb-1">
+                  &bull; <strong>Student:</strong> <code>rahul_intern</code> &bull; Pass: <code>password123</code>
+                </div>
+                <div class="text-muted border-top pt-1 mt-1" style="font-size: 0.69rem;">
+                  <i class="bi bi-info-circle me-1"></i>Any other user handle must first register via <strong>Create Account</strong>. Unregistered usernames are strictly rejected.
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- ========================================== -->
@@ -352,7 +378,78 @@
       }
     }
 
-    // 8. Sign In form submission
+    // 7b. Pre-configured Credentials Box Toggle
+    function toggleDemoCreds() {
+      const box = document.getElementById('demoCredsBox');
+      const text = document.getElementById('demoCredsToggleText');
+      const chevron = document.getElementById('demoCredsChevron');
+      if (!box) return;
+      const isHidden = box.classList.contains('d-none');
+      if (isHidden) {
+        box.classList.remove('d-none');
+        if (text) text.textContent = 'Hide pre-configured credentials';
+        if (chevron) chevron.className = 'bi bi-chevron-up';
+      } else {
+        box.classList.add('d-none');
+        if (text) text.textContent = 'Show pre-configured credentials';
+        if (chevron) chevron.className = 'bi bi-chevron-down';
+      }
+    }
+
+    // Pre-configured system accounts with verified credentials
+    const SYSTEM_ACCOUNTS = {
+      admin: {
+        username: 'admin',
+        passwords: ['password123', 'admin123'],
+        fullname: 'System Administrator',
+        email: 'admin@codereview.ai',
+        role: 'admin'
+      },
+      sysadmin: {
+        username: 'sysadmin',
+        passwords: ['password123', 'admin123'],
+        fullname: 'System Administrator',
+        email: 'sysadmin@codereview.ai',
+        role: 'admin'
+      },
+      dr_aris: {
+        username: 'dr_aris',
+        passwords: ['password123', 'mentor123'],
+        fullname: 'Dr. Aris',
+        email: 'aris.mentor@university.edu',
+        role: 'mentor'
+      },
+      elena_mentor: {
+        username: 'elena_mentor',
+        passwords: ['password123', 'mentor123'],
+        fullname: 'Dr. Elena Rostova',
+        email: 'elena.rostova@university.edu',
+        role: 'mentor'
+      },
+      rahul_intern: {
+        username: 'rahul_intern',
+        passwords: ['password123', 'student123'],
+        fullname: 'Rahul Sharma',
+        email: 'rahul.sharma@intern.org',
+        role: 'student'
+      },
+      neha_intern: {
+        username: 'neha_intern',
+        passwords: ['password123', 'student123'],
+        fullname: 'Neha Deshmukh',
+        email: 'neha.deshmukh@intern.org',
+        role: 'student'
+      },
+      aman_intern: {
+        username: 'aman_intern',
+        passwords: ['password123', 'student123'],
+        fullname: 'Aman Verma',
+        email: 'aman.verma@intern.org',
+        role: 'student'
+      }
+    };
+
+    // 8. Sign In form submission with strict existence & credential verification
     const loginForm = document.getElementById('loginForm');
     const submitBtn = document.getElementById('loginSubmitBtn');
     loginForm.addEventListener('submit', (e) => {
@@ -365,38 +462,46 @@
         return;
       }
 
-      // Check registered accounts credentials
-      const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
       const lookupKey = user.toLowerCase();
-      if (registered[lookupKey] && registered[lookupKey].password) {
-        if (registered[lookupKey].password !== pass) {
-          triggerCardShake('Invalid credentials. Please verify your password.');
-          return;
-        }
+      const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
+      const deactivated = JSON.parse(localStorage.getItem('cr_deactivated_users') || '[]');
+
+      // 1. Account existence check: must be in registered users or pre-configured system accounts
+      const targetAccount = registered[lookupKey] || SYSTEM_ACCOUNTS[lookupKey];
+      if (!targetAccount) {
+        triggerCardShake(`Account "@${user}" not found. Please create an account via the Create Account tab before signing in.`);
+        return;
       }
 
+      // 2. Check if account is suspended / deactivated
+      if (deactivated.includes(lookupKey)) {
+        triggerCardShake(`Account "@${user}" has been deactivated. Please contact your system administrator.`);
+        return;
+      }
+
+      // 3. Password verification
+      let isValidPassword = false;
+      if (targetAccount.passwords && Array.isArray(targetAccount.passwords)) {
+        isValidPassword = targetAccount.passwords.includes(pass);
+      } else if (targetAccount.password) {
+        isValidPassword = (targetAccount.password === pass);
+      }
+
+      if (!isValidPassword) {
+        triggerCardShake('Invalid credentials. Please verify your password.');
+        return;
+      }
+
+      // 4. Authenticated successfully
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Authenticating...';
 
-      // Record authenticated session
+      // Establish authenticated session
       sessionStorage.setItem('cr_logged_in', 'true');
-      sessionStorage.setItem('cr_auth_user', user);
-
-      // Look up custom registered accounts or apply demo roles
-      if (registered[lookupKey]) {
-        sessionStorage.setItem('cr_user_role', registered[lookupKey].role);
-        sessionStorage.setItem('cr_user_fullname', registered[lookupKey].fullname);
-        sessionStorage.setItem('cr_user_email', registered[lookupKey].email);
-      } else {
-        let role = 'mentor';
-        const userLower = user.toLowerCase();
-        if (userLower.includes('student') || userLower.includes('intern') || userLower.includes('rahul')) {
-          role = 'student';
-        } else if (userLower.includes('admin') || userLower === 'root' || userLower === 'sysadmin') {
-          role = 'admin';
-        }
-        sessionStorage.setItem('cr_user_role', role);
-      }
+      sessionStorage.setItem('cr_auth_user', targetAccount.username || user);
+      sessionStorage.setItem('cr_user_role', targetAccount.role);
+      sessionStorage.setItem('cr_user_fullname', targetAccount.fullname || user);
+      sessionStorage.setItem('cr_user_email', targetAccount.email || `${lookupKey}@codereview.ai`);
 
       setTimeout(() => {
         window.location.href = 'index.html';
