@@ -214,7 +214,7 @@
               <span class="cr-nav-label">Projects</span>
             </a>
           </li>
-          <li class="nav-item" data-role-perm="mentor-only">
+          <li class="nav-item">
             <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
               <i class="bi bi-cloud-arrow-up-fill"></i>
               <span class="cr-nav-label">Upload Project</span>
@@ -696,6 +696,25 @@
 
       renderMasterList();
       selectFinding(1);
+
+      // Check user role: If student, enforce read-only view on mentor evaluation form
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        const statusSelect = document.getElementById('mentorStatusChoice');
+        const notesArea = document.getElementById('mentorNotesText');
+        const saveBtn = document.getElementById('saveFindingBtn');
+        const chipContainer = document.querySelector('.quick-template-chip')?.parentElement;
+        
+        if (statusSelect) statusSelect.disabled = true;
+        if (notesArea) {
+          notesArea.disabled = true;
+          notesArea.placeholder = 'Evaluation comments provided by lead mentor (read-only for students)...';
+        }
+        if (chipContainer) chipContainer.style.display = 'none';
+        if (saveBtn) {
+          saveBtn.outerHTML = '<span class="badge bg-secondary bg-opacity-25 border border-secondary text-secondary py-1.5 px-3" id="studentReadOnlyBadge"><i class="bi bi-lock-fill me-1"></i> Faculty Evaluation Only</span>';
+        }
+      }
     });
 
     // 2. Render Left Master List Cards
@@ -794,6 +813,12 @@
     // 4. Save Finding Evaluation
     document.getElementById('mentorFindingForm').addEventListener('submit', (e) => {
       e.preventDefault();
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        showToast('Access restricted: Only Mentors and Administrators can submit evaluations.', 'bi-shield-exclamation text-warning');
+        return;
+      }
+
       const item = findingsDataset.find(f => f.id === currentSelectedId);
       if (!item) return;
 
