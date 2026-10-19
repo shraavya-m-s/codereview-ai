@@ -3,42 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evaluation Report: Hospital_Management_System — CodeReview AI</title>
+  <title>Formal Evaluation Report — CodeReview AI</title>
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   
+  <!-- CodeReview AI Core Design System & Print Styles -->
   <link rel="stylesheet" href="static/css/main.css">
   <link rel="stylesheet" href="static/css/components.css">
   <link rel="stylesheet" href="static/css/print.css">
+
+  <style>
+    /* Phase 8 On-Screen Executive Report Styling */
+    .cr-report-header-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.8) 100%);
+      border: 1px solid var(--cr-border-color, #334155);
+      border-radius: 0.75rem;
+      position: relative;
+    }
+    .cr-score-hero-box {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 5px solid #38bdf8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+      margin: 0 auto;
+    }
+    .cr-rubric-bar-row {
+      margin-bottom: 1rem;
+    }
+    .cr-remediation-item {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      background: rgba(15, 23, 42, 0.4);
+      margin-bottom: 0.65rem;
+    }
+    .cr-print-certificate-box {
+      border: 2px dashed #475569;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      background: rgba(15, 23, 42, 0.3);
+      margin-top: 1.5rem;
+    }
+  </style>
 </head>
 <body>
 
   <div class="cr-app-layout">
-    <!-- Sidebar (Hidden automatically when printing) -->
-    <aside class="cr-sidebar" id="crSidebar">
+    <!-- Left Sidebar (Hidden automatically when printing) -->
+    <aside class="cr-sidebar cr-print-hide" id="crSidebar">
       <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
         <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
-          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;">
+            <i class="bi bi-shield-check fs-5"></i>
+          </div>
           <div class="cr-sidebar-brand-text">
-            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <div class="fw-bold lh-1 text-white" style="letter-spacing: -0.01em;">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
             <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
           </div>
         </a>
       </div>
 
+      <!-- User Role Indicator -->
       <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
         <div class="d-flex align-items-center gap-2">
-          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">
+            DA
+          </div>
           <div class="min-w-0 flex-grow-1">
             <div class="text-white fw-semibold text-truncate small cr-user-name">Dr. Aris (Mentor)</div>
-            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+            <div class="mt-0.5">
+              <span class="cr-role-badge mentor" data-role-badge>
+                <i class="bi bi-mortarboard-fill"></i> Mentor
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Nav Items -->
       <div class="py-3 flex-grow-1 overflow-y-auto">
         <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
           <span class="cr-nav-label">Core Workspace</span>
@@ -72,54 +129,75 @@
       </div>
 
       <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn" title="Collapse Sidebar">
+          <i class="bi bi-layout-sidebar-inset-reverse fs-6"></i>
+          <span class="cr-nav-label small">Collapse View</span>
+        </button>
       </div>
     </aside>
 
-    <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
+    <div class="cr-mobile-backdrop cr-print-hide" id="crMobileBackdrop"></div>
 
-    <!-- Main Content Shell -->
+    <!-- Main Content Wrapper -->
     <div class="cr-main-wrapper">
+      <!-- On-Screen Topbar Header (Hidden in Print) -->
       <header class="cr-topbar cr-print-hide">
         <div class="cr-topbar-left">
-          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation"><i class="bi bi-list fs-5"></i></button>
-          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block text-truncate">
             <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
               <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
               <li class="breadcrumb-item"><a href="project_list.html" class="text-secondary text-decoration-none">Projects</a></li>
-              <li class="breadcrumb-item"><a href="project_detail.html" class="text-secondary text-decoration-none">Hospital_Management_System</a></li>
-              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Formal Report</li>
+              <li class="breadcrumb-item"><a href="project_detail.html" class="text-secondary text-decoration-none" id="breadcrumbProjectTitle">Hospital_Management_System</a></li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Evaluation Report</li>
             </ol>
           </nav>
         </div>
 
         <div class="cr-topbar-right">
-          <button class="cr-btn cr-btn-primary cr-btn-sm" onclick="window.print()">
+          <!-- Switch Report Project Dropdown -->
+          <div class="dropdown me-2 d-none d-md-block">
+            <button class="btn btn-sm btn-outline-secondary border-opacity-50 text-secondary dropdown-toggle py-1 px-2.5 small" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-arrow-left-right me-1"></i> Switch Project Report
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow border bg-dark text-light mt-1">
+              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadReportContext('Hospital_Management_System')"><i class="bi bi-hospital text-danger me-2"></i> Hospital_Management_System</a></li>
+              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadReportContext('ECommerce_Microservices_API')"><i class="bi bi-cart text-primary me-2"></i> ECommerce_Microservices_API</a></li>
+              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadReportContext('FinTech_Ledger_Service')"><i class="bi bi-bank text-warning me-2"></i> FinTech_Ledger_Service</a></li>
+            </ul>
+          </div>
+
+          <button type="button" class="cr-btn cr-btn-primary btn-sm me-2 d-flex align-items-center gap-1.5" onclick="window.print()">
             <i class="bi bi-printer-fill"></i>
-            <span>Print / Save as PDF</span>
+            <span>Print / Save PDF</span>
           </button>
+
           <div class="dropdown">
             <button class="btn btn-sm btn-light border d-flex align-items-center gap-2 py-1 px-2 rounded" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold cr-user-avatar-sm" style="width: 28px; height: 28px; font-size: 0.75rem;">DA</div>
               <span class="small fw-semibold text-dark d-none d-md-inline cr-user-handle">dr_aris</span>
               <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1" style="min-width: 200px;">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
               <li class="px-3 py-2 border-bottom">
                 <div class="fw-bold small text-dark cr-user-fullname">Dr. Aris</div>
                 <div class="text-muted cr-user-email" style="font-size: 0.75rem;">aris.mentor@university.edu</div>
               </li>
               <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="project_list.html"><i class="bi bi-folder2 text-secondary"></i> My Projects</a></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review Log</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review History</a></li>
               <li><hr class="dropdown-divider my-1"></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html?logout=true"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
             </ul>
           </div>
         </div>
       </header>
 
+      <!-- Main Report Canvas Container -->
       <main class="cr-page-content" style="max-width: 1040px; margin: 0 auto;">
-        <!-- Formal Print-Only Header -->
+
+        <!-- Ink-Friendly Print Header (Shown ONLY during window.print()) -->
         <div class="cr-print-header">
           <div class="d-flex justify-content-between align-items-center">
             <div>
@@ -127,176 +205,180 @@
               <div class="cr-print-subtitle">Formal Software Requirements Specification (SRS) Compliance Assessment</div>
             </div>
             <div class="text-end">
-              <div class="fw-bold">Report ID: #RPT-2026-HMS-084</div>
-              <div class="small text-muted">Generated: October 16, 2026</div>
+              <div class="fw-bold" id="printReportId">Report ID: #RPT-2026-HMS-086</div>
+              <div class="small text-muted" id="printReportDate">Certified: October 19, 2026</div>
             </div>
           </div>
         </div>
 
-        <!-- On-Screen Action Bar -->
+        <!-- On-Screen Action & Status Bar (Hidden in Print) -->
         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 cr-print-hide">
           <div>
-            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 mb-1">
-              <i class="bi bi-check-circle-fill"></i> Final Approved Report
+            <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 px-2 py-1 mb-1 d-inline-flex align-items-center gap-1.5" id="screenReportStatusBadge">
+              <i class="bi bi-patch-check-fill"></i> Certified Executive Evaluation
             </span>
-            <h1 class="h3 mb-0">Project Evaluation & SRS Audit Report</h1>
-            <p class="text-secondary small mb-0">Official review record for <strong>Hospital_Management_System</strong></p>
+            <h1 class="h3 mb-0 fw-bold text-light">Project Evaluation &amp; SRS Audit Report</h1>
+            <p class="text-secondary small mb-0">Official review record for <strong class="text-light" id="screenProjectName">Hospital_Management_System</strong></p>
           </div>
           <div class="d-flex gap-2">
-            <a href="findings.html" class="cr-btn cr-btn-secondary cr-btn-sm">
-              <i class="bi bi-arrow-left"></i> Back to Findings
+            <a href="findings.html" class="cr-btn cr-btn-secondary btn-sm">
+              <i class="bi bi-arrow-left"></i> Inspect Findings
             </a>
-            <button class="cr-btn cr-btn-primary cr-btn-sm" onclick="window.print()">
+            <button type="button" class="cr-btn cr-btn-secondary btn-sm" onclick="exportAuditJson()">
+              <i class="bi bi-download"></i> Export JSON
+            </button>
+            <button type="button" class="cr-btn cr-btn-primary btn-sm" onclick="window.print()">
               <i class="bi bi-printer"></i> Print / Export PDF
             </button>
           </div>
         </div>
 
-        <!-- Executive Summary Meta Card -->
+        <!-- Executive Meta Summary Card -->
         <div class="cr-card p-4 mb-4">
           <div class="row g-3">
             <div class="col-md-3">
-              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Project Name</div>
-              <div class="fw-bold text-dark fs-6">Hospital_Management_System</div>
-              <div class="text-muted small">Stack: Python 3.11, Django 4.2, SQLite</div>
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Project Name</div>
+              <div class="fw-bold text-light fs-6" id="rptProjectName">Hospital_Management_System</div>
+              <div class="text-secondary small" id="rptStack">Stack: Python 3.12, Django 4.2</div>
             </div>
             <div class="col-md-3">
-              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Student / Intern</div>
-              <div class="fw-bold text-dark fs-6">Rahul Sharma</div>
-              <div class="text-muted small">Intern Candidate ID: #IN-2041</div>
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Student / Intern</div>
+              <div class="fw-bold text-light fs-6" id="rptStudentName">Rahul Sharma</div>
+              <div class="text-secondary small" id="rptCohort">Batch 2026-Q1 &bull; #IN-2041</div>
             </div>
             <div class="col-md-3">
-              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Reviewing Mentor</div>
-              <div class="fw-bold text-dark fs-6">Dr. Aris</div>
-              <div class="text-muted small">Department of Computer Science</div>
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Lead Evaluator</div>
+              <div class="fw-bold text-light fs-6">Dr. Aris</div>
+              <div class="text-secondary small">Senior Review Mentor</div>
             </div>
             <div class="col-md-3">
-              <div class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Review Date</div>
-              <div class="fw-bold text-dark fs-6">October 16, 2026</div>
-              <div class="text-muted small">Intake Archive: hospital_hms_v2.zip</div>
+              <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">Certification Date</div>
+              <div class="fw-bold text-light fs-6" id="rptDate">October 19, 2026</div>
+              <div class="text-secondary small" id="rptArchive">Archive: hospital_mgmt_v2.zip</div>
             </div>
           </div>
         </div>
 
-        <!-- Score Dashboard Card (SRS Formula Authority) -->
+        <!-- Score Dashboard & Weighted Formula Card -->
         <div class="cr-card p-4 mb-4">
           <div class="row align-items-center g-4">
-            <!-- Score Ring (Left) -->
-            <div class="col-md-4 text-center border-end">
-              <div class="cr-score-circle mx-auto mb-2" style="--score-pct: 84;">
-                <div class="cr-score-circle-inner">
-                  <span class="cr-score-circle-num">84</span>
-                  <span class="cr-score-circle-label">Score / 100</span>
-                </div>
+            
+            <!-- Left Score Ring -->
+            <div class="col-md-4 text-center border-end border-secondary border-opacity-25">
+              <div class="cr-score-hero-box mb-2">
+                <span class="fs-2 fw-bold text-light" id="rptOverallScoreNum">86</span>
+                <span class="text-secondary" style="font-size: 0.72rem;">Score / 100</span>
               </div>
-              <div class="fw-bold text-success fs-6">Passed Evaluation</div>
-              <div class="text-muted small" style="font-size: 0.75rem;">Grade: B+ &bull; Meets Intern Readiness Threshold</div>
+              <div class="fw-bold text-success fs-6" id="rptVerdictTitle">Passed Evaluation (Grade A)</div>
+              <div class="text-secondary small" id="rptVerdictSubtext">Meets Industry Intern Readiness Standard</div>
             </div>
 
-            <!-- Weighted Breakdown (Right) -->
+            <!-- Right Weighted Breakdown -->
             <div class="col-md-8">
-              <h2 class="h6 text-uppercase text-muted fw-bold mb-3" style="font-size: 0.75rem; letter-spacing: 0.05em;">
-                SRS Weighted Scoring Model (SRS Formula: Comp &times; 0.60 + Quality &times; 0.20 + Test &times; 0.10 + Doc &times; 0.10)
+              <h2 class="h6 text-uppercase text-secondary fw-bold mb-3" style="font-size: 0.72rem; letter-spacing: 0.05em;">
+                SRS Weighted Formula: (Compliance &times; 0.60) + (Quality &times; 0.20) + (Testing &times; 0.10) + (Docstrings &times; 0.10)
               </h2>
 
-              <!-- Metric 1: Compliance -->
-              <div class="mb-3">
-                <div class="d-flex justify-content-between small fw-semibold mb-1">
-                  <span>1. SRS Requirement Compliance (Weight: 60%)</span>
-                  <span>88% &bull; Contributes 52.8 pts</span>
+              <!-- Metric 1: Compliance (60%) -->
+              <div class="cr-rubric-bar-row">
+                <div class="d-flex justify-content-between small fw-semibold text-light mb-1">
+                  <span>1. SRS Requirement Traceability (Weight: 60%)</span>
+                  <span id="rptWeight1Text">88% &bull; Contributes 52.8 pts</span>
                 </div>
-                <div class="cr-score-progress">
-                  <div class="cr-score-progress-bar success" style="width: 88%;"></div>
-                </div>
-              </div>
-
-              <!-- Metric 2: Code Quality -->
-              <div class="mb-3">
-                <div class="d-flex justify-content-between small fw-semibold mb-1">
-                  <span>2. Code Quality & Standards (Weight: 20%)</span>
-                  <span>80% &bull; Contributes 16.0 pts</span>
-                </div>
-                <div class="cr-score-progress">
-                  <div class="cr-score-progress-bar info" style="width: 80%;"></div>
+                <div class="cr-score-progress" style="height: 7px;">
+                  <div class="cr-score-progress-bar success" id="rptWeight1Bar" style="width: 88%;"></div>
                 </div>
               </div>
 
-              <!-- Metric 3: Automated Testing -->
-              <div class="mb-3">
-                <div class="d-flex justify-content-between small fw-semibold mb-1">
-                  <span>3. Unit & Integration Testing (Weight: 10%)</span>
-                  <span>70% &bull; Contributes 7.0 pts</span>
+              <!-- Metric 2: Code Quality (20%) -->
+              <div class="cr-rubric-bar-row">
+                <div class="d-flex justify-content-between small fw-semibold text-light mb-1">
+                  <span>2. Code Quality &amp; Clean Code Standards (Weight: 20%)</span>
+                  <span id="rptWeight2Text">82% &bull; Contributes 16.4 pts</span>
                 </div>
-                <div class="cr-score-progress">
-                  <div class="cr-score-progress-bar warning" style="width: 70%;"></div>
+                <div class="cr-score-progress" style="height: 7px;">
+                  <div class="cr-score-progress-bar info" id="rptWeight2Bar" style="width: 82%;"></div>
                 </div>
               </div>
 
-              <!-- Metric 4: Documentation -->
-              <div>
-                <div class="d-flex justify-content-between small fw-semibold mb-1">
-                  <span>4. Documentation & Docstrings (Weight: 10%)</span>
-                  <span>85% &bull; Contributes 8.5 pts</span>
+              <!-- Metric 3: Automated Testing (10%) -->
+              <div class="cr-rubric-bar-row">
+                <div class="d-flex justify-content-between small fw-semibold text-light mb-1">
+                  <span>3. Unit &amp; Integration Testing (Weight: 10%)</span>
+                  <span id="rptWeight3Text">80% &bull; Contributes 8.0 pts</span>
                 </div>
-                <div class="cr-score-progress">
-                  <div class="cr-score-progress-bar success" style="width: 85%;"></div>
+                <div class="cr-score-progress" style="height: 7px;">
+                  <div class="cr-score-progress-bar warning" id="rptWeight3Bar" style="width: 80%;"></div>
+                </div>
+              </div>
+
+              <!-- Metric 4: Documentation (10%) -->
+              <div class="cr-rubric-bar-row mb-0">
+                <div class="d-flex justify-content-between small fw-semibold text-light mb-1">
+                  <span>4. Documentation, Typing &amp; Docstrings (Weight: 10%)</span>
+                  <span id="rptWeight4Text">88% &bull; Contributes 8.8 pts</span>
+                </div>
+                <div class="cr-score-progress" style="height: 7px;">
+                  <div class="cr-score-progress-bar success" id="rptWeight4Bar" style="width: 88%;"></div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
-        <!-- Category Compliance Breakdown -->
+        <!-- Category Traceability Matrix Breakdown -->
         <div class="cr-card mb-4">
-          <div class="cr-card-header">
-            <div class="cr-card-title">
+          <div class="cr-card-header p-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
               <i class="bi bi-pie-chart-fill text-primary"></i>
-              <span>Category Compliance Breakdown</span>
+              <span class="fw-bold text-light">SRS Requirement Category Breakdown</span>
             </div>
+            <span class="small text-secondary" id="rptTotalReqsMeta">48 Total Clauses Audited</span>
           </div>
           <div class="table-responsive">
-            <table class="cr-table">
+            <table class="cr-table align-middle mb-0">
               <thead>
                 <tr>
                   <th>Category</th>
-                  <th>Total Reqs</th>
-                  <th>Implemented</th>
-                  <th>Partial</th>
-                  <th>Missing</th>
-                  <th>Compliance %</th>
+                  <th style="width: 100px;">Total</th>
+                  <th style="width: 130px;">Implemented</th>
+                  <th style="width: 100px;">Partial</th>
+                  <th style="width: 100px;">Missing</th>
+                  <th style="width: 140px;">Compliance %</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="rptCategoryTableBody">
                 <tr>
-                  <td class="fw-bold">User Authentication & Session Management</td>
+                  <td class="fw-semibold text-light">User Authentication &amp; RBAC Access</td>
                   <td>8</td>
-                  <td><span class="badge bg-success-subtle text-success">8</span></td>
+                  <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">8</span></td>
                   <td>0</td>
                   <td>0</td>
                   <td><span class="fw-bold text-success">100%</span></td>
                 </tr>
                 <tr>
-                  <td class="fw-bold">Patient Records & Medical History</td>
+                  <td class="fw-semibold text-light">Patient Records &amp; Medical Intake</td>
                   <td>14</td>
-                  <td><span class="badge bg-success-subtle text-success">12</span></td>
-                  <td><span class="badge bg-warning-subtle text-warning">2</span></td>
+                  <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">12</span></td>
+                  <td><span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30">2</span></td>
                   <td>0</td>
                   <td><span class="fw-bold text-success">93%</span></td>
                 </tr>
                 <tr>
-                  <td class="fw-bold">Doctor Consultation & Appointment Scheduling</td>
+                  <td class="fw-semibold text-light">Doctor Consultation &amp; Scheduling</td>
                   <td>16</td>
-                  <td><span class="badge bg-success-subtle text-success">14</span></td>
-                  <td><span class="badge bg-warning-subtle text-warning">1</span></td>
-                  <td><span class="badge bg-danger-subtle text-danger">1</span></td>
+                  <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">14</span></td>
+                  <td><span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30">1</span></td>
+                  <td><span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">1</span></td>
                   <td><span class="fw-bold text-primary">88%</span></td>
                 </tr>
                 <tr>
-                  <td class="fw-bold">Billing, Payment Invoices & Reports</td>
+                  <td class="fw-semibold text-light">Billing Invoices &amp; PDF Receipts</td>
                   <td>10</td>
-                  <td><span class="badge bg-success-subtle text-success">6</span></td>
+                  <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">6</span></td>
                   <td>0</td>
-                  <td><span class="badge bg-danger-subtle text-danger">4</span></td>
+                  <td><span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">4</span></td>
                   <td><span class="fw-bold text-danger">60%</span></td>
                 </tr>
               </tbody>
@@ -304,71 +386,260 @@
           </div>
         </div>
 
-        <!-- Actionable Improvement Plan (Required by SRS) -->
+        <!-- Actionable Improvement Plan & Mentoring Remediation -->
         <div class="cr-card p-4 mb-4">
-          <h2 class="h5 mb-3 fw-bold d-flex align-items-center gap-2">
-            <i class="bi bi-lightbulb-fill text-warning"></i>
-            <span>Actionable Improvement Plan & Mentoring Notes</span>
-          </h2>
-          <div class="p-3 bg-light rounded border mb-3">
-            <div class="fw-bold small text-dark mb-1">Mentor Summary:</div>
-            <p class="small text-secondary mb-0">
-              Rahul demonstrated strong command over Django ORM, authentication decorators, and relational model design. The appointment booking logic is clean, but lacks concurrency/overlap validation. The primary deficit is the complete absence of the PDF invoice export module (<code>REQ-INV-01</code> through <code>REQ-INV-04</code>).
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="h5 mb-0 fw-bold d-flex align-items-center gap-2 text-light">
+              <i class="bi bi-lightbulb-fill text-warning"></i>
+              <span>Actionable Remediation Plan for Intern</span>
+            </h2>
+            <span class="badge bg-secondary text-light small">3 Core Directives</span>
+          </div>
+
+          <div class="p-3 bg-black bg-opacity-30 rounded border border-secondary border-opacity-25 mb-3">
+            <div class="fw-bold small text-light mb-1">Mentor Qualitative Evaluation Summary:</div>
+            <p class="small text-secondary mb-0" id="rptMentorSummary">
+              "The candidate demonstrates solid mastery of Django ORM, authentication decorators, and relational models. Code structuring in appointment services is modular. To achieve full capstone sign-off, the automated invoice PDF generation (REQ-INV-01) must be completed and SECRET_KEY removed from the settings file."
             </p>
           </div>
 
-          <ol class="list-group list-group-numbered small">
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">Implement Automated PDF Invoice Generation (<code>REQ-INV-01</code>)</div>
-                Integrate <code>weasyprint</code> or <code>reportlab</code> to generate downloadable PDF receipts upon billing finalization.
-              </div>
-              <span class="badge bg-danger">Critical</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">Add Doctor Overlapping Slot Validation (<code>REQ-APT-01</code>)</div>
-                Ensure <code>Appointment.clean()</code> raises a validation error if a doctor already has a confirmed slot at the requested time.
-              </div>
-              <span class="badge bg-warning text-dark">Important</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">Increase Test Coverage for Billing Views</div>
-                Currently only appointment booking is covered by tests. Add Django <code>TestCase</code> fixtures for invoice calculation logic.
-              </div>
-              <span class="badge bg-secondary">Moderate</span>
-            </li>
-          </ol>
+          <!-- Remediation Action Cards -->
+          <div class="cr-remediation-item">
+            <div>
+              <div class="fw-bold text-light small">1. Implement Automated PDF Invoice Generation (<code>REQ-INV-01</code>)</div>
+              <div class="text-secondary small">Integrate <code>weasyprint</code> or <code>reportlab</code> to generate downloadable PDF receipts upon billing finalization.</div>
+            </div>
+            <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">Critical Priority</span>
+          </div>
+
+          <div class="cr-remediation-item">
+            <div>
+              <div class="fw-bold text-light small">2. Secure Secret Key &amp; Environment Variables (<code>SEC-SECRET-01</code>)</div>
+              <div class="text-secondary small">Extract hardcoded production <code>SECRET_KEY</code> into <code>.env</code> file loaded via <code>django-environ</code>.</div>
+            </div>
+            <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30">Important</span>
+          </div>
+
+          <div class="cr-remediation-item">
+            <div>
+              <div class="fw-bold text-light small">3. Add Doctor Overlapping Slot Validation (<code>REQ-APT-01</code>)</div>
+              <div class="text-secondary small">Ensure <code>Appointment.clean()</code> raises a validation error if a doctor already has a confirmed slot at the requested time.</div>
+            </div>
+            <span class="badge bg-secondary text-light border border-secondary">Moderate</span>
+          </div>
         </div>
 
-        <!-- Formal Sign-Off for Print -->
-        <div class="cr-print-signature">
-          <div>
-            <div class="fw-bold text-dark">Reviewed & Certified By:</div>
-            <div class="mt-4 pt-3 border-top" style="width: 200px;">Dr. Aris, Lead Mentor</div>
-          </div>
-          <div>
-            <div class="fw-bold text-dark">Date Certified:</div>
-            <div class="mt-4 pt-3 border-top" style="width: 140px;">October 16, 2026</div>
-          </div>
-          <div>
-            <div class="fw-bold text-dark">Candidate Acknowledgment:</div>
-            <div class="mt-4 pt-3 border-top" style="width: 200px;">Rahul Sharma</div>
+        <!-- Formal Certification & Signature Section -->
+        <div class="cr-print-certificate-box">
+          <div class="row g-4 text-center text-sm-start">
+            <div class="col-sm-4">
+              <div class="fw-bold text-light small mb-4">Lead Evaluator &amp; Mentor:</div>
+              <div class="pt-2 border-top border-secondary text-secondary small">
+                <strong class="text-light">Dr. Aris</strong><br>
+                Lead Software Engineering Mentor
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="fw-bold text-light small mb-4">Certification Date:</div>
+              <div class="pt-2 border-top border-secondary text-secondary small" id="rptCertDate">
+                <strong class="text-light">October 19, 2026</strong><br>
+                Official Verification Stamp
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="fw-bold text-light small mb-4">Candidate Acknowledgment:</div>
+              <div class="pt-2 border-top border-secondary text-secondary small">
+                <strong class="text-light" id="rptCandidateSign">Rahul Sharma</strong><br>
+                Intern Candidate Signature
+              </div>
+            </div>
           </div>
         </div>
+
       </main>
 
-      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto cr-print-hide">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
-          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
-          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+      <!-- Application Footer (Hidden in Print) -->
+      <footer class="cr-footer py-3 px-4 border-top border-secondary border-opacity-25 bg-black bg-opacity-20 mt-5 cr-print-hide">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-secondary small">
+          <div><span class="fw-semibold text-light">CodeReview AI</span> &bull; Intern Automated Review & Verification System <span class="badge bg-secondary text-light">v1.2.0</span></div>
+          <div>Certified Report Generator &bull; Ready for Archival Export</div>
         </div>
       </footer>
     </div>
   </div>
 
+  <!-- Live Toast Notification Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3 cr-print-hide" style="z-index: 1080;">
+    <div id="liveActionToast" class="toast align-items-center text-bg-dark border-secondary shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+          <i class="bi bi-check-circle-fill text-success fs-5"></i>
+          <span>Action completed successfully.</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="static/js/app.js"></script>
+
+  <script>
+    // 1. Multi-Project Report Datasets
+    const reportDatasets = {
+      'Hospital_Management_System': {
+        name: 'Hospital_Management_System',
+        student: 'Rahul Sharma',
+        cohort: 'Batch 2026-Q1',
+        stack: 'Python 3.12, Django 4.2',
+        archive: 'hospital_mgmt_v2.zip',
+        score: 86,
+        verdict: 'Passed Evaluation (Grade A)',
+        verdictSubtext: 'Meets Industry Intern Readiness Standard',
+        weight1: { pct: 88, text: '88% • Contributes 52.8 pts' },
+        weight2: { pct: 82, text: '82% • Contributes 16.4 pts' },
+        weight3: { pct: 80, text: '80% • Contributes 8.0 pts' },
+        weight4: { pct: 88, text: '88% • Contributes 8.8 pts' },
+        reportId: '#RPT-2026-HMS-086',
+        summary: 'The candidate demonstrates solid mastery of Django ORM, authentication decorators, and relational models. Code structuring in appointment services is modular. To achieve full capstone sign-off, the automated invoice PDF generation (REQ-INV-01) must be completed and SECRET_KEY removed from the settings file.'
+      },
+      'ECommerce_Microservices_API': {
+        name: 'ECommerce_Microservices_API',
+        student: 'Neha Deshmukh',
+        cohort: 'Batch 2026-Q1 (Backend)',
+        stack: 'Python 3.12, Django REST Framework',
+        archive: 'ecommerce_backend_service.zip',
+        score: 78,
+        verdict: 'Under Review (Grade B)',
+        verdictSubtext: 'Remediation Required for Payment Webhook Security',
+        weight1: { pct: 82, text: '82% • Contributes 49.2 pts' },
+        weight2: { pct: 75, text: '75% • Contributes 15.0 pts' },
+        weight3: { pct: 70, text: '70% • Contributes 7.0 pts' },
+        weight4: { pct: 80, text: '80% • Contributes 8.0 pts' },
+        reportId: '#RPT-2026-ECM-078',
+        summary: 'Strong REST API endpoint architecture and serializer clean methods. JWT authentication is well configured. However, webhook signatures in payment reconciliation require cryptographic verification before final sign-off.'
+      },
+      'FinTech_Ledger_Service': {
+        name: 'FinTech_Ledger_Service',
+        student: 'Aman Verma',
+        cohort: 'Batch 2026-Q2',
+        stack: 'Java 21, Spring Boot 3',
+        archive: 'fintech_ledger_repo.zip',
+        score: 94,
+        verdict: 'Passed with Distinction (Grade A+)',
+        verdictSubtext: 'Exceeds Production Enterprise Standards',
+        weight1: { pct: 96, text: '96% • Contributes 57.6 pts' },
+        weight2: { pct: 92, text: '92% • Contributes 18.4 pts' },
+        weight3: { pct: 90, text: '90% • Contributes 9.0 pts' },
+        weight4: { pct: 94, text: '94% • Contributes 9.4 pts' },
+        reportId: '#RPT-2026-FTL-094',
+        summary: 'Exceptional double-entry accounting ledger implementation. Comprehensive JUnit 5 mock test coverage exceeding 90%. Idempotent transactions and Kafka listeners cleanly partitioned.'
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check query params or session storage
+      const urlParams = new URLSearchParams(window.location.search);
+      const projParam = urlParams.get('project') || urlParams.get('name') || urlParams.get('id');
+
+      let activeReport = null;
+      if (projParam && reportDatasets[projParam]) {
+        activeReport = reportDatasets[projParam];
+      } else if (sessionStorage.getItem('cr_current_project')) {
+        try {
+          const stored = JSON.parse(sessionStorage.getItem('cr_current_project'));
+          if (stored.name && reportDatasets[stored.name]) {
+            activeReport = reportDatasets[stored.name];
+          }
+        } catch(e) {}
+      }
+
+      if (!activeReport) {
+        activeReport = reportDatasets['Hospital_Management_System'];
+      }
+
+      applyReportData(activeReport);
+    });
+
+    function loadReportContext(key) {
+      if (reportDatasets[key]) {
+        applyReportData(reportDatasets[key]);
+        showToast(`Report updated for <strong>${reportDatasets[key].name}</strong>`, 'bi-check-circle-fill text-success');
+      }
+    }
+
+    function applyReportData(data) {
+      document.getElementById('breadcrumbProjectTitle').textContent = data.name;
+      document.getElementById('screenProjectName').textContent = data.name;
+      document.getElementById('rptProjectName').textContent = data.name;
+      document.getElementById('rptStudentName').textContent = data.student;
+      document.getElementById('rptCohort').textContent = `${data.cohort} • #IN-2041`;
+      document.getElementById('rptStack').textContent = `Stack: ${data.stack}`;
+      document.getElementById('rptArchive').textContent = `Archive: ${data.archive}`;
+      document.getElementById('printReportId').textContent = `Report ID: ${data.reportId}`;
+
+      document.getElementById('rptOverallScoreNum').textContent = data.score;
+      document.getElementById('rptVerdictTitle').textContent = data.verdict;
+      document.getElementById('rptVerdictSubtext').textContent = data.verdictSubtext;
+
+      document.getElementById('rptWeight1Text').textContent = data.weight1.text;
+      document.getElementById('rptWeight1Bar').style.width = data.weight1.pct + '%';
+      document.getElementById('rptWeight2Text').textContent = data.weight2.text;
+      document.getElementById('rptWeight2Bar').style.width = data.weight2.pct + '%';
+      document.getElementById('rptWeight3Text').textContent = data.weight3.text;
+      document.getElementById('rptWeight3Bar').style.width = data.weight3.pct + '%';
+      document.getElementById('rptWeight4Text').textContent = data.weight4.text;
+      document.getElementById('rptWeight4Bar').style.width = data.weight4.pct + '%';
+
+      document.getElementById('rptMentorSummary').textContent = data.summary;
+      document.getElementById('rptCandidateSign').textContent = data.student;
+    }
+
+    // 2. Export Machine-Readable Audit JSON Payload
+    function exportAuditJson() {
+      const projName = document.getElementById('rptProjectName').textContent;
+      const student = document.getElementById('rptStudentName').textContent;
+      const score = document.getElementById('rptOverallScoreNum').textContent;
+
+      const payload = {
+        auditSystem: 'CodeReview AI v1.2.0',
+        certificationTimestamp: new Date().toISOString(),
+        project: projName,
+        student: student,
+        evaluator: 'Dr. Aris (Lead Mentor)',
+        complianceScore: parseInt(score, 10),
+        verdict: document.getElementById('rptVerdictTitle').textContent,
+        weightedModel: {
+          srsComplianceWeight: 0.60,
+          codeQualityWeight: 0.20,
+          unitTestingWeight: 0.10,
+          documentationWeight: 0.10
+        },
+        signatureVerified: true
+      };
+
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(payload, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', `${projName}_audit_certificate.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      showToast(`Exported machine-readable audit certificate JSON!`, 'bi-file-earmark-code text-info');
+    }
+
+    // 3. Toast Helper
+    function showToast(message, iconClass = 'bi-check-circle-fill text-success') {
+      const toastEl = document.getElementById('liveActionToast');
+      const toastMsg = document.getElementById('toastMessage');
+      if (toastEl && toastMsg) {
+        toastMsg.innerHTML = `<i class="bi ${iconClass} fs-5"></i> <span>${message}</span>`;
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+      }
+    }
+  </script>
 </body>
 </html>
