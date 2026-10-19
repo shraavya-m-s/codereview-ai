@@ -191,7 +191,7 @@
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
           <div>
             <div class="d-flex align-items-center gap-2 mb-1">
-              <h1 class="h3 mb-0 fw-bold text-light">Admin &amp; System Governance</h1>
+              <h1 class="h3 mb-0 fw-bold text-dark">Admin &amp; System Governance</h1>
               <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30" style="font-size: 0.72rem;">Phase 10 Console</span>
             </div>
             <p class="text-secondary small mb-0">Manage platform users, role assignments, review strictness policies, and archive capacity limits.</p>
@@ -227,8 +227,8 @@
 
               <div style="min-width: 260px;">
                 <div class="input-group input-group-sm">
-                  <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
-                  <input type="text" class="cr-input form-control form-control-sm bg-dark text-light border-secondary" id="userSearchInput" placeholder="Search user by name, email, or role..." oninput="searchUsers(this.value)">
+                  <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                  <input type="text" class="cr-input form-control form-control-sm border-start-0 ps-0" id="userSearchInput" placeholder="Search user by name, email, or role..." oninput="searchUsers(this.value)">
                 </div>
               </div>
             </div>
@@ -245,21 +245,21 @@
                     <th>Assigned Role</th>
                     <th>Status</th>
                     <th>Projects In Charge</th>
-                    <th class="text-end">Actions</th>
+                    <th class="text-end" style="min-width: 170px;">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="usersTableBody">
                   <!-- Row 1: Admin -->
                   <tr data-role="admin">
                     <td>
-                      <div class="fw-bold text-light">System Administrator</div>
+                      <div class="fw-bold text-dark">System Administrator</div>
                       <div class="text-secondary small"><code>@admin</code></div>
                     </td>
                     <td class="text-secondary small">admin@codereview.ai</td>
                     <td><span class="cr-role-badge admin"><i class="bi bi-shield-lock-fill"></i> Admin</span></td>
                     <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
                     <td class="text-secondary small">Full Infrastructure Access</td>
-                    <td class="text-end">
+                    <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" disabled>Protected</button>
                     </td>
                   </tr>
@@ -267,14 +267,14 @@
                   <!-- Row 2: Dr. Aris -->
                   <tr data-role="mentor">
                     <td>
-                      <div class="fw-bold text-light">Dr. Aris</div>
+                      <div class="fw-bold text-dark">Dr. Aris</div>
                       <div class="text-secondary small"><code>@dr_aris</code></div>
                     </td>
                     <td class="text-secondary small">aris.mentor@university.edu</td>
                     <td><span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span></td>
                     <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
                     <td class="text-secondary small">14 Projects Reviewed</td>
-                    <td class="text-end">
+                    <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Dr. Aris', 'dr_aris', 'mentor', this)">
                         <i class="bi bi-pencil"></i> Edit
                       </button>
@@ -287,14 +287,14 @@
                   <!-- Row 3: Elena Rostova -->
                   <tr data-role="mentor">
                     <td>
-                      <div class="fw-bold text-light">Dr. Elena Rostova</div>
+                      <div class="fw-bold text-dark">Dr. Elena Rostova</div>
                       <div class="text-secondary small"><code>@elena_mentor</code></div>
                     </td>
                     <td class="text-secondary small">elena.rostova@university.edu</td>
                     <td><span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span></td>
                     <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
                     <td class="text-secondary small">9 Projects Reviewed</td>
-                    <td class="text-end">
+                    <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Dr. Elena Rostova', 'elena_mentor', 'mentor', this)">
                         <i class="bi bi-pencil"></i> Edit
                       </button>
@@ -307,14 +307,14 @@
                   <!-- Row 4: Rahul Sharma -->
                   <tr data-role="student">
                     <td>
-                      <div class="fw-bold text-light">Rahul Sharma</div>
+                      <div class="fw-bold text-dark">Rahul Sharma</div>
                       <div class="text-secondary small"><code>@rahul_intern</code></div>
                     </td>
                     <td class="text-secondary small">rahul.sharma@intern.org</td>
                     <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
                     <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
                     <td class="text-secondary small">Hospital_Management_System</td>
-                    <td class="text-end">
+                    <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Rahul Sharma', 'rahul_intern', 'student', this)">
                         <i class="bi bi-pencil"></i> Edit
                       </button>
@@ -327,14 +327,14 @@
                   <!-- Row 5: Neha Deshmukh -->
                   <tr data-role="student">
                     <td>
-                      <div class="fw-bold text-light">Neha Deshmukh</div>
+                      <div class="fw-bold text-dark">Neha Deshmukh</div>
                       <div class="text-secondary small"><code>@neha_intern</code></div>
                     </td>
                     <td class="text-secondary small">neha.deshmukh@intern.org</td>
                     <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
                     <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
                     <td class="text-secondary small">ECommerce_Microservices_API</td>
-                    <td class="text-end">
+                    <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Neha Deshmukh', 'neha_intern', 'student', this)">
                         <i class="bi bi-pencil"></i> Edit
                       </button>
@@ -347,14 +347,14 @@
                   <!-- Row 6: Aman Verma -->
                   <tr data-role="student">
                     <td>
-                      <div class="fw-bold text-light">Aman Verma</div>
+                      <div class="fw-bold text-dark">Aman Verma</div>
                       <div class="text-secondary small"><code>@aman_intern</code></div>
                     </td>
                     <td class="text-secondary small">aman.verma@intern.org</td>
                     <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
                     <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
                     <td class="text-secondary small">FinTech_Ledger_Service</td>
-                    <td class="text-end">
+                    <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Aman Verma', 'aman_intern', 'student', this)">
                         <i class="bi bi-pencil"></i> Edit
                       </button>
@@ -375,7 +375,7 @@
             
             <!-- Policy Card 1: Review Scoring Thresholds -->
             <div class="cr-config-card">
-              <h2 class="h6 fw-bold text-light mb-3 d-flex align-items-center gap-2">
+              <h2 class="h6 fw-bold text-dark mb-3 d-flex align-items-center gap-2">
                 <i class="bi bi-award-fill text-primary"></i> <span>Passing Score &amp; Grade Thresholds</span>
               </h2>
               <div class="row g-3">
@@ -400,23 +400,23 @@
 
             <!-- Policy Card 2: Ingestion & Upload Limits -->
             <div class="cr-config-card">
-              <h2 class="h6 fw-bold text-light mb-3 d-flex align-items-center gap-2">
+              <h2 class="h6 fw-bold text-dark mb-3 d-flex align-items-center gap-2">
                 <i class="bi bi-cloud-arrow-up text-info"></i> <span>Ingestion File Size &amp; Timeout Policy</span>
               </h2>
               <div class="row g-3">
                 <div class="col-md-4">
                   <label class="form-label small text-secondary fw-semibold">Max Source ZIP Limit (MB):</label>
-                  <input type="number" class="cr-input form-control bg-dark text-light border-secondary" id="maxZipMbInput" value="100" min="10" max="250">
+                  <input type="number" class="cr-input form-control bg-white text-dark border" id="maxZipMbInput" value="100" min="10" max="250">
                   <div class="cr-form-hint">Configured in Phase 5 to 100 MB.</div>
                 </div>
                 <div class="col-md-4">
                   <label class="form-label small text-secondary fw-semibold">Max SRS Document Limit (MB):</label>
-                  <input type="number" class="cr-input form-control bg-dark text-light border-secondary" id="maxSrsMbInput" value="25" min="5" max="50">
+                  <input type="number" class="cr-input form-control bg-white text-dark border" id="maxSrsMbInput" value="25" min="5" max="50">
                   <div class="cr-form-hint">PDF/DOCX spec file limit.</div>
                 </div>
                 <div class="col-md-4">
                   <label class="form-label small text-secondary fw-semibold">AST Extraction Timeout (sec):</label>
-                  <input type="number" class="cr-input form-control bg-dark text-light border-secondary" id="astTimeoutInput" value="30" min="5" max="120">
+                  <input type="number" class="cr-input form-control bg-white text-dark border" id="astTimeoutInput" value="30" min="5" max="120">
                   <div class="cr-form-hint">Prevents regex denial of service.</div>
                 </div>
               </div>
@@ -424,28 +424,28 @@
 
             <!-- Policy Card 3: Rule Checker Modules -->
             <div class="cr-config-card">
-              <h2 class="h6 fw-bold text-light mb-3 d-flex align-items-center gap-2">
+              <h2 class="h6 fw-bold text-dark mb-3 d-flex align-items-center gap-2">
                 <i class="bi bi-shield-check text-success"></i> <span>Automated Rule Audit Modules</span>
               </h2>
               <div class="row g-2 small">
                 <div class="col-md-6">
                   <div class="form-check mb-2">
                     <input class="form-check-input" type="checkbox" id="chkEnforceOwasp" checked>
-                    <label class="form-check-label text-light" for="chkEnforceOwasp">OWASP Top 10 Security &amp; SQL Injection Scanners</label>
+                    <label class="form-check-label text-dark" for="chkEnforceOwasp">OWASP Top 10 Security &amp; SQL Injection Scanners</label>
                   </div>
                   <div class="form-check mb-2">
                     <input class="form-check-input" type="checkbox" id="chkEnforceSecret" checked>
-                    <label class="form-check-label text-light" for="chkEnforceSecret">Hardcoded Production Secret Scanning</label>
+                    <label class="form-check-label text-dark" for="chkEnforceSecret">Hardcoded Production Secret Scanning</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check mb-2">
                     <input class="form-check-input" type="checkbox" id="chkEnforceTests" checked>
-                    <label class="form-check-label text-light" for="chkEnforceTests">Automated Unit Test Execution Enforcement</label>
+                    <label class="form-check-label text-dark" for="chkEnforceTests">Automated Unit Test Execution Enforcement</label>
                   </div>
                   <div class="form-check mb-2">
                     <input class="form-check-input" type="checkbox" id="chkEnforceTrace" checked>
-                    <label class="form-check-label text-light" for="chkEnforceTrace">SRS Functional Clause Cross-Traceability</label>
+                    <label class="form-check-label text-dark" for="chkEnforceTrace">SRS Functional Clause Cross-Traceability</label>
                   </div>
                 </div>
               </div>
@@ -474,37 +474,37 @@
   <!-- Add New User Modal -->
   <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-light border-secondary shadow-lg">
-        <div class="modal-header border-secondary border-opacity-50">
-          <h5 class="modal-title h6 fw-bold" id="addUserModalLabel">
+      <div class="modal-content bg-white text-dark border shadow-lg">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title h6 fw-bold text-dark" id="addUserModalLabel">
             <i class="bi bi-person-plus text-primary me-1"></i> Register New Platform Account
           </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form id="addUserForm" onsubmit="createUserAccount(event)">
           <div class="modal-body p-3">
             <div class="mb-3">
               <label class="form-label small text-secondary fw-semibold">Full Legal Name <span class="text-danger">*</span></label>
-              <input type="text" class="cr-input form-control bg-dark text-light border-secondary" id="newFullName" placeholder="e.g. Vikram Malhotra" required>
+              <input type="text" class="cr-input form-control bg-white text-dark border" id="newFullName" placeholder="e.g. Vikram Malhotra" required>
             </div>
             <div class="mb-3">
               <label class="form-label small text-secondary fw-semibold">Username Handle <span class="text-danger">*</span></label>
-              <input type="text" class="cr-input form-control bg-dark text-light border-secondary" id="newUsername" placeholder="e.g. vikram_intern" required>
+              <input type="text" class="cr-input form-control bg-white text-dark border" id="newUsername" placeholder="e.g. vikram_intern" required>
             </div>
             <div class="mb-3">
               <label class="form-label small text-secondary fw-semibold">Email Address <span class="text-danger">*</span></label>
-              <input type="email" class="cr-input form-control bg-dark text-light border-secondary" id="newEmail" placeholder="e.g. vikram@intern.org" required>
+              <input type="email" class="cr-input form-control bg-white text-dark border" id="newEmail" placeholder="e.g. vikram@intern.org" required>
             </div>
             <div class="mb-3">
               <label class="form-label small text-secondary fw-semibold">Assigned System Role <span class="text-danger">*</span></label>
-              <select class="cr-input form-select bg-dark text-light border-secondary" id="newRole" required>
+              <select class="cr-input form-select bg-white text-dark border" id="newRole" required>
                 <option value="mentor">Mentor (Can upload projects, review findings & sign reports)</option>
                 <option value="student" selected>Student / Intern (Read-only access to own project dossier)</option>
                 <option value="admin">Administrator (Full administrative & policy privileges)</option>
               </select>
             </div>
           </div>
-          <div class="modal-footer border-secondary border-opacity-50 py-2">
+          <div class="modal-footer border-top py-2">
             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-sm btn-primary">Create Account</button>
           </div>
@@ -516,30 +516,30 @@
   <!-- Edit User Role Modal -->
   <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-light border-secondary shadow-lg">
-        <div class="modal-header border-secondary border-opacity-50">
-          <h5 class="modal-title h6 fw-bold" id="editUserModalLabel">
+      <div class="modal-content bg-white text-dark border shadow-lg">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title h6 fw-bold text-dark" id="editUserModalLabel">
             <i class="bi bi-shield-check text-warning me-1"></i> Modify User Permissions
           </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form onsubmit="saveEditedUser(event)">
           <div class="modal-body p-3">
             <div class="mb-2">
               <label class="form-label small text-secondary fw-semibold">Account Target:</label>
-              <div class="fw-bold text-light" id="editUserTargetName">Dr. Aris</div>
+              <div class="fw-bold text-dark" id="editUserTargetName">Dr. Aris</div>
               <div class="text-secondary small" id="editUserTargetUsername">@dr_aris</div>
             </div>
             <div class="mb-3">
               <label class="form-label small text-secondary fw-semibold">Role Privilege Tier:</label>
-              <select class="cr-input form-select bg-dark text-light border-secondary" id="editUserRoleSelect">
+              <select class="cr-input form-select bg-white text-dark border" id="editUserRoleSelect">
                 <option value="mentor">Mentor</option>
                 <option value="student">Student / Intern</option>
                 <option value="admin">Administrator</option>
               </select>
             </div>
           </div>
-          <div class="modal-footer border-secondary border-opacity-50 py-2">
+          <div class="modal-footer border-top py-2">
             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
           </div>
@@ -640,14 +640,14 @@
       tr.setAttribute('data-role', role);
       tr.innerHTML = `
         <td>
-          <div class="fw-bold text-light">${escapeHtml(name)}</div>
+          <div class="fw-bold text-dark">${escapeHtml(name)}</div>
           <div class="text-secondary small"><code>@${escapeHtml(username)}</code></div>
         </td>
         <td class="text-secondary small">${escapeHtml(email)}</td>
         <td>${roleBadgeMap[role] || role}</td>
         <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
         <td class="text-secondary small">0 Projects Assigned</td>
-        <td class="text-end">
+        <td class="text-end" style="white-space: nowrap;">
           <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('${escapeHtml(name)}', '${escapeHtml(username)}', '${role}', this)">
             <i class="bi bi-pencil"></i> Edit
           </button>

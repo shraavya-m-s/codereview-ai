@@ -35,24 +35,25 @@
       padding-right: 0.35rem;
     }
     .cr-finding-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.6);
+      background: #ffffff;
+      border: 1px solid var(--cr-border-color, #e2e8f0);
       border-radius: 0.5rem;
       padding: 0.85rem;
       margin-bottom: 0.65rem;
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     .cr-finding-card:hover {
-      background: rgba(30, 41, 59, 0.8);
-      border-color: #64748b;
+      background: #f8fafc;
+      border-color: #94a3b8;
       transform: translateX(2px);
     }
     .cr-finding-card.is-active {
-      background: rgba(30, 41, 59, 0.95);
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 1px #38bdf8, 0 4px 12px rgba(56, 189, 248, 0.15);
+      background: #f0f9ff;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 1px #0284c7, 0 4px 12px rgba(2, 132, 199, 0.12);
     }
     .cr-finding-card::before {
       content: '';
@@ -67,6 +68,32 @@
     .cr-finding-card.sev-major::before { background: #f59e0b; }
     .cr-finding-card.sev-minor::before { background: #38bdf8; }
     .cr-finding-card.sev-info::before { background: #10b981; }
+
+    .cr-filter-pill-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #64748b;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 500;
+    }
+    .cr-filter-pill-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    .cr-filter-pill-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
+    }
 
     .diff-code-box {
       background: #090d16;
@@ -146,9 +173,9 @@
       font-weight: 600;
     }
     .quick-template-chip {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid #334155;
-      color: #94a3b8;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #475569;
       font-size: 0.73rem;
       padding: 0.2rem 0.55rem;
       border-radius: 4px;
@@ -156,9 +183,9 @@
       transition: all 0.15s ease;
     }
     .quick-template-chip:hover {
-      background: #334155;
-      color: #f8fafc;
-      border-color: #475569;
+      background: #e2e8f0;
+      color: #0f172a;
+      border-color: #94a3b8;
     }
   </style>
 </head>
@@ -290,11 +317,11 @@
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
           <div>
             <div class="d-flex align-items-center gap-2 mb-1">
-              <h1 class="h4 mb-0 fw-bold text-light">AI Code Review Findings &amp; Mentor Inspector</h1>
+              <h1 class="h4 mb-0 fw-bold text-dark">AI Code Review Findings &amp; Mentor Inspector</h1>
               <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30" style="font-size: 0.72rem;">Phase 7 AST Analyzer</span>
             </div>
             <p class="text-secondary small mb-0">
-              Project: <strong class="text-light" id="headerProjectTitle">Hospital_Management_System</strong> &bull; 
+              Project: <strong class="text-dark" id="headerProjectTitle">Hospital_Management_System</strong> &bull; 
               Student: <span class="text-secondary" id="headerStudentName">Rahul Sharma</span> &bull; 
               Stack: <span class="badge bg-dark border border-secondary text-secondary" id="headerStackTag">Python / Django</span>
             </p>
@@ -324,8 +351,8 @@
             <!-- Search Filter -->
             <div style="min-width: 260px;">
               <div class="input-group input-group-sm">
-                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
-                <input type="text" class="cr-input form-control form-control-sm bg-dark text-light border-secondary" id="findingSearchInput" placeholder="Search by Req ID, rule, or file..." oninput="filterFindingsSearch(this.value)">
+                <span class="input-group-text bg-white border border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" class="cr-input form-control form-control-sm bg-white text-dark border border-start-0" id="findingSearchInput" placeholder="Search by Req ID, rule, or file..." oninput="filterFindingsSearch(this.value)">
               </div>
             </div>
           </div>
@@ -348,11 +375,11 @@
                 <div>
                   <div class="d-flex flex-wrap align-items-center gap-2 mb-1.5">
                     <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 font-monospace fw-bold" id="inspectorReqId">SEC-SQLI-01</span>
-                    <span class="badge bg-secondary border border-secondary text-light" id="inspectorCategory">Security</span>
+                    <span class="badge bg-light text-secondary border" id="inspectorCategory">Security</span>
                     <span class="cr-badge-critical" id="inspectorSeverity">Critical Risk</span>
                     <span class="small text-secondary" id="inspectorFileMeta"><i class="bi bi-file-earmark-code"></i> billing/views.py:54</span>
                   </div>
-                  <h2 class="h5 fw-bold text-light mb-1" id="inspectorTitle">Unsanitized Raw SQL in Patient Invoice Query</h2>
+                  <h2 class="h5 fw-bold text-dark mb-1" id="inspectorTitle">Unsanitized Raw SQL in Patient Invoice Query</h2>
                 </div>
                 <div id="inspectorStatusBadgeContainer">
                   <span class="cr-badge cr-badge-missing">Unresolved</span>
@@ -364,7 +391,7 @@
                 <div class="text-uppercase text-secondary fw-bold mb-1" style="font-size: 0.68rem; letter-spacing: 0.05em;">
                   Rule Diagnostic &amp; Requirement Clause
                 </div>
-                <div class="p-3 rounded bg-black bg-opacity-30 border border-secondary border-opacity-25 small text-light" id="inspectorRuleText">
+                <div class="p-3 rounded bg-light border small text-dark" id="inspectorRuleText">
                   Direct parameter concatenation inside <code>extra(where=[...])</code> allows arbitrary SQL injection. User input must pass through ORM parameter bindings.
                 </div>
               </div>
@@ -408,9 +435,9 @@
               </div>
 
               <!-- Mentor Evaluation & Status Override Form -->
-              <div class="p-3 rounded border border-secondary border-opacity-30 bg-black bg-opacity-20">
+              <div class="p-3 rounded border bg-light bg-opacity-50">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                  <h3 class="h6 mb-0 fw-bold d-flex align-items-center gap-2 text-light">
+                  <h3 class="h6 mb-0 fw-bold d-flex align-items-center gap-2 text-dark">
                     <i class="bi bi-mortarboard-fill text-primary"></i> Mentor Sign-off &amp; Status Override
                   </h3>
                   <span class="text-secondary" style="font-size: 0.72rem;" id="inspectorOriginalStatus">
@@ -422,7 +449,7 @@
                   <div class="row g-2 mb-2">
                     <div class="col-sm-6">
                       <label for="mentorStatusChoice" class="form-label small fw-semibold text-secondary mb-1">Evaluated Status:</label>
-                      <select class="cr-input form-select form-select-sm bg-dark text-light border-secondary" id="mentorStatusChoice">
+                      <select class="cr-input form-select form-select-sm bg-white text-dark border" id="mentorStatusChoice">
                         <option value="implemented">Implemented (1.0)</option>
                         <option value="partial">Partial (0.5)</option>
                         <option value="missing">Missing / Rejected (0.0)</option>
@@ -442,7 +469,7 @@
 
                   <div class="mb-3">
                     <label for="mentorNotesText" class="form-label small fw-semibold text-secondary mb-1">Mentor Dossier Comments:</label>
-                    <textarea class="cr-textarea form-control form-control-sm bg-dark text-light border-secondary" id="mentorNotesText" rows="2" placeholder="Record evaluation notes or required intern remediation steps..."></textarea>
+                    <textarea class="cr-textarea form-control form-control-sm bg-white text-dark border" id="mentorNotesText" rows="2" placeholder="Record evaluation notes or required intern remediation steps..."></textarea>
                   </div>
 
                   <div class="d-flex justify-content-between align-items-center">
@@ -744,7 +771,7 @@
               <span class="fw-bold font-monospace small text-primary">${item.codeId}</span>
               <span class="${item.severityBadge}">${item.severityLabel}</span>
             </div>
-            <div class="fw-semibold text-light small mb-1">${item.title}</div>
+            <div class="fw-semibold text-dark small mb-1">${item.title}</div>
             <div class="d-flex align-items-center justify-content-between text-secondary" style="font-size: 0.73rem;">
               <span><i class="bi bi-file-code"></i> ${item.file}:${item.line}</span>
               <span class="cr-badge ${item.statusClass}">${item.statusLabel}</span>
@@ -755,7 +782,7 @@
       });
 
       if (visibleCount === 0) {
-        container.innerHTML = '<div class="p-4 text-center text-secondary small border rounded border-secondary border-opacity-25 bg-black bg-opacity-20">No matching findings found for this filter.</div>';
+        container.innerHTML = '<div class="p-4 text-center text-secondary small border rounded bg-white shadow-sm">No matching findings found for this filter.</div>';
       }
     }
 

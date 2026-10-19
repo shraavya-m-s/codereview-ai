@@ -22,13 +22,13 @@
     .cr-tab-nav {
       display: flex;
       gap: 0.5rem;
-      border-bottom: 1px solid var(--cr-border-color, #334155);
+      border-bottom: 1px solid var(--cr-border-color, #e2e8f0);
       margin-bottom: 1.5rem;
     }
     .cr-tab-btn {
       background: transparent;
       border: none;
-      color: #94a3b8;
+      color: #64748b;
       font-weight: 500;
       font-size: 0.9rem;
       padding: 0.75rem 1.25rem;
@@ -40,30 +40,32 @@
       cursor: pointer;
     }
     .cr-tab-btn:hover {
-      color: #f8fafc;
+      color: #0f172a;
     }
     .cr-tab-btn.active {
-      color: #38bdf8;
-      border-bottom-color: #38bdf8;
+      color: #0284c7;
+      border-bottom-color: #0284c7;
       font-weight: 600;
     }
     .cr-rubric-card {
-      border: 1px solid var(--cr-border-color, #334155);
+      border: 1px solid var(--cr-border-color, #e2e8f0);
       border-radius: 0.5rem;
       padding: 1rem;
-      background: rgba(15, 23, 42, 0.4);
+      background: #ffffff;
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     .cr-rubric-card:hover {
-      border-color: #64748b;
+      border-color: #94a3b8;
+      background: #f8fafc;
       transform: translateY(-2px);
     }
     .cr-rubric-card.selected {
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.08);
-      box-shadow: 0 0 0 1px #38bdf8;
+      border-color: #0284c7;
+      background: #f0f9ff;
+      box-shadow: 0 0 0 1px #0284c7, 0 4px 12px rgba(2, 132, 199, 0.12);
     }
     .cr-rubric-badge {
       font-size: 0.7rem;
@@ -419,10 +421,10 @@
               </div>
 
               <!-- Quick File Extraction Preview Box -->
-              <div class="p-2 px-3 mt-3 rounded border border-secondary border-opacity-25 bg-black bg-opacity-20 d-flex align-items-center justify-content-between small">
+              <div class="p-2 px-3 mt-3 rounded border bg-light d-flex align-items-center justify-content-between small">
                 <div class="d-flex align-items-center gap-2 text-secondary">
                   <i class="bi bi-folder-check text-info"></i>
-                  <span>Archive Manifest: <strong class="text-light" id="previewFileCount">48 files</strong> detected across 8 Python packages (0 binaries).</span>
+                  <span>Archive Manifest: <strong class="text-dark" id="previewFileCount">48 files</strong> detected across 8 Python packages (0 binaries).</span>
                 </div>
                 <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-25">Passed Checksum</span>
               </div>
@@ -435,8 +437,8 @@
                   <div class="cr-form-group mb-0">
                     <label for="gitRepoUrlInput" class="cr-label">Git Clone URL (HTTPS or SSH) <span class="required">*</span></label>
                     <div class="input-group">
-                      <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-git"></i></span>
-                      <input type="url" class="cr-input form-control bg-dark text-light border-secondary" id="gitRepoUrlInput" placeholder="https://github.com/interns/hospital-mgmt-api.git">
+                      <span class="input-group-text bg-white border border-end-0 text-muted"><i class="bi bi-git"></i></span>
+                      <input type="url" class="cr-input form-control bg-white text-dark border border-start-0" id="gitRepoUrlInput" placeholder="https://github.com/interns/hospital-mgmt-api.git">
                     </div>
                     <div class="cr-form-hint">Public repository or student repository with read-access credentials.</div>
                   </div>
@@ -509,7 +511,7 @@
               <div class="col-md-4">
                 <div class="cr-form-group mb-0">
                   <label for="cohortSelect" class="cr-label">Cohort / Batch Tag <span class="required">*</span></label>
-                  <select class="cr-input form-select bg-dark text-light border-secondary" id="cohortSelect" required>
+                  <select class="cr-input form-select bg-white text-dark border" id="cohortSelect" required>
                     <option value="Batch 2026-Q1 (Backend)" selected>Batch 2026-Q1 (Backend)</option>
                     <option value="Batch 2026-Q1 (Fullstack)">Batch 2026-Q1 (Fullstack)</option>
                     <option value="Batch 2026-Q2 (Cloud & Microservices)">Batch 2026-Q2 (Cloud & Microservices)</option>
@@ -521,7 +523,7 @@
               <div class="col-md-4">
                 <div class="cr-form-group mb-0">
                   <label for="stackSelect" class="cr-label">Primary Runtime & Stack <span class="required">*</span></label>
-                  <select class="cr-input form-select bg-dark text-light border-secondary" id="stackSelect" required>
+                  <select class="cr-input form-select bg-white text-dark border" id="stackSelect" required>
                     <option value="Python / Django REST Framework" selected>Python 3.12 (Django / DRF)</option>
                     <option value="Python / FastAPI">Python 3.12 (FastAPI / Pydantic)</option>
                     <option value="Node.js / Express">JavaScript / Node 20 (Express)</option>
@@ -535,7 +537,7 @@
               <div class="col-md-4">
                 <div class="cr-form-group mb-0">
                   <label for="submissionStageSelect" class="cr-label">Submission Milestone</label>
-                  <select class="cr-input form-select bg-dark text-light border-secondary" id="submissionStageSelect">
+                  <select class="cr-input form-select bg-white text-dark border" id="submissionStageSelect">
                     <option value="Mid-Term Review">Mid-Term Milestone Check</option>
                     <option value="Final Submission" selected>Final Capstone Review</option>
                     <option value="Remediation Re-audit">Remediation Re-audit (v2)</option>
@@ -564,7 +566,7 @@
               <div class="col-md-4">
                 <div class="cr-rubric-card selected" id="rubricStandard" onclick="selectRubric('standard')">
                   <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div class="fw-bold text-light"><i class="bi bi-mortarboard-fill text-primary"></i> Intern Baseline</div>
+                    <div class="fw-bold text-dark"><i class="bi bi-mortarboard-fill text-primary"></i> Intern Baseline</div>
                     <span class="cr-rubric-badge bg-primary bg-opacity-25 text-primary">Default</span>
                   </div>
                   <p class="small text-secondary mb-2">Evaluates core PEP-8/clean code conventions, exception handling, function length, and basic syntax.</p>
@@ -575,7 +577,7 @@
               <div class="col-md-4">
                 <div class="cr-rubric-card" id="rubricSecurity" onclick="selectRubric('security')">
                   <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div class="fw-bold text-light"><i class="bi bi-shield-lock-fill text-danger"></i> Security Strict</div>
+                    <div class="fw-bold text-dark"><i class="bi bi-shield-lock-fill text-danger"></i> Security Strict</div>
                     <span class="cr-rubric-badge bg-danger bg-opacity-25 text-danger">High Risk</span>
                   </div>
                   <p class="small text-secondary mb-2">Flags SQL injections, raw queries, hardcoded JWT secrets, insecure deserialization, and unvalidated redirects.</p>
@@ -586,7 +588,7 @@
               <div class="col-md-4">
                 <div class="cr-rubric-card" id="rubricProduction" onclick="selectRubric('production')">
                   <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div class="fw-bold text-light"><i class="bi bi-rocket-takeoff-fill text-warning"></i> Production Grade</div>
+                    <div class="fw-bold text-dark"><i class="bi bi-rocket-takeoff-fill text-warning"></i> Production Grade</div>
                     <span class="cr-rubric-badge bg-warning bg-opacity-25 text-warning">Full Audit</span>
                   </div>
                   <p class="small text-secondary mb-2">Rigorous architectural assessment: Cyclomatic complexity, dead code, test suite execution, and docstrings.</p>
@@ -596,8 +598,8 @@
             </div>
 
             <!-- Granular Inspection Flags -->
-            <div class="p-3 bg-black bg-opacity-25 rounded border border-secondary border-opacity-25">
-              <div class="fw-semibold small text-light mb-2"><i class="bi bi-sliders2 text-info"></i> Active Audit Checkpoints:</div>
+            <div class="p-3 bg-light rounded border">
+              <div class="fw-semibold small text-dark mb-2"><i class="bi bi-sliders2 text-info"></i> Active Audit Checkpoints:</div>
               <div class="row g-2 small">
                 <div class="col-md-6">
                   <div class="form-check">
@@ -632,8 +634,8 @@
           </div>
 
           <!-- Bottom Action Bar & Trigger -->
-          <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 p-3 bg-dark rounded border border-secondary border-opacity-50">
-            <div class="small text-secondary">
+          <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 p-3 bg-white rounded border shadow-sm">
+            <div class="small text-dark">
               <i class="bi bi-shield-check text-success"></i> <strong>Safe Execution Guarantee:</strong> Source code is statically inspected in isolated memory. Code is never run or deployed.
             </div>
             <div class="d-flex gap-2">

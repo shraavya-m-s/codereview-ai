@@ -48,9 +48,9 @@
       flex-shrink: 0;
     }
     .cr-filter-pill-btn {
-      background: rgba(30, 41, 59, 0.6);
-      border: 1px solid #334155;
-      color: #94a3b8;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #64748b;
       font-size: 0.78rem;
       padding: 0.3rem 0.75rem;
       border-radius: 9999px;
@@ -59,16 +59,19 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
+      font-weight: 500;
     }
     .cr-filter-pill-btn:hover {
-      background: #334155;
-      color: #f8fafc;
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
     }
     .cr-filter-pill-btn.active {
       background: #0284c7;
       color: #fff;
-      border-color: #38bdf8;
+      border-color: #0284c7;
       font-weight: 600;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
     }
     .cr-file-tree-item {
       display: flex;
@@ -76,14 +79,15 @@
       justify-content: space-between;
       padding: 0.6rem 0.85rem;
       border-radius: 0.375rem;
-      border: 1px solid rgba(51, 65, 85, 0.6);
-      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--cr-border-color, #e2e8f0);
+      background: #ffffff;
       margin-bottom: 0.5rem;
       transition: all 0.15s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     }
     .cr-file-tree-item:hover {
-      background: rgba(30, 41, 59, 0.7);
-      border-color: #475569;
+      background: #f8fafc;
+      border-color: #cbd5e1;
     }
     .code-preview-area {
       background: #090d16;
@@ -369,7 +373,7 @@
           <div class="cr-card-header p-0 border-bottom border-secondary border-opacity-25">
             <ul class="nav nav-tabs border-0 px-3 pt-2" id="projectDetailsTabs" role="tablist">
               <li class="nav-item" role="presentation">
-                <button class="nav-link active fw-bold small py-2.5 px-3 text-light" id="reqs-tab" data-bs-toggle="tab" data-bs-target="#reqs-pane" type="button" role="tab">
+                <button class="nav-link active fw-bold small py-2.5 px-3 text-dark" id="reqs-tab" data-bs-toggle="tab" data-bs-target="#reqs-pane" type="button" role="tab">
                   <i class="bi bi-list-check me-1 text-primary"></i> SRS Traceability (<span id="tabReqCount">48</span>)
                 </button>
               </li>
@@ -406,7 +410,7 @@
                   <button type="button" class="cr-filter-pill-btn" onclick="filterRequirements('security', this)">Security & RBAC (6)</button>
                 </div>
                 <div class="position-relative" style="min-width: 240px;">
-                  <input type="text" class="cr-input form-control form-control-sm bg-dark text-light border-secondary" id="reqSearchInput" placeholder="Search requirement ID or keyword..." oninput="searchRequirements(this.value)">
+                  <input type="text" class="cr-input form-control form-control-sm bg-white text-dark border" id="reqSearchInput" placeholder="Search requirement ID or keyword..." oninput="searchRequirements(this.value)">
                 </div>
               </div>
 
@@ -426,48 +430,48 @@
                   <tbody id="requirementsTableBody">
                     <tr data-cat="auth">
                       <td><code class="fw-bold text-primary">REQ-AUTH-01</code></td>
-                      <td><span class="badge bg-secondary text-light">Authentication</span></td>
-                      <td class="fw-semibold text-light">User login with username and bcrypt-hashed password verification</td>
+                      <td><span class="badge bg-light text-secondary border">Authentication</span></td>
+                      <td class="fw-semibold text-dark">User login with username and bcrypt-hashed password verification</td>
                       <td><span class="cr-badge cr-badge-implemented"><i class="bi bi-check-circle-fill"></i> Implemented (1.0)</span></td>
                       <td><code class="small text-info">accounts/views.py:42</code></td>
                       <td class="text-end"><a href="findings.html#req-auth-01" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Inspect &rarr;</a></td>
                     </tr>
                     <tr data-cat="auth">
                       <td><code class="fw-bold text-primary">REQ-AUTH-02</code></td>
-                      <td><span class="badge bg-secondary text-light">Authentication</span></td>
-                      <td class="fw-semibold text-light">Role-Based Access Control (RBAC) middleware for Doctors and Reception staff</td>
+                      <td><span class="badge bg-light text-secondary border">Authentication</span></td>
+                      <td class="fw-semibold text-dark">Role-Based Access Control (RBAC) middleware for Doctors and Reception staff</td>
                       <td><span class="cr-badge cr-badge-implemented"><i class="bi bi-check-circle-fill"></i> Implemented (1.0)</span></td>
                       <td><code class="small text-info">accounts/decorators.py:18</code></td>
                       <td class="text-end"><a href="findings.html#req-auth-02" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Inspect &rarr;</a></td>
                     </tr>
                     <tr data-cat="business">
                       <td><code class="fw-bold text-primary">REQ-PAT-01</code></td>
-                      <td><span class="badge bg-secondary text-light">Business Logic</span></td>
-                      <td class="fw-semibold text-light">Patient registration with emergency contact & blood group validations</td>
+                      <td><span class="badge bg-light text-secondary border">Business Logic</span></td>
+                      <td class="fw-semibold text-dark">Patient registration with emergency contact & blood group validations</td>
                       <td><span class="cr-badge cr-badge-partial"><i class="bi bi-exclamation-triangle-fill"></i> Partial (0.5)</span></td>
                       <td><code class="small text-info">patients/models.py:28</code></td>
                       <td class="text-end"><a href="findings.html#req-pat-01" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Inspect &rarr;</a></td>
                     </tr>
                     <tr data-cat="business">
                       <td><code class="fw-bold text-primary">REQ-APPT-01</code></td>
-                      <td><span class="badge bg-secondary text-light">Business Logic</span></td>
-                      <td class="fw-semibold text-light">Doctor appointment slot booking with conflict detection & calendar check</td>
+                      <td><span class="badge bg-light text-secondary border">Business Logic</span></td>
+                      <td class="fw-semibold text-dark">Doctor appointment slot booking with conflict detection & calendar check</td>
                       <td><span class="cr-badge cr-badge-implemented"><i class="bi bi-check-circle-fill"></i> Implemented (1.0)</span></td>
                       <td><code class="small text-info">appointments/services.py:64</code></td>
                       <td class="text-end"><a href="findings.html#req-appt-01" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Inspect &rarr;</a></td>
                     </tr>
                     <tr data-cat="billing">
                       <td><code class="fw-bold text-primary">REQ-INV-01</code></td>
-                      <td><span class="badge bg-secondary text-light">Billing & Invoicing</span></td>
-                      <td class="fw-semibold text-light">Automated PDF invoice generation with itemized tax and insurance deduction</td>
+                      <td><span class="badge bg-light text-secondary border">Billing & Invoicing</span></td>
+                      <td class="fw-semibold text-dark">Automated PDF invoice generation with itemized tax and insurance deduction</td>
                       <td><span class="cr-badge cr-badge-missing"><i class="bi bi-x-circle-fill"></i> Missing (0.0)</span></td>
                       <td><span class="text-secondary small">No implementation found</span></td>
                       <td class="text-end"><a href="findings.html#req-inv-01" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Inspect &rarr;</a></td>
                     </tr>
                     <tr data-cat="security">
                       <td><code class="fw-bold text-primary">REQ-SEC-01</code></td>
-                      <td><span class="badge bg-secondary text-light">Security & RBAC</span></td>
-                      <td class="fw-semibold text-light">Sanitization of patient notes input to prevent stored Cross-Site Scripting (XSS)</td>
+                      <td><span class="badge bg-light text-secondary border">Security & RBAC</span></td>
+                      <td class="fw-semibold text-dark">Sanitization of patient notes input to prevent stored Cross-Site Scripting (XSS)</td>
                       <td><span class="cr-badge cr-badge-implemented"><i class="bi bi-check-circle-fill"></i> Implemented (1.0)</span></td>
                       <td><code class="small text-info">patients/serializers.py:35</code></td>
                       <td class="text-end"><a href="findings.html#req-sec-01" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2">Inspect &rarr;</a></td>
@@ -490,7 +494,7 @@
                     <div class="d-flex align-items-center gap-2">
                       <i class="bi bi-filetype-py text-primary fs-5"></i>
                       <div>
-                        <div class="text-light fw-semibold small">manage.py</div>
+                        <div class="text-dark fw-semibold small">manage.py</div>
                         <div class="text-secondary" style="font-size: 0.72rem;">Entrypoint runner &bull; 38 lines</div>
                       </div>
                     </div>
@@ -503,7 +507,7 @@
                     <div class="d-flex align-items-center gap-2">
                       <i class="bi bi-gear-fill text-warning fs-5"></i>
                       <div>
-                        <div class="text-light fw-semibold small">hms_project/settings.py</div>
+                        <div class="text-dark fw-semibold small">hms_project/settings.py</div>
                         <div class="text-secondary" style="font-size: 0.72rem;">Configuration &bull; 142 lines</div>
                       </div>
                     </div>
@@ -516,7 +520,7 @@
                     <div class="d-flex align-items-center gap-2">
                       <i class="bi bi-filetype-py text-primary fs-5"></i>
                       <div>
-                        <div class="text-light fw-semibold small">accounts/views.py</div>
+                        <div class="text-dark fw-semibold small">accounts/views.py</div>
                         <div class="text-secondary" style="font-size: 0.72rem;">User login & token auth &bull; 86 lines</div>
                       </div>
                     </div>
@@ -529,7 +533,7 @@
                     <div class="d-flex align-items-center gap-2">
                       <i class="bi bi-database-fill text-info fs-5"></i>
                       <div>
-                        <div class="text-light fw-semibold small">patients/models.py</div>
+                        <div class="text-dark fw-semibold small">patients/models.py</div>
                         <div class="text-secondary" style="font-size: 0.72rem;">Patient record schema &bull; 114 lines</div>
                       </div>
                     </div>
@@ -542,7 +546,7 @@
                     <div class="d-flex align-items-center gap-2">
                       <i class="bi bi-calendar-check-fill text-success fs-5"></i>
                       <div>
-                        <div class="text-light fw-semibold small">appointments/services.py</div>
+                        <div class="text-dark fw-semibold small">appointments/services.py</div>
                         <div class="text-secondary" style="font-size: 0.72rem;">Booking & conflict logic &bull; 178 lines</div>
                       </div>
                     </div>
@@ -555,7 +559,7 @@
                     <div class="d-flex align-items-center gap-2">
                       <i class="bi bi-clipboard2-check-fill text-success fs-5"></i>
                       <div>
-                        <div class="text-light fw-semibold small">tests/test_appointments.py</div>
+                        <div class="text-dark fw-semibold small">tests/test_appointments.py</div>
                         <div class="text-secondary" style="font-size: 0.72rem;">Unit & integration tests &bull; 94 lines</div>
                       </div>
                     </div>
@@ -586,11 +590,11 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><strong class="text-light">Run #2 (Current Milestone)</strong></td>
+                      <td><strong class="text-dark">Run #2 (Current Milestone)</strong></td>
                       <td class="text-secondary small">Oct 18, 2026 &bull; 04:30 PM</td>
                       <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 fw-bold">86 / 100</span></td>
                       <td class="text-secondary small">Dr. Aris (Mentor Review Applied)</td>
-                      <td class="small text-light">Resolved password hashing flaw; billing module remains pending.</td>
+                      <td class="small text-dark">Resolved password hashing flaw; billing module remains pending.</td>
                       <td class="text-end"><a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm py-1 px-2.5">View Report</a></td>
                     </tr>
                     <tr>
@@ -608,9 +612,9 @@
 
             <!-- TAB 4: Mentor Sign-off Notes & Evaluation -->
             <div class="tab-pane fade p-4" id="notes-pane" role="tabpanel">
-              <div class="cr-card p-3 mb-3 bg-dark border-secondary border-opacity-50">
+              <div class="cr-card p-3 mb-3 bg-light border">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                  <div class="fw-bold text-light small"><i class="bi bi-pencil-square text-primary"></i> Mentor Qualitative Evaluation</div>
+                  <div class="fw-bold text-dark small"><i class="bi bi-pencil-square text-primary"></i> Mentor Qualitative Evaluation</div>
                   <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Signed by Dr. Aris</span>
                 </div>
                 <p class="small text-secondary mb-3">
