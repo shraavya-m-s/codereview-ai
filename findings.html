@@ -323,11 +323,11 @@
             <p class="text-secondary small mb-0">
               Project: <strong class="text-dark" id="headerProjectTitle">Hospital_Management_System</strong> &bull; 
               Student: <span class="text-secondary" id="headerStudentName">Rahul Sharma</span> &bull; 
-              Stack: <span class="badge bg-dark border border-secondary text-secondary" id="headerStackTag">Python / Django</span>
+              Stack: <span class="badge bg-secondary-subtle border border-secondary-subtle text-secondary" id="headerStackTag">Python / Django</span>
             </p>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <button type="button" class="cr-btn cr-btn-secondary btn-sm" onclick="batchApproveSafe()">
+            <button type="button" class="cr-btn cr-btn-secondary btn-sm" onclick="batchApproveSafe()" data-role-perm="mentor-only">
               <i class="bi bi-check-all text-success"></i> Batch Approve Implemented
             </button>
             <a href="project_detail.html" class="cr-btn cr-btn-outline-primary btn-sm">
@@ -425,7 +425,7 @@
                   <div class="fw-bold text-success small d-flex align-items-center gap-1.5">
                     <i class="bi bi-stars"></i> <span>Automated AI Refactoring Suggestion</span>
                   </div>
-                  <button type="button" class="btn btn-sm btn-success py-0.5 px-2.5 small" onclick="applyAiFixToDossier()">
+                  <button type="button" class="btn btn-sm btn-success py-0.5 px-2.5 small" id="acceptAiFixBtn" onclick="applyAiFixToDossier()">
                     <i class="bi bi-check2"></i> Accept Fix
                   </button>
                 </div>
@@ -724,9 +724,14 @@
       renderMasterList();
       selectFinding(1);
 
-      // Check user role: If student, enforce read-only view on mentor evaluation form
+      // Check user role: If student, enforce read-only view on mentor evaluation and AI fix acceptance
       const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
       if (userRole === 'student') {
+        const acceptBtn = document.getElementById('acceptAiFixBtn');
+        if (acceptBtn) {
+          acceptBtn.outerHTML = '<span class="badge bg-secondary bg-opacity-25 border border-secondary text-secondary py-1 px-2.5 small" id="acceptFixLockedBadge"><i class="bi bi-lock-fill me-1"></i> Faculty Review Required</span>';
+        }
+
         const statusSelect = document.getElementById('mentorStatusChoice');
         const notesArea = document.getElementById('mentorNotesText');
         const saveBtn = document.getElementById('saveFindingBtn');
@@ -879,6 +884,12 @@
 
     // 5. Apply AI Fix Action
     function applyAiFixToDossier() {
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        showToast('Access restricted: Only Faculty and Mentors can accept AI refactor patches.', 'bi-shield-exclamation text-warning', 'warning');
+        return;
+      }
+
       const item = findingsDataset.find(f => f.id === currentSelectedId);
       if (!item) return;
 
@@ -893,14 +904,14 @@
       document.getElementById('saveTimestamp').textContent = `AI Fix Accepted at ${new Date().toLocaleTimeString()}`;
 
       renderMasterList(document.getElementById('findingSearchInput').value);
-      showToast(`AI Fix applied to <strong>${item.codeId}</strong>! Status marked as Implemented.`, 'bi-stars text-info');
+      showToast(`AI Fix applied to <strong>${item.codeId}</strong>! Status marked as Implemented.`, 'bi-stars text-info', 'success');
     }
 
     function copyAiSuggestedSnippet() {
       const item = findingsDataset.find(f => f.id === currentSelectedId);
       if (item && item.aiFix) {
         navigator.clipboard.writeText(item.aiFix);
-        showToast(`Copied AI remediation snippet to clipboard!`, 'bi-clipboard-check text-info');
+        showToast(`Copied AI remediation snippet to clipboard!`, 'bi-clipboard-check text-info', 'info');
       }
     }
 
@@ -922,6 +933,12 @@
 
     // 7. Batch Action Helper
     function batchApproveSafe() {
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        showToast('Access restricted: Only Mentors and Administrators can batch-approve findings.', 'bi-shield-exclamation text-warning', 'warning');
+        return;
+      }
+
       let count = 0;
       findingsDataset.forEach(f => {
         if (f.status === 'implemented') {
@@ -929,18 +946,7 @@
           count++;
         }
       });
-      showToast(`Batch approved ${count} implemented findings without exceptions.`, 'bi-check2-all text-success');
-    }
-
-    // 8. Live Action Toast Helper
-    function showToast(message, iconClass = 'bi-check-circle-fill text-success') {
-      const toastEl = document.getElementById('liveActionToast');
-      const toastMsg = document.getElementById('toastMessage');
-      if (toastEl && toastMsg) {
-        toastMsg.innerHTML = `<i class="bi ${iconClass} fs-5"></i> <span>${message}</span>`;
-        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-        toast.show();
-      }
+      showToast(`Batch approved ${count} implemented findings without exceptions.`, 'bi-check2-all text-success', 'success');
     }
   </script>
 </body>

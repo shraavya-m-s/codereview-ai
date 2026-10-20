@@ -115,7 +115,7 @@
               <div class="cr-form-group mb-2.5">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                   <label for="passwordInput" class="cr-label mb-0">Password <span class="required">*</span></label>
-                  <a href="javascript:void(0)" class="text-primary text-decoration-none small" style="font-size: 0.75rem;" onclick="alert('Institutional Account Recovery:\nPlease contact your university/organization administrator or register a new account via the Create Account tab.')">Forgot password?</a>
+                  <a href="javascript:void(0)" class="text-primary text-decoration-none small" style="font-size: 0.75rem;" data-bs-toggle="modal" data-bs-target="#recoveryModal">Forgot password?</a>
                 </div>
                 <div class="input-group">
                   <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-key"></i></span>
@@ -316,6 +316,15 @@
       const logoutAlert = document.getElementById('logoutSuccessAlert');
       if (logoutAlert) {
         logoutAlert.classList.remove('d-none');
+        const timer = document.createElement('div');
+        timer.className = 'cr-alert-timer';
+        logoutAlert.appendChild(timer);
+        setTimeout(() => {
+          logoutAlert.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          logoutAlert.style.opacity = '0';
+          logoutAlert.style.transform = 'translateY(-10px)';
+          setTimeout(() => logoutAlert.remove(), 400);
+        }, 4500);
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
@@ -363,13 +372,36 @@
       });
     }
 
-    // 7. Error Shake Helper
+    // 7. Error Shake & Auto-Vanish Timer Helper
+    let authAlertTimerTimeout = null;
     function triggerCardShake(msg) {
       const authCard = document.getElementById('authCard');
       const errAlert = document.getElementById('authErrorAlert');
       const errMsg = document.getElementById('authErrorMessage');
       if (errMsg) errMsg.textContent = msg;
-      if (errAlert) errAlert.classList.remove('d-none');
+      if (errAlert) {
+        errAlert.classList.remove('d-none');
+        errAlert.style.opacity = '1';
+        errAlert.style.transform = 'translateY(0)';
+        
+        // Remove existing timer line if present and re-insert to restart right-to-left animation
+        const oldTimer = errAlert.querySelector('.cr-alert-timer');
+        if (oldTimer) oldTimer.remove();
+        const timer = document.createElement('div');
+        timer.className = 'cr-alert-timer';
+        errAlert.appendChild(timer);
+
+        if (authAlertTimerTimeout) clearTimeout(authAlertTimerTimeout);
+        authAlertTimerTimeout = setTimeout(() => {
+          errAlert.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          errAlert.style.opacity = '0';
+          errAlert.style.transform = 'translateY(-10px)';
+          setTimeout(() => {
+            errAlert.classList.add('d-none');
+            timer.remove();
+          }, 400);
+        }, 4500);
+      }
       if (authCard) {
         authCard.classList.remove('cr-shake');
         void authCard.offsetWidth; // Reflow to restart animation
@@ -618,5 +650,38 @@
       }, 450);
     });
   </script>
+
+  <!-- Institutional Account Recovery Modal -->
+  <div class="modal fade" id="recoveryModal" tabindex="-1" aria-labelledby="recoveryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-white text-dark border shadow-lg">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title h6 fw-bold text-dark d-flex align-items-center gap-2" id="recoveryModalLabel">
+            <i class="bi bi-shield-lock text-primary"></i> Institutional Account Recovery
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="rounded-circle bg-primary bg-opacity-10 text-primary mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
+            <i class="bi bi-person-badge fs-2"></i>
+          </div>
+          <h6 class="fw-bold text-dark mb-2">Self-Service Reset or Faculty Assistance</h6>
+          <p class="text-secondary small mb-3">
+            CodeReview AI enforces institutional authentication governance:
+          </p>
+          <div class="text-start bg-light p-3 rounded border small mb-3">
+            <div class="mb-1.5 text-dark"><strong>1. Self-Registration:</strong> If you registered an account locally, you can create a new testing handle directly in the <a href="javascript:void(0)" onclick="bootstrap.Modal.getInstance(document.getElementById('recoveryModal')).hide(); switchAuthMode('signup');" class="fw-bold text-primary">Create Account</a> tab.</div>
+            <div class="mb-1.5 text-dark"><strong>2. Faculty / Lead Mentors:</strong> Contact university systems administration at <code>admin@codereview.ai</code> to reissue institutional tokens.</div>
+            <div class="text-dark"><strong>3. Pre-Configured Demo:</strong> Reviewers and instructors can use preset credentials (<code>admin</code> / <code>password123</code> or <code>dr_aris</code> / <code>password123</code>).</div>
+          </div>
+        </div>
+        <div class="modal-footer border-top py-2">
+          <button type="button" class="cr-btn cr-btn-primary btn-sm px-3" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

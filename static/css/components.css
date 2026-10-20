@@ -658,6 +658,8 @@ html[data-auth-role="admin"] [data-role-perm="student-only"] {
   gap: 0.75rem;
   margin-bottom: 1.25rem;
   border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
 
 .cr-alert-info {
@@ -682,6 +684,131 @@ html[data-auth-role="admin"] [data-role-perm="student-only"] {
   background-color: var(--cr-status-missing-bg);
   border-color: var(--cr-status-missing-border);
   color: var(--cr-status-missing-text);
+}
+
+/* Alert countdown line timer */
+.cr-alert-timer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.35;
+  transform-origin: right; /* shrinks from right to left */
+  animation: crTimerShrink 4.5s linear forwards;
+}
+
+/* Modern Floating Toast Notification Container */
+.cr-toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1090;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.cr-toast {
+  pointer-events: auto;
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.35), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  min-width: 320px;
+  max-width: 440px;
+  overflow: hidden;
+  position: relative;
+  animation: crToastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+.cr-toast.is-hiding {
+  animation: crToastSlideOut 0.35s ease forwards;
+}
+
+.cr-toast-body {
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.cr-toast-body i {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.cr-toast-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  padding: 0.25rem;
+  margin-left: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+
+.cr-toast-close:hover {
+  color: #ffffff;
+}
+
+/* Countdown line timer shrinking from right to left */
+.cr-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: #3b82f6;
+  transform-origin: right;
+  animation: crTimerShrink 4.5s linear forwards;
+}
+
+.cr-toast-progress.success { background: #10b981; }
+.cr-toast-progress.danger { background: #ef4444; }
+.cr-toast-progress.warning { background: #f59e0b; }
+.cr-toast-progress.info { background: #3b82f6; }
+
+@keyframes crToastSlideIn {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes crToastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+}
+
+@keyframes crTimerShrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
 }
 
 /* Responsive Overrides */

@@ -793,6 +793,15 @@
       if (timeoutVal > 120) timeoutVal = 120;
       if (timeoutInput) timeoutInput.value = timeoutVal;
 
+      // Persist system policies to localStorage for ingestion and AST engines
+      const systemPolicies = {
+        maxZip: zipVal,
+        maxSrs: srsVal,
+        timeout: timeoutVal,
+        updatedAt: new Date().toISOString()
+      };
+      localStorage.setItem('cr_system_policies', JSON.stringify(systemPolicies));
+
       showToast(`System policies saved! Max ZIP: <strong>${zipVal} MB</strong>, Max SRS: <strong>${srsVal} MB</strong>, Timeout: <strong>${timeoutVal}s</strong>.`, 'bi-sliders text-success');
     }
 
@@ -811,8 +820,19 @@
       }
     }
 
-    // 7. Sync Registered & Deactivated Accounts from localStorage on page load
+    // 7. Sync Registered & Deactivated Accounts & Policies from localStorage on page load
     document.addEventListener('DOMContentLoaded', () => {
+      // Restore system policies if previously saved
+      const savedPolicies = JSON.parse(localStorage.getItem('cr_system_policies') || 'null');
+      if (savedPolicies) {
+        const zipInput = document.getElementById('maxZipMbInput');
+        const srsInput = document.getElementById('maxSrsMbInput');
+        const timeoutInput = document.getElementById('astTimeoutInput');
+        if (zipInput && savedPolicies.maxZip) zipInput.value = savedPolicies.maxZip;
+        if (srsInput && savedPolicies.maxSrs) srsInput.value = savedPolicies.maxSrs;
+        if (timeoutInput && savedPolicies.timeout) timeoutInput.value = savedPolicies.timeout;
+      }
+
       const registered = JSON.parse(localStorage.getItem('cr_registered_users') || '{}');
       const deactivated = JSON.parse(localStorage.getItem('cr_deactivated_users') || '[]');
       const tbody = document.getElementById('usersTableBody');

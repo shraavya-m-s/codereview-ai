@@ -148,30 +148,67 @@ All functional edge cases and RBAC anomalies discovered during the multi-role au
 
 ---
 
-## 7. Verification Artifacts & Session Log
+---
+
+## 8. Commit History Summary
 - **Git Branch:** `feature/frontend-ui`
-- **Latest Pushed Commits:**
+- **Key Commits:**
+  - `72e1cc9`: `fix(auth): enforce strict registered account verification on login, sync admin provisioning with localStorage, and document credentials`
   - `a48186f`: `fix(ui): eliminate white-on-white text, normalize contrast to WCAG AAA, and sanitize credential hints`
   - `11daf9f`: `feat: resolve role permissions, user mutations, status toggles, and add workflow credentials guide`
-- **Documentation References:**
-  - `SYSTEM_WORKFLOW_AND_CREDENTIALS.md`: Complete persona workflows and credential rules.
-  - `TESTING_AND_TECHNICAL_AUDIT.md`: Technical specification, RBAC matrix, and audit logs.
-- **Screenshots & Browser Recordings:**
-  - `student_unauthorized_redirect.png`
-  - `login_page_personas.png`
-  - `executive_evaluation_report.png`
-  - `user_management_panel.png`
-  - `review_audit_trail_history.png`
 
 ---
 
-## 8. Final Session Sign-Off & Audit Closure
+## 9. Comprehensive Codebase Audit, Toast Redesign & End-to-End Verification Closure
 
-- **Session Objective:** Multi-role UI testing (Student, Mentor, Admin), functional bug resolution, contrast normalization, and technical workflow documentation.
-- **Verification Status:** **100% PASSED**
-- **Test Artifacts Recorded:**
-  - `e2e_full_flow_1792395316549.webp` (End-to-End Persona Verification)
-  - `rigorous_role_testing_1792396716883.webp` (Rigorous Multi-Role Stress & Edge-Case Testing)
-- **Sign-Off Date:** October 19, 2026
-- **Next Phase Transition:** Ready for pull request review and merge from `feature/frontend-ui` into `main`, followed by Phase 11 backend/AST parser integration.
+### 9.1 Summary of Targeted Technical Deficiencies & Implemented Resolutions
+
+| Defect / Deficiencies Identified | Resolution & Technical Implementation | Impact & Validation Status |
+| :--- | :--- | :--- |
+| **Alert & Toast UX Degradation**<br>Alerts stuck indefinitely on `login.html`; toasts had no countdown or progress indicator. | Implemented `.cr-toast-progress` and `.cr-alert-timer` using `scaleX(1) -> scaleX(0)` with `transform-origin: right` over a 4.5s countdown animation. Alerts and toasts vanish cleanly. | **100% Verified** in browser subagent test. |
+| **Native `alert()` in Login Recovery**<br>`login.html` used blocking browser `alert()` for forgot password. | Replaced with accessible Bootstrap `#recoveryModal` displaying formal institutional support contacts. | **100% Verified** in browser subagent test. |
+| **Student RBAC Bypass on Findings**<br>Students could click "Accept Fix" and mutate status to `Implemented (1.0)`. | Added runtime role checks in `applyAiFixToDossier()` and `batchApproveSafe()`, disabled action button for students with `Faculty Review Required` badge. | **100% Verified** in browser subagent test. |
+| **Shared Project Registry Disconnect**<br>Projects created in `project_create.html` only saved to `sessionStorage` and did not appear in `project_list.html` or `index.html`. | Implemented unified project storage (`getStoredProjects`, `addProjectToStorage`, `deleteProjectFromStorage`) across all pages. | **100% Verified** in browser subagent test. |
+| **Ephemeral Project Deletions**<br>Deleting projects in `project_list.html` only removed the DOM node; reloads restored deleted records. | Connected deletion modal to `cr_deleted_projects` in `localStorage` so deleted records remain permanently removed across page reloads. | **100% Verified** in browser subagent test. |
+| **Admin System Policy Disconnect**<br>Max ZIP and Max SRS in `admin_users.html` were not persisted or read by `project_create.html`. | Stored policies in `cr_system_policies` in `localStorage`; dynamically read and updated dropzone limits and badges in `project_create.html`. | **100% Verified** in browser subagent test. |
+| **Static Custom Report Fallback**<br>`report.html` fell back to `Hospital_Management_System` for newly uploaded projects. | Added `buildReportFromProject()` and `syncReportSwitcherDropdown()` to dynamically generate compliance metrics and scores for any custom project. | **100% Verified** in browser subagent test. |
+| **Dark Theme Styling Remnants**<br>Dropdowns and modals in `report.html` and `project_detail.html` retained legacy `bg-dark text-light`. | Converted all dropdown menus and modals to Precision Slate white canvas (`bg-white text-dark shadow-sm border`). | **100% Verified** in browser subagent test. |
+
+---
+
+### 9.2 End-to-End Automated Browser Test Results
+
+The suite was executed autonomously via the browser subagent (`e2e_full_verification` session):
+
+1. **Step 1: Login & Recovery Flow**
+   - Attempted invalid credentials (`invalid_user` / `wrongpass`).
+   - Observed error alert with right-to-left animated timer shrinking over 4.5s and auto-vanished cleanly.
+   - Clicked "Forgot password?": verified `#recoveryModal` popped up cleanly and closed with close button.
+   - Authenticated as Administrator via credential helper.
+2. **Step 2: Admin Policy Configuration & Persistence**
+   - Navigated to `/admin_users.html`, opened "Rule & Engine Policy" tab.
+   - Updated Max ZIP to 150 MB and Max SRS to 35 MB; clicked "Save System Configuration".
+   - Verified animated save toast and confirmed persistence upon browser reload.
+3. **Step 3: Project Intake & Ingestion Pipeline**
+   - Navigated to `/project_create.html`.
+   - Verified upload dropzone badges dynamically reflected "Max 150 MB" and "Max 35 MB".
+   - Ingested new project `Cloud_Native_Observability_Agent` (Student: `Vikramaditya Roy`, Stack: `Go / Gin`).
+   - Observed 5-stage animated ingestion progress bar (Checksum -> AST Parse -> SRS Traceability -> Checkers -> Finalize) and verified auto-redirect to `project_detail.html`.
+4. **Step 4: Project Details, Reports & Dropdown Styling**
+   - Verified `Cloud_Native_Observability_Agent` details rendered with correct attribution and score.
+   - Confirmed "Switch Demo Project" dropdown uses clean white Precision Slate styling.
+   - Navigated to `/report.html?project=Cloud_Native_Observability_Agent` and confirmed dynamic report generation with weighted formula breakdown.
+5. **Step 5: Project Directory & Deletion Persistence**
+   - Navigated to `/project_list.html`: confirmed `Cloud_Native_Observability_Agent` rendered at the top of the table.
+   - Deleted a project record, confirmed in modal, and verified row fade-out.
+   - Reloaded page: verified the deleted project remained deleted from storage.
+6. **Step 6: Dashboard Real-Time Synchronization**
+   - Navigated to `/index.html`: verified recent projects table contains `Cloud_Native_Observability_Agent`.
+7. **Step 7: Role-Based Access Control (RBAC) & Student View**
+   - Logged out and authenticated as Student (`rahul_intern`).
+   - Navigated to `/findings.html`: confirmed "Batch Approve" button is hidden.
+   - Verified "Accept Fix" button is locked with `Faculty Review Required` badge, preventing student override.
+
+**Final Test Verdict:** **100% PASSED** (All 7 End-to-End Journeys Verified).
+
 

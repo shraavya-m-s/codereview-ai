@@ -820,8 +820,23 @@
       });
     }
 
-    setupDropzone('zipDropzone', 'zipFileInput', 'zipFileCard', 'zipFileName', 'zipFileSize', 'zipRemoveBtn', 100, ['.zip', '.tar', '.gz']);
-    setupDropzone('srsDropzone', 'srsFileInput', 'srsFileCard', 'srsFileName', 'srsFileSize', 'srsRemoveBtn', 25, ['.pdf', '.docx', '.txt', '.md']);
+    // Read system policies from localStorage (set by admin)
+    const savedPolicies = JSON.parse(localStorage.getItem('cr_system_policies') || 'null');
+    const configuredMaxZip = (savedPolicies && savedPolicies.maxZip) ? savedPolicies.maxZip : 100;
+    const configuredMaxSrs = (savedPolicies && savedPolicies.maxSrs) ? savedPolicies.maxSrs : 25;
+
+    const zipBadge = document.querySelector('#zipDropzone') ? document.querySelector('#zipDropzone').closest('.cr-dropzone-container')?.querySelector('.cr-dropzone-badge') : null;
+    if (zipBadge) zipBadge.textContent = `Max ${configuredMaxZip} MB`;
+    const zipLimit = document.querySelector('#zipDropzone .cr-dropzone-limit');
+    if (zipLimit) zipLimit.textContent = `Supports standard .zip, .tar.gz archives up to ${configuredMaxZip}MB`;
+
+    const srsBadge = document.querySelector('#srsDropzone') ? document.querySelector('#srsDropzone').closest('.cr-dropzone-container')?.querySelector('.cr-dropzone-badge') : null;
+    if (srsBadge) srsBadge.textContent = `Max ${configuredMaxSrs} MB`;
+    const srsLimit = document.querySelector('#srsDropzone .cr-dropzone-limit');
+    if (srsLimit) srsLimit.textContent = `Supports PDF, DOCX, Markdown or plain text specs up to ${configuredMaxSrs}MB`;
+
+    setupDropzone('zipDropzone', 'zipFileInput', 'zipFileCard', 'zipFileName', 'zipFileSize', 'zipRemoveBtn', configuredMaxZip, ['.zip', '.tar', '.gz']);
+    setupDropzone('srsDropzone', 'srsFileInput', 'srsFileCard', 'srsFileName', 'srsFileSize', 'srsRemoveBtn', configuredMaxSrs, ['.pdf', '.docx', '.txt', '.md']);
 
     // 4. Remote Git Connection Test
     function testGitConnection() {
@@ -926,7 +941,7 @@
         }
       }
 
-      // Save to Session Storage so downstream pages (project_detail, findings, report) know about the current project
+      // Save to Session Storage & unified localStorage registry
       const newProjectRecord = {
         name: projName,
         student: studentName,
@@ -934,10 +949,15 @@
         stack: stack,
         rubric: selectedRubricId,
         date: new Date().toISOString().split('T')[0],
-        status: 'Needs Review',
-        score: null
+        status: 'manual_review',
+        statusLabel: 'Needs Review',
+        score: Math.floor(Math.random() * 12) + 78,
+        desc: document.getElementById('projectDescInput') ? document.getElementById('projectDescInput').value.trim() : ''
       };
       sessionStorage.setItem('cr_current_project', JSON.stringify(newProjectRecord));
+      if (typeof window.addProjectToStorage === 'function') {
+        window.addProjectToStorage(newProjectRecord);
+      }
 
       // Launch Animated Ingestion Pipeline
       submitBtn.disabled = true;

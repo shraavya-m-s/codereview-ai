@@ -657,14 +657,123 @@
     const stackFilter = document.getElementById('projectStackFilter');
     const sortFilter = document.getElementById('projectSortFilter');
     const tbody = document.getElementById('projectsTableBody');
-    const rows = Array.from(document.querySelectorAll('#projectsTableBody tr'));
     const emptyState = document.getElementById('noProjectsMatch');
     const countLabel = document.getElementById('projectMatchCount');
+    let rows = [];
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function renderProjectsTable() {
+      const stored = (typeof window.getStoredProjects === 'function') ? window.getStoredProjects() : [];
+      const userRole = localStorage.getItem('cr_user_role') || 'mentor';
+      const userName = (localStorage.getItem('cr_user_name') || 'Rahul Sharma').toLowerCase();
+
+      tbody.innerHTML = '';
+
+      let projectsToRender = stored;
+      if (userRole === 'student') {
+        projectsToRender = stored.filter(p => {
+          const sName = (p.student || '').toLowerCase();
+          return sName.includes('rahul') || sName.includes(userName);
+        });
+        if (projectsToRender.length === 0 && stored.length > 0) {
+          projectsToRender = [stored[0]]; // fallback to first project for student view
+        }
+      }
+
+      projectsToRender.forEach(p => {
+        const tr = document.createElement('tr');
+        const stackLower = (p.stack || '').toLowerCase();
+        let stackSlug = 'other';
+        if (stackLower.includes('django') || stackLower.includes('drf')) stackSlug = 'django';
+        else if (stackLower.includes('node') || stackLower.includes('express')) stackSlug = 'node';
+        else if (stackLower.includes('fastapi')) stackLower.includes('fastapi') ? 'fastapi' : 'django';
+        else if (stackLower.includes('spring') || stackLower.includes('java')) stackSlug = 'spring';
+
+        const statusSlug = p.status || 'completed';
+        const score = (p.score !== null && p.score !== undefined) ? parseInt(p.score, 10) : 80;
+        
+        tr.setAttribute('data-status', statusSlug);
+        tr.setAttribute('data-stack', stackSlug);
+        tr.setAttribute('data-score', score);
+        tr.setAttribute('data-date', p.date || '2026-10-18');
+        tr.setAttribute('data-name', `${p.name} ${p.student} ${p.stack}`);
+
+        let badgeClass = 'cr-badge-implemented';
+        let statusLabel = p.statusLabel || 'Completed';
+        if (statusSlug === 'manual_review') {
+          badgeClass = 'cr-badge-manual';
+          statusLabel = 'Manual Review';
+        } else if (statusSlug === 'in_progress') {
+          badgeClass = 'cr-badge-partial';
+          statusLabel = 'In Progress';
+        }
+
+        const isUserStudent = (userRole === 'student');
+
+        tr.innerHTML = `
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div class="cr-metric-icon bg-primary-subtle text-primary flex-shrink-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                <i class="bi bi-file-earmark-code"></i>
+              </div>
+              <div>
+                <a href="project_detail.html?project=${encodeURIComponent(p.name)}" class="fw-bold text-dark text-decoration-none hover-text-primary">
+                  ${escapeHtml(p.name)}
+                </a>
+                <div class="text-muted small" style="font-size: 0.75rem;">
+                  ${escapeHtml(p.desc ? p.desc.substring(0, 48) + '...' : '38 Requirements • Validated Archive')}
+                  ${isUserStudent ? '<span class="badge bg-success-subtle text-success border border-success-subtle ms-1">Your Submission</span>' : ''}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="fw-semibold small text-dark">${escapeHtml(p.student)}</div>
+            <div class="text-muted" style="font-size: 0.75rem;">${escapeHtml(p.cohort || 'Batch 2026-Q1')}</div>
+          </td>
+          <td>
+            <span class="badge bg-light text-dark border">${escapeHtml(p.stack)}</span>
+          </td>
+          <td>
+            <span class="cr-badge ${badgeClass}">${escapeHtml(statusLabel)}</span>
+          </td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-bold text-dark">${score} / 100</span>
+              ${score >= 80 ? '<span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.7rem;">Passed</span>' : '<span class="badge bg-warning-subtle text-warning border border-warning-subtle" style="font-size: 0.7rem;">Review</span>'}
+            </div>
+          </td>
+          <td class="text-muted small">${escapeHtml(p.date || 'Oct 18, 2026')}</td>
+          <td class="text-end">
+            <div class="btn-group btn-group-sm">
+              <a href="project_detail.html?project=${encodeURIComponent(p.name)}" class="cr-btn cr-btn-secondary cr-btn-sm" title="Project Details">Details</a>
+              <a href="findings.html?project=${encodeURIComponent(p.name)}" class="cr-btn cr-btn-secondary cr-btn-sm" title="View Review Findings">Findings</a>
+              <a href="report.html?project=${encodeURIComponent(p.name)}" class="cr-btn cr-btn-outline-primary cr-btn-sm" title="Open Report">Report</a>
+              <button type="button" class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm border small">
+                <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerReaudit('${escapeHtml(p.name)}')"><i class="bi bi-arrow-clockwise me-1.5 text-primary"></i> Re-run Rule Audit</a></li>
+                <li><a class="dropdown-item py-1.5" href="javascript:void(0)" onclick="triggerExport('${escapeHtml(p.name)}')"><i class="bi bi-download me-1.5 text-secondary"></i> Download ZIP Archive</a></li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li><a class="dropdown-item py-1.5 text-danger" href="javascript:void(0)" onclick="triggerDeleteModal('${escapeHtml(p.name)}')"><i class="bi bi-trash3 me-1.5"></i> Delete Record</a></li>
+              </ul>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      rows = Array.from(tbody.querySelectorAll('tr'));
+      applyFilters();
+    }
 
     function applyFilters() {
-      const q = searchInput.value.toLowerCase().trim();
-      const status = statusFilter.value;
-      const stack = stackFilter.value;
+      const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      const status = statusFilter ? statusFilter.value : 'all';
+      const stack = stackFilter ? stackFilter.value : 'all';
 
       if (clearSearchBtn) {
         clearSearchBtn.classList.toggle('d-none', q.length === 0);
@@ -695,12 +804,12 @@
       // Sorting
       sortRows();
 
-      emptyState.classList.toggle('d-none', visible > 0);
-      countLabel.innerHTML = `Showing <strong>${visible}</strong> of ${rows.length}`;
+      if (emptyState) emptyState.classList.toggle('d-none', visible > 0);
+      if (countLabel) countLabel.innerHTML = `Showing <strong>${visible}</strong> of ${rows.length}`;
     }
 
     function sortRows() {
-      const sortType = sortFilter.value;
+      const sortType = sortFilter ? sortFilter.value : 'date_desc';
       const sorted = rows.slice().sort((a, b) => {
         if (sortType === 'score_desc') {
           return parseInt(b.getAttribute('data-score') || 0) - parseInt(a.getAttribute('data-score') || 0);
@@ -718,7 +827,7 @@
     }
 
     function quickFilterStatus(status) {
-      statusFilter.value = status;
+      if (statusFilter) statusFilter.value = status;
       applyFilters();
     }
 
@@ -742,10 +851,10 @@
     }
 
     function resetAllFilters() {
-      searchInput.value = '';
-      statusFilter.value = 'all';
-      stackFilter.value = 'all';
-      sortFilter.value = 'date_desc';
+      if (searchInput) searchInput.value = '';
+      if (statusFilter) statusFilter.value = 'all';
+      if (stackFilter) stackFilter.value = 'all';
+      if (sortFilter) sortFilter.value = 'date_desc';
       applyFilters();
     }
 
@@ -757,10 +866,10 @@
       });
     }
 
-    searchInput.addEventListener('input', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-    stackFilter.addEventListener('change', applyFilters);
-    sortFilter.addEventListener('change', () => {
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+    if (statusFilter) statusFilter.addEventListener('change', applyFilters);
+    if (stackFilter) stackFilter.addEventListener('change', applyFilters);
+    if (sortFilter) sortFilter.addEventListener('change', () => {
       sortRows();
     });
 
@@ -786,7 +895,7 @@
       showToast(`Preparing encrypted source archive download for <strong>${projectName}</strong>.`, 'bi-file-earmark-zip-fill text-info');
     }
 
-    // 3. Delete Project Modal Logic
+    // 3. Delete Project Modal Logic with Persistent Storage Sync
     let currentDeleteTarget = '';
     function triggerDeleteModal(projectName) {
       currentDeleteTarget = projectName;
@@ -799,6 +908,11 @@
       const modalEl = document.getElementById('deleteProjectModal');
       const modal = bootstrap.Modal.getInstance(modalEl);
       if (modal) modal.hide();
+
+      // Persist deletion to localStorage so it survives page reloads
+      if (typeof window.deleteProjectFromStorage === 'function') {
+        window.deleteProjectFromStorage(currentDeleteTarget);
+      }
 
       // Find and visually remove the row
       const targetRow = rows.find(r => (r.getAttribute('data-name') || '').includes(currentDeleteTarget));
@@ -816,8 +930,16 @@
       }
     }
 
-    // Initial Sort & Filter run and guarantee left alignment
-    applyFilters();
+    // Initialize Dynamic Table on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProjectsTable();
+    });
+
+    // Also run immediately if DOM is ready
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      renderProjectsTable();
+    }
+
     const tableResp = document.querySelector('.table-responsive');
     if (tableResp) tableResp.scrollLeft = 0;
   </script>

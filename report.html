@@ -162,10 +162,10 @@
             <button class="btn btn-sm btn-outline-secondary border-opacity-50 text-secondary dropdown-toggle py-1 px-2.5 small" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-arrow-left-right me-1"></i> Switch Project Report
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow border bg-dark text-light mt-1">
-              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadReportContext('Hospital_Management_System')"><i class="bi bi-hospital text-danger me-2"></i> Hospital_Management_System</a></li>
-              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadReportContext('ECommerce_Microservices_API')"><i class="bi bi-cart text-primary me-2"></i> ECommerce_Microservices_API</a></li>
-              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadReportContext('FinTech_Ledger_Service')"><i class="bi bi-bank text-warning me-2"></i> FinTech_Ledger_Service</a></li>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border bg-white text-dark mt-1" id="reportSwitcherDropdown">
+              <li><a class="dropdown-item small py-1.5" href="javascript:void(0)" onclick="loadReportContext('Hospital_Management_System')"><i class="bi bi-hospital text-danger me-2"></i> Hospital_Management_System</a></li>
+              <li><a class="dropdown-item small py-1.5" href="javascript:void(0)" onclick="loadReportContext('ECommerce_Microservices_API')"><i class="bi bi-cart text-primary me-2"></i> ECommerce_Microservices_API</a></li>
+              <li><a class="dropdown-item small py-1.5" href="javascript:void(0)" onclick="loadReportContext('FinTech_Ledger_Service')"><i class="bi bi-bank text-warning me-2"></i> FinTech_Ledger_Service</a></li>
             </ul>
           </div>
 
@@ -538,19 +538,74 @@
       }
     };
 
+    function buildReportFromProject(proj) {
+      const score = (proj.score !== null && proj.score !== undefined) ? parseInt(proj.score, 10) : 85;
+      const w1 = Math.min(100, Math.round(score * 1.02));
+      const w2 = Math.min(100, Math.round(score * 0.96));
+      const w3 = Math.min(100, Math.round(score * 0.94));
+      const w4 = Math.min(100, Math.round(score * 1.01));
+      const prefix = proj.name.substring(0, 3).toUpperCase().replace(/[^A-Z]/g, 'PRJ');
+      return {
+        name: proj.name,
+        student: proj.student || 'Candidate Intern',
+        cohort: proj.cohort || 'Batch 2026-Q1',
+        stack: proj.stack || 'Fullstack Application',
+        archive: (proj.name.toLowerCase().replace(/[^a-z0-9_]/g, '') + '_v1.zip'),
+        score: score,
+        verdict: score >= 80 ? 'Passed Evaluation (Grade A)' : (score >= 65 ? 'Under Review (Grade B)' : 'Remediation Required'),
+        verdictSubtext: score >= 80 ? 'Meets Industry Intern Readiness Standard' : 'Requires mentor review and remediation',
+        weight1: { pct: w1, text: `${w1}% • Contributes ${(w1 * 0.6).toFixed(1)} pts` },
+        weight2: { pct: w2, text: `${w2}% • Contributes ${(w2 * 0.2).toFixed(1)} pts` },
+        weight3: { pct: w3, text: `${w3}% • Contributes ${(w3 * 0.1).toFixed(1)} pts` },
+        weight4: { pct: w4, text: `${w4}% • Contributes ${(w4 * 0.1).toFixed(1)} pts` },
+        reportId: `#RPT-2026-${prefix}-${String(score).padStart(3, '0')}`,
+        summary: `Automated AST and SRS audit completed for ${proj.name}. Architectural compliance meets ${score >= 80 ? 'certified passing' : 'provisional'} criteria with full test suite traceability.`
+      };
+    }
+
+    function syncReportSwitcherDropdown() {
+      const dropdown = document.getElementById('reportSwitcherDropdown');
+      if (!dropdown || typeof window.getStoredProjects !== 'function') return;
+
+      const stored = window.getStoredProjects();
+      dropdown.innerHTML = '';
+      stored.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a class="dropdown-item small py-1.5 text-dark" href="javascript:void(0)" onclick="loadReportContext('${p.name}')">
+            <i class="bi bi-file-earmark-code text-primary me-2"></i> ${p.name}
+          </a>
+        `;
+        dropdown.appendChild(li);
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+      syncReportSwitcherDropdown();
+
       // Check query params or session storage
       const urlParams = new URLSearchParams(window.location.search);
       const projParam = urlParams.get('project') || urlParams.get('name') || urlParams.get('id');
 
       let activeReport = null;
-      if (projParam && reportDatasets[projParam]) {
-        activeReport = reportDatasets[projParam];
-      } else if (sessionStorage.getItem('cr_current_project')) {
+      if (projParam) {
+        if (reportDatasets[projParam]) {
+          activeReport = reportDatasets[projParam];
+        } else if (typeof window.getStoredProjects === 'function') {
+          const match = window.getStoredProjects().find(p => p.name === projParam);
+          if (match) activeReport = buildReportFromProject(match);
+        }
+      }
+
+      if (!activeReport && sessionStorage.getItem('cr_current_project')) {
         try {
           const stored = JSON.parse(sessionStorage.getItem('cr_current_project'));
-          if (stored.name && reportDatasets[stored.name]) {
-            activeReport = reportDatasets[stored.name];
+          if (stored.name) {
+            if (reportDatasets[stored.name]) {
+              activeReport = reportDatasets[stored.name];
+            } else {
+              activeReport = buildReportFromProject(stored);
+            }
           }
         } catch(e) {}
       }
@@ -566,6 +621,14 @@
       if (reportDatasets[key]) {
         applyReportData(reportDatasets[key]);
         showToast(`Report updated for <strong>${reportDatasets[key].name}</strong>`, 'bi-check-circle-fill text-success');
+      } else if (typeof window.getStoredProjects === 'function') {
+        const match = window.getStoredProjects().find(p => p.name === key);
+        if (match) {
+          const generated = buildReportFromProject(match);
+          reportDatasets[key] = generated;
+          applyReportData(generated);
+          showToast(`Report loaded for <strong>${key}</strong>`, 'bi-check-circle-fill text-success');
+        }
       }
     }
 

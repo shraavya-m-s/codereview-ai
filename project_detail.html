@@ -227,11 +227,11 @@
             <button class="btn btn-sm btn-outline-secondary border-opacity-50 text-secondary dropdown-toggle py-1 px-2.5 small" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-arrow-left-right me-1"></i> Switch Demo Project
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow border bg-dark text-light mt-1">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border bg-white text-dark mt-1" id="projectSwitcherDropdown">
               <li><h6 class="dropdown-header text-secondary small">Sample Submissions</h6></li>
-              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadProjectContext('Hospital_Management_System')"><i class="bi bi-hospital text-danger me-2"></i> Hospital_Management_System</a></li>
-              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadProjectContext('ECommerce_Microservices_API')"><i class="bi bi-cart text-primary me-2"></i> ECommerce_Microservices_API</a></li>
-              <li><a class="dropdown-item text-light small py-1.5" href="javascript:void(0)" onclick="loadProjectContext('FinTech_Ledger_Service')"><i class="bi bi-bank text-warning me-2"></i> FinTech_Ledger_Service</a></li>
+              <li><a class="dropdown-item small py-1.5 text-dark" href="javascript:void(0)" onclick="loadProjectContext('Hospital_Management_System')"><i class="bi bi-hospital text-danger me-2"></i> Hospital_Management_System</a></li>
+              <li><a class="dropdown-item small py-1.5 text-dark" href="javascript:void(0)" onclick="loadProjectContext('ECommerce_Microservices_API')"><i class="bi bi-cart text-primary me-2"></i> ECommerce_Microservices_API</a></li>
+              <li><a class="dropdown-item small py-1.5 text-dark" href="javascript:void(0)" onclick="loadProjectContext('FinTech_Ledger_Service')"><i class="bi bi-bank text-warning me-2"></i> FinTech_Ledger_Service</a></li>
             </ul>
           </div>
 
@@ -280,7 +280,7 @@
                 <div class="d-flex align-items-center gap-1.5">
                   <i class="bi bi-person-circle text-primary fs-6"></i>
                   <span>Student: <strong class="text-light" id="detailStudentName">Rahul Sharma</strong></span>
-                  <span class="badge bg-dark border border-secondary text-secondary ms-1" id="detailCohortTag">Batch 2026-Q1</span>
+                  <span class="badge bg-secondary-subtle border border-secondary-subtle text-secondary ms-1" id="detailCohortTag">Batch 2026-Q1</span>
                 </div>
                 <div class="d-flex align-items-center gap-1.5">
                   <i class="bi bi-file-earmark-zip-fill text-warning fs-6"></i>
@@ -648,18 +648,18 @@
   <!-- Re-Audit Simulation Modal -->
   <div class="modal fade" id="reauditModal" tabindex="-1" aria-labelledby="reauditModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-light border-secondary shadow-lg">
-        <div class="modal-header border-secondary border-opacity-50">
-          <h5 class="modal-title h6 fw-bold" id="reauditModalLabel">
+      <div class="modal-content bg-white text-dark border shadow-lg">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title h6 fw-bold text-dark" id="reauditModalLabel">
             <i class="bi bi-cpu text-primary me-1"></i> Executing Rule Engine Re-Audit
           </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-4 text-center">
           <div class="mb-3 d-inline-block p-3 rounded-circle bg-primary bg-opacity-10 border border-primary border-opacity-25 audit-stepper-pulse">
             <i class="bi bi-arrow-repeat text-primary fs-1 spin" style="display: inline-block;"></i>
           </div>
-          <h6 class="fw-bold text-light mb-1" id="auditModalStepTitle">Re-parsing Source AST Trees...</h6>
+          <h6 class="fw-bold text-dark mb-1" id="auditModalStepTitle">Re-parsing Source AST Trees...</h6>
           <p class="text-secondary small mb-3" id="auditModalStepDesc">Re-evaluating 48 rules across 18 extracted Python files.</p>
           
           <div class="cr-score-progress mb-2" style="height: 6px;">
@@ -674,20 +674,20 @@
   <!-- Source Code Preview Modal -->
   <div class="modal fade" id="codePreviewModal" tabindex="-1" aria-labelledby="codePreviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content bg-dark text-light border-secondary shadow-lg">
-        <div class="modal-header border-secondary border-opacity-50">
+      <div class="modal-content bg-white text-dark border shadow-lg">
+        <div class="modal-header border-bottom">
           <div>
-            <h5 class="modal-title h6 fw-bold mb-0" id="previewModalFileName">manage.py</h5>
+            <h5 class="modal-title h6 fw-bold text-dark mb-0" id="previewModalFileName">manage.py</h5>
             <small class="text-secondary" id="previewModalFileMeta">Django Runner &bull; 38 lines &bull; AST Valid</small>
           </div>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-3">
-          <div class="code-preview-area" id="codePreviewArea">
+          <div class="code-preview-area bg-light border rounded p-3 font-monospace small" id="codePreviewArea" style="max-height: 400px; overflow-y: auto;">
             # Loading code stream...
           </div>
         </div>
-        <div class="modal-footer border-secondary border-opacity-50 py-2">
+        <div class="modal-footer border-top py-2">
           <span class="small text-secondary me-auto"><i class="bi bi-shield-check text-success"></i> Static view only (sandbox execution isolated)</span>
           <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -777,37 +777,74 @@
       }
     };
 
+    function buildDetailFromProject(stored) {
+      const score = (stored.score !== null && stored.score !== undefined) ? parseInt(stored.score, 10) : 84;
+      return {
+        title: stored.name || 'Hospital_Management_System',
+        student: stored.student || 'Rahul Sharma',
+        cohort: stored.cohort || 'Batch 2026-Q1',
+        stack: stored.stack || 'Python 3.12 / Django 4.2',
+        desc: stored.desc || 'Automated rule-based project review and code verification.',
+        archive: (stored.name || 'project').toLowerCase() + '_package.zip',
+        archiveSize: '12.4 MB',
+        srs: 'SRS_Specification.pdf',
+        status: stored.statusLabel || (stored.status === 'completed' ? 'Audit Completed' : 'Needs Review'),
+        score: `${score} / 100`,
+        verdict: score >= 80 ? 'Passed (Grade A)' : 'Needs Review (Grade B)',
+        reqRatio: '40 / 48',
+        reqPct: `${Math.round((score / 100) * 100)}% Implemented`,
+        reqSubtext: '36 Full • 4 Partial • 8 Missing',
+        quality: `${score}%`,
+        security: score >= 80 ? '0 Critical' : '1 Major',
+        filesCount: '18 Files',
+        reqCount: '48'
+      };
+    }
+
+    function syncProjectDetailSwitcher() {
+      const dropdown = document.getElementById('projectSwitcherDropdown');
+      if (!dropdown || typeof window.getStoredProjects !== 'function') return;
+
+      const stored = window.getStoredProjects();
+      dropdown.innerHTML = '<li><h6 class="dropdown-header text-secondary small">Available Projects</h6></li>';
+      stored.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a class="dropdown-item small py-1.5 text-dark" href="javascript:void(0)" onclick="loadProjectContext('${p.name}')">
+            <i class="bi bi-file-earmark-code text-primary me-2"></i> ${p.name}
+          </a>
+        `;
+        dropdown.appendChild(li);
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+      syncProjectDetailSwitcher();
+
       // Check query params or session storage
       const urlParams = new URLSearchParams(window.location.search);
-      const createdParam = urlParams.get('created') || urlParams.get('name') || urlParams.get('id');
+      const createdParam = urlParams.get('project') || urlParams.get('created') || urlParams.get('name') || urlParams.get('id');
 
       let currentData = null;
-      if (createdParam && projectDatasets[createdParam]) {
-        currentData = projectDatasets[createdParam];
-      } else if (sessionStorage.getItem('cr_current_project')) {
+      if (createdParam) {
+        if (projectDatasets[createdParam]) {
+          currentData = projectDatasets[createdParam];
+        } else if (typeof window.getStoredProjects === 'function') {
+          const match = window.getStoredProjects().find(p => p.name === createdParam);
+          if (match) currentData = buildDetailFromProject(match);
+        }
+      }
+
+      if (!currentData && sessionStorage.getItem('cr_current_project')) {
         try {
           const stored = JSON.parse(sessionStorage.getItem('cr_current_project'));
-          currentData = {
-            title: stored.name || 'Hospital_Management_System',
-            student: stored.student || 'Rahul Sharma',
-            cohort: stored.cohort || 'Batch 2026-Q1',
-            stack: stored.stack || 'Python 3.12 / Django 4.2',
-            desc: stored.desc || 'Automated rule-based project review and code verification.',
-            archive: (stored.name || 'project').toLowerCase() + '_package.zip',
-            archiveSize: '12.4 MB',
-            srs: 'SRS_Specification.pdf',
-            status: stored.status || 'Audit Completed',
-            score: '84 / 100',
-            verdict: 'Passed (Grade A)',
-            reqRatio: '40 / 48',
-            reqPct: '83% Implemented',
-            reqSubtext: '36 Full • 4 Partial • 8 Missing',
-            quality: '82%',
-            security: '1 Major',
-            filesCount: '18 Files',
-            reqCount: '48'
-          };
+          if (stored.name) {
+            if (projectDatasets[stored.name]) {
+              currentData = projectDatasets[stored.name];
+            } else {
+              currentData = buildDetailFromProject(stored);
+            }
+          }
         } catch(e) {}
       }
 
@@ -822,6 +859,14 @@
       if (projectDatasets[key]) {
         applyProjectContext(projectDatasets[key]);
         showToast(`Loaded context for <strong>${projectDatasets[key].title}</strong>`, 'bi-check-circle-fill text-success');
+      } else if (typeof window.getStoredProjects === 'function') {
+        const match = window.getStoredProjects().find(p => p.name === key);
+        if (match) {
+          const generated = buildDetailFromProject(match);
+          projectDatasets[key] = generated;
+          applyProjectContext(generated);
+          showToast(`Loaded context for <strong>${key}</strong>`, 'bi-check-circle-fill text-success');
+        }
       }
     }
 
