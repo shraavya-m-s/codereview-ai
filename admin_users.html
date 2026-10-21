@@ -17,17 +17,17 @@
   <link rel="stylesheet" href="static/css/components.css">
 
   <style>
-    /* Phase 10 Admin Console Styles */
+    /* Admin Console Navigation Tabs */
     .cr-admin-tab-nav {
       display: flex;
       gap: 0.5rem;
-      border-bottom: 1px solid var(--cr-border-color, #334155);
+      border-bottom: 1px solid #e2e8f0;
       margin-bottom: 1.5rem;
     }
     .cr-admin-tab-btn {
       background: transparent;
       border: none;
-      color: #94a3b8;
+      color: #64748b;
       font-weight: 500;
       font-size: 0.9rem;
       padding: 0.75rem 1.25rem;
@@ -39,19 +39,20 @@
       cursor: pointer;
     }
     .cr-admin-tab-btn:hover {
-      color: #f8fafc;
+      color: #0f172a;
     }
     .cr-admin-tab-btn.active {
-      color: #38bdf8;
-      border-bottom-color: #38bdf8;
+      color: #2563eb;
+      border-bottom-color: #2563eb;
       font-weight: 600;
     }
     .cr-config-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.6);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
       border-radius: 0.5rem;
       padding: 1.25rem;
       margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
   </style>
 </head>
@@ -192,7 +193,7 @@
           <div>
             <div class="d-flex align-items-center gap-2 mb-1">
               <h1 class="h3 mb-0 fw-bold text-dark">Admin &amp; System Governance</h1>
-              <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30" style="font-size: 0.72rem;">Phase 10 Console</span>
+              <span class="cr-status-badge active" style="font-size: 0.72rem;"><i class="bi bi-shield-check"></i> System Console</span>
             </div>
             <p class="text-secondary small mb-0">Manage platform users, role assignments, review strictness policies, and archive capacity limits.</p>
           </div>
@@ -253,11 +254,11 @@
                   <tr data-role="admin">
                     <td>
                       <div class="fw-bold text-dark">System Administrator</div>
-                      <div class="text-secondary small"><code>@admin</code></div>
+                      <div class="text-secondary small"><span class="cr-handle">@admin</span></div>
                     </td>
                     <td class="text-secondary small">admin@codereview.ai</td>
                     <td><span class="cr-role-badge admin"><i class="bi bi-shield-lock-fill"></i> Admin</span></td>
-                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td><span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span></td>
                     <td class="text-secondary small">Full Infrastructure Access</td>
                     <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" disabled>Protected</button>
@@ -268,11 +269,11 @@
                   <tr data-role="mentor">
                     <td>
                       <div class="fw-bold text-dark">Dr. Aris</div>
-                      <div class="text-secondary small"><code>@dr_aris</code></div>
+                      <div class="text-secondary small"><span class="cr-handle">@dr_aris</span></div>
                     </td>
                     <td class="text-secondary small">aris.mentor@university.edu</td>
                     <td><span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span></td>
-                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td><span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span></td>
                     <td class="text-secondary small">14 Projects Reviewed</td>
                     <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Dr. Aris', 'dr_aris', 'mentor', this)">
@@ -288,11 +289,11 @@
                   <tr data-role="mentor">
                     <td>
                       <div class="fw-bold text-dark">Dr. Elena Rostova</div>
-                      <div class="text-secondary small"><code>@elena_mentor</code></div>
+                      <div class="text-secondary small"><span class="cr-handle">@elena_mentor</span></div>
                     </td>
                     <td class="text-secondary small">elena.rostova@university.edu</td>
                     <td><span class="cr-role-badge mentor"><i class="bi bi-mortarboard-fill"></i> Mentor</span></td>
-                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td><span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span></td>
                     <td class="text-secondary small">9 Projects Reviewed</td>
                     <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Dr. Elena Rostova', 'elena_mentor', 'mentor', this)">
@@ -308,11 +309,11 @@
                   <tr data-role="student">
                     <td>
                       <div class="fw-bold text-dark">Rahul Sharma</div>
-                      <div class="text-secondary small"><code>@rahul_intern</code></div>
+                      <div class="text-secondary small"><span class="cr-handle">@rahul_intern</span></div>
                     </td>
                     <td class="text-secondary small">rahul.sharma@intern.org</td>
                     <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
-                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td><span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span></td>
                     <td class="text-secondary small">Hospital_Management_System</td>
                     <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Rahul Sharma', 'rahul_intern', 'student', this)">
@@ -328,11 +329,11 @@
                   <tr data-role="student">
                     <td>
                       <div class="fw-bold text-dark">Neha Deshmukh</div>
-                      <div class="text-secondary small"><code>@neha_intern</code></div>
+                      <div class="text-secondary small"><span class="cr-handle">@neha_intern</span></div>
                     </td>
                     <td class="text-secondary small">neha.deshmukh@intern.org</td>
                     <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
-                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td><span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span></td>
                     <td class="text-secondary small">ECommerce_Microservices_API</td>
                     <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Neha Deshmukh', 'neha_intern', 'student', this)">
@@ -348,11 +349,11 @@
                   <tr data-role="student">
                     <td>
                       <div class="fw-bold text-dark">Aman Verma</div>
-                      <div class="text-secondary small"><code>@aman_intern</code></div>
+                      <div class="text-secondary small"><span class="cr-handle">@aman_intern</span></div>
                     </td>
                     <td class="text-secondary small">aman.verma@intern.org</td>
                     <td><span class="cr-role-badge student"><i class="bi bi-person-fill"></i> Student</span></td>
-                    <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+                    <td><span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span></td>
                     <td class="text-secondary small">FinTech_Ledger_Service</td>
                     <td class="text-end" style="white-space: nowrap;">
                       <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('Aman Verma', 'aman_intern', 'student', this)">
@@ -407,7 +408,7 @@
                 <div class="col-md-4">
                   <label class="form-label small text-secondary fw-semibold">Max Source ZIP Limit (MB):</label>
                   <input type="number" class="cr-input form-control bg-white text-dark border" id="maxZipMbInput" value="100" min="10" max="250">
-                  <div class="cr-form-hint">Configured in Phase 5 to 100 MB.</div>
+                  <div class="cr-form-hint">Default ingestion threshold: 100 MB.</div>
                 </div>
                 <div class="col-md-4">
                   <label class="form-label small text-secondary fw-semibold">Max SRS Document Limit (MB):</label>
@@ -653,11 +654,11 @@
       tr.innerHTML = `
         <td>
           <div class="fw-bold text-dark">${escapeHtml(name)}</div>
-          <div class="text-secondary small"><code>@${escapeHtml(username)}</code></div>
+          <div class="text-secondary small"><span class="cr-handle">@${escapeHtml(username)}</span></div>
         </td>
         <td class="text-secondary small">${escapeHtml(email)}</td>
         <td>${roleBadgeMap[role] || role}</td>
-        <td><span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span></td>
+        <td><span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span></td>
         <td class="text-secondary small">0 Projects Assigned</td>
         <td class="text-end" style="white-space: nowrap;">
           <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('${escapeHtml(name)}', '${escapeHtml(username)}', '${role}', this)">
@@ -749,7 +750,7 @@
       const userKey = username.toLowerCase();
 
       if (isCurrentlyActive) {
-        statusCell.innerHTML = '<span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">Inactive</span>';
+        statusCell.innerHTML = '<span class="cr-status-badge inactive"><i class="bi bi-x-circle-fill"></i> Inactive</span>';
         btn.className = 'cr-btn cr-btn-outline-success cr-btn-sm py-1 px-2 ms-1';
         if (labelSpan) labelSpan.textContent = 'Activate';
         if (icon) icon.className = 'bi bi-check-circle';
@@ -759,7 +760,7 @@
         }
         showToast(`Account <strong>@${username}</strong> deactivated. Access suspended.`, 'bi-pause-circle-fill text-warning');
       } else {
-        statusCell.innerHTML = '<span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30">Active</span>';
+        statusCell.innerHTML = '<span class="cr-status-badge active"><i class="bi bi-check-circle-fill"></i> Active</span>';
         btn.className = 'cr-btn cr-btn-outline-danger cr-btn-sm py-1 px-2 ms-1';
         if (labelSpan) labelSpan.textContent = 'Deactivate';
         if (icon) icon.className = 'bi bi-power';
@@ -809,15 +810,44 @@
       return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // 6. Live Action Toast Helper
+    // 6. Live Action Toast Helper (with animated right-to-left progress timer)
     function showToast(message, iconClass = 'bi-check-circle-fill text-success') {
-      const toastEl = document.getElementById('liveActionToast');
-      const toastMsg = document.getElementById('toastMessage');
-      if (toastEl && toastMsg) {
-        toastMsg.innerHTML = `<i class="bi ${iconClass} fs-5"></i> <span>${message}</span>`;
-        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-        toast.show();
+      let type = 'info';
+      if (iconClass.includes('text-success') || iconClass.includes('check')) type = 'success';
+      else if (iconClass.includes('text-warning') || iconClass.includes('pause')) type = 'warning';
+      else if (iconClass.includes('text-danger') || iconClass.includes('shield')) type = 'danger';
+
+      let container = document.querySelector('.cr-toast-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.className = 'cr-toast-container';
+        document.body.appendChild(container);
       }
+
+      const toast = document.createElement('div');
+      toast.className = 'cr-toast';
+      toast.innerHTML = `
+        <div class="cr-toast-body">
+          <i class="bi ${iconClass}"></i>
+          <div class="flex-grow-1">${message}</div>
+          <button type="button" class="cr-toast-close" aria-label="Close">
+            <i class="bi bi-x-lg" style="font-size: 0.75rem;"></i>
+          </button>
+        </div>
+        <div class="cr-toast-progress ${type}" style="animation-duration: 4000ms;"></div>
+      `;
+      container.appendChild(toast);
+
+      const dismiss = () => {
+        toast.classList.add('is-hiding');
+        setTimeout(() => {
+          toast.remove();
+          if (container.children.length === 0) container.remove();
+        }, 350);
+      };
+
+      toast.querySelector('.cr-toast-close').addEventListener('click', dismiss);
+      setTimeout(dismiss, 4000);
     }
 
     // 7. Sync Registered & Deactivated Accounts & Policies from localStorage on page load
@@ -840,7 +870,7 @@
 
       const existingUsernames = new Set();
       tbody.querySelectorAll('tr').forEach(row => {
-        const codeEl = row.querySelector('code');
+        const codeEl = row.querySelector('.cr-handle') || row.querySelector('code');
         if (codeEl) {
           const u = codeEl.textContent.replace('@', '').trim().toLowerCase();
           existingUsernames.add(u);
@@ -848,7 +878,7 @@
           if (deactivated.includes(u)) {
             const statusCell = row.cells[3];
             const btn = row.querySelector('button[onclick^="toggleUserStatus"]');
-            if (statusCell) statusCell.innerHTML = '<span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30">Inactive</span>';
+            if (statusCell) statusCell.innerHTML = '<span class="cr-status-badge inactive"><i class="bi bi-x-circle-fill"></i> Inactive</span>';
             if (btn) {
               btn.className = 'cr-btn cr-btn-outline-success cr-btn-sm py-1 px-2 ms-1';
               const labelSpan = btn.querySelector('.status-btn-text');
@@ -876,11 +906,11 @@
           tr.innerHTML = `
             <td>
               <div class="fw-bold text-dark">${escapeHtml(userObj.fullname || userObj.username)}</div>
-              <div class="text-secondary small"><code>@${escapeHtml(userObj.username)}</code></div>
+              <div class="text-secondary small"><span class="cr-handle">@${escapeHtml(userObj.username)}</span></div>
             </td>
             <td class="text-secondary small">${escapeHtml(userObj.email || '')}</td>
             <td>${roleBadgeMap[userObj.role] || userObj.role}</td>
-            <td><span class="badge ${isDeactivated ? 'bg-danger text-danger' : 'bg-success text-success'} bg-opacity-20 border ${isDeactivated ? 'border-danger' : 'border-success'} border-opacity-30">${isDeactivated ? 'Inactive' : 'Active'}</span></td>
+            <td><span class="cr-status-badge ${isDeactivated ? 'inactive' : 'active'}"><i class="bi ${isDeactivated ? 'bi-x-circle-fill' : 'bi-check-circle-fill'}"></i> ${isDeactivated ? 'Inactive' : 'Active'}</span></td>
             <td class="text-secondary small">Registered via Portal</td>
             <td class="text-end" style="white-space: nowrap;">
               <button type="button" class="cr-btn cr-btn-secondary cr-btn-sm py-1 px-2" onclick="editUserRole('${escapeHtml(userObj.fullname || userObj.username)}', '${escapeHtml(userObj.username)}', '${userObj.role}', this)">

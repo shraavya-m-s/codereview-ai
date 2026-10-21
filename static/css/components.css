@@ -208,36 +208,154 @@
   color: var(--cr-priority-low);
 }
 
-/* Role Badges */
+/* Role Badges — WCAG AAA Compliant on Light/White Table Surfaces */
 .cr-role-badge {
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--cr-radius-full);
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #e2e8f0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.35rem;
+  line-height: 1.25;
+  border: 1px solid transparent;
 }
 
 .cr-role-badge.mentor {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.cr-role-badge.admin {
+  background-color: #faf5ff;
+  border-color: #e9d5ff;
+  color: #7e22ce;
+}
+
+.cr-role-badge.student {
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+}
+
+/* Scoped dark styling when inside dark sidebar */
+.cr-sidebar .cr-role-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.cr-sidebar .cr-role-badge.mentor {
   background-color: rgba(37, 99, 235, 0.25);
   border-color: rgba(59, 130, 246, 0.4);
   color: #93c5fd;
 }
-
-.cr-role-badge.admin {
+.cr-sidebar .cr-role-badge.admin {
   background-color: rgba(168, 85, 247, 0.25);
   border-color: rgba(192, 132, 252, 0.4);
   color: #e9d5ff;
 }
-
-.cr-role-badge.student {
+.cr-sidebar .cr-role-badge.student {
   background-color: rgba(16, 185, 129, 0.25);
   border-color: rgba(52, 211, 153, 0.4);
   color: #a7f3d0;
+}
+
+/* Status Badges — High-Contrast Accessible Indicators */
+.cr-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--cr-radius-full);
+  line-height: 1.25;
+  border: 1px solid transparent;
+}
+.cr-status-badge.active {
+  background-color: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+.cr-status-badge.inactive {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.cr-status-badge.pending {
+  background-color: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+/* Filter Pill Buttons used across tables and directory views */
+.cr-filter-pill-btn {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--cr-radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  line-height: 1.25;
+}
+.cr-filter-pill-btn:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+.cr-filter-pill-btn.active {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.08);
+}
+
+/* Clean Monospace User Handles (No pink browser default code tags) */
+.cr-handle,
+code.cr-handle {
+  color: #64748b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.78rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Fail-safe badge rules against opacity and color collision */
+.badge.bg-success,
+.badge.bg-success-subtle {
+  background-color: #ecfdf5 !important;
+  color: #047857 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+.badge.bg-danger,
+.badge.bg-danger-subtle {
+  background-color: #fef2f2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fecaca !important;
+}
+
+.badge.bg-warning,
+.badge.bg-warning-subtle {
+  background-color: #fffbeb !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+}
+
+.badge.bg-primary,
+.badge.bg-primary-subtle {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
 }
 
 /* Role Permission Visibility Enforcement (Overrides Bootstrap !important display classes) */
