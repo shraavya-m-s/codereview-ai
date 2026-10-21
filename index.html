@@ -71,7 +71,7 @@
               <span class="cr-nav-label">Projects</span>
             </a>
           </li>
-          <li class="nav-item" data-role-perm="mentor-only">
+          <li class="nav-item">
             <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
               <i class="bi bi-cloud-arrow-up-fill"></i>
               <span class="cr-nav-label">Upload Project</span>
@@ -130,7 +130,7 @@
         </div>
 
         <div class="cr-topbar-right">
-          <a href="project_create.html" class="cr-btn cr-btn-primary cr-btn-sm d-none d-sm-inline-flex" data-role-perm="mentor-only">
+          <a href="project_create.html" class="cr-btn cr-btn-primary cr-btn-sm d-none d-sm-inline-flex">
             <i class="bi bi-cloud-arrow-up"></i>
             <span>Upload Project</span>
           </a>
@@ -228,7 +228,7 @@
             <p class="text-secondary small mb-0">Overview of student project intakes, SRS requirement verification status, and review metrics.</p>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <a href="project_create.html" class="cr-btn cr-btn-primary" data-role-perm="mentor-only">
+            <a href="project_create.html" class="cr-btn cr-btn-primary">
               <i class="bi bi-plus-lg"></i> New Project Review
             </a>
           </div>
@@ -376,7 +376,7 @@
                       <th class="text-end">Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="dashboardProjectsBody">
                     <!-- Project 1 -->
                     <tr data-status="completed" data-search="hospital management system rahul sharma #in-2041 python django">
                       <td>
@@ -616,6 +616,120 @@
     // Live Dashboard Search & Status Filter Logic
     let currentFilter = 'all';
 
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function renderDashboardProjects() {
+      const tbody = document.getElementById('dashboardProjectsBody');
+      if (!tbody) return;
+
+      const stored = (typeof window.getStoredProjects === 'function') ? window.getStoredProjects() : [];
+      const userRole = localStorage.getItem('cr_user_role') || 'mentor';
+      const userName = (localStorage.getItem('cr_user_name') || 'Rahul Sharma').toLowerCase();
+
+      let projectsToRender = stored;
+      if (userRole === 'student') {
+        projectsToRender = stored.filter(p => {
+          const sName = (p.student || '').toLowerCase();
+          return sName.includes('rahul') || sName.includes(userName);
+        });
+        if (projectsToRender.length === 0 && stored.length > 0) {
+          projectsToRender = [stored[0]];
+        }
+      }
+
+      const displayProjects = projectsToRender.slice(0, 5);
+      tbody.innerHTML = '';
+
+      displayProjects.forEach(p => {
+        const tr = document.createElement('tr');
+        const statusSlug = (p.status === 'completed') ? 'completed' : 'in_review';
+        const score = (p.score !== null && p.score !== undefined) ? parseInt(p.score, 10) : 80;
+        const pass = score >= 80;
+
+        tr.setAttribute('data-status', statusSlug);
+        tr.setAttribute('data-search', `${p.name} ${p.student} ${p.stack}`.toLowerCase());
+
+        let badgeHtml = '<span class="cr-badge cr-badge-implemented">Completed</span>';
+        if (p.status === 'manual_review') {
+          badgeHtml = '<span class="cr-badge cr-badge-manual">Manual Review</span>';
+        } else if (p.status === 'in_progress') {
+          badgeHtml = '<span class="cr-badge cr-badge-partial">In Progress</span>';
+        }
+
+        tr.innerHTML = `
+          <td>
+            <a href="project_detail.html?project=${encodeURIComponent(p.name)}" class="fw-bold text-dark text-decoration-none">
+              <i class="bi bi-file-earmark-code text-primary me-1"></i> ${escapeHtml(p.name)}
+            </a>
+            <div class="text-muted small">${escapeHtml(p.stack)} &bull; ${p.desc ? escapeHtml(p.desc.substring(0, 36)) + '...' : '35 Requirements'}</div>
+          </td>
+          <td>
+            <div class="fw-semibold small">${escapeHtml(p.student)}</div>
+            <div class="text-muted" style="font-size: 0.75rem;">${escapeHtml(p.cohort || 'Intern')}</div>
+          </td>
+          <td>
+            ${badgeHtml}
+          </td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-bold text-dark">${score} / 100</span>
+              <span class="badge ${pass ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-warning-subtle text-warning border border-warning-subtle'}">${pass ? 'Pass' : 'Pending'}</span>
+            </div>
+          </td>
+          <td class="text-muted small">${escapeHtml(p.date || 'Recent')}</td>
+          <td class="text-end">
+            <div class="btn-group btn-group-sm">
+              <a href="findings.html?project=${encodeURIComponent(p.name)}" class="cr-btn cr-btn-secondary cr-btn-sm" title="View Review Findings">
+                <i class="bi bi-search"></i> Findings
+              </a>
+              <a href="report.html?project=${encodeURIComponent(p.name)}" class="cr-btn cr-btn-outline-primary cr-btn-sm" title="Open Final Report">
+                <i class="bi bi-file-earmark-check"></i> Report
+              </a>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Append noResultsRow
+      const emptyRow = document.createElement('tr');
+      emptyRow.id = 'noResultsRow';
+      emptyRow.style.display = 'none';
+      emptyRow.innerHTML = `
+        <td colspan="6" class="p-0">
+          <div class="cr-empty-search-state py-5">
+            <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+              <i class="bi bi-search fs-4 text-muted"></i>
+            </div>
+            <h6 class="fw-bold text-dark mb-1">No matching projects found</h6>
+            <p class="text-muted small mb-3">No reviews match your current filter or search criteria.</p>
+            <button type="button" class="cr-btn cr-btn-sm cr-btn-secondary" id="resetDashboardFiltersBtn">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset Filters
+            </button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(emptyRow);
+
+      const resetBtn = emptyRow.querySelector('#resetDashboardFiltersBtn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          const searchInput = document.getElementById('dashboardSearchInput');
+          if (searchInput) searchInput.value = '';
+          currentFilter = 'all';
+          document.querySelectorAll('.cr-filter-pill').forEach(b => {
+            b.classList.toggle('is-active', b.getAttribute('data-filter') === 'all');
+          });
+          applyDashboardFilters();
+        });
+      }
+
+      applyDashboardFilters();
+    }
+
     function applyDashboardFilters() {
       const searchInput = document.getElementById('dashboardSearchInput');
       const query = (searchInput ? searchInput.value.toLowerCase().trim() : '');
@@ -675,6 +789,13 @@
         });
         applyDashboardFilters();
       });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDashboardProjects();
+    });
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      renderDashboardProjects();
     }
   </script>
 </body>

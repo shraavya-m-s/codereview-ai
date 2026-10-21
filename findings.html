@@ -3,42 +3,227 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Review Findings & Mentor Workspace — CodeReview AI</title>
+  <title>AI Code Findings & Inspector — CodeReview AI</title>
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   
+  <!-- CodeReview AI Core Design System -->
   <link rel="stylesheet" href="static/css/main.css">
   <link rel="stylesheet" href="static/css/components.css">
-  <link rel="stylesheet" href="static/css/dropzone.css">
+
+  <style>
+    /* Phase 7 Split Workbench Specialized Styles */
+    .cr-split-workbench {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 991px) {
+      .cr-split-workbench {
+        grid-template-columns: 1fr;
+      }
+    }
+    .cr-master-panel {
+      max-height: calc(100vh - 220px);
+      overflow-y: auto;
+      padding-right: 0.35rem;
+    }
+    .cr-finding-card {
+      background: #ffffff;
+      border: 1px solid var(--cr-border-color, #e2e8f0);
+      border-radius: 0.5rem;
+      padding: 0.85rem;
+      margin-bottom: 0.65rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .cr-finding-card:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+      transform: translateX(2px);
+    }
+    .cr-finding-card.is-active {
+      background: #f0f9ff;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 1px #0284c7, 0 4px 12px rgba(2, 132, 199, 0.12);
+    }
+    .cr-finding-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 0.5rem 0 0 0.5rem;
+    }
+    .cr-finding-card.sev-critical::before { background: #ef4444; }
+    .cr-finding-card.sev-major::before { background: #f59e0b; }
+    .cr-finding-card.sev-minor::before { background: #38bdf8; }
+    .cr-finding-card.sev-info::before { background: #10b981; }
+
+    .cr-filter-pill-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #64748b;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 500;
+    }
+    .cr-filter-pill-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    .cr-filter-pill-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
+    }
+
+    .diff-code-box {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 0.5rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .diff-header {
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      padding: 0.4rem 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #94a3b8;
+      font-size: 0.75rem;
+    }
+    .diff-line {
+      display: flex;
+      padding: 0.15rem 0.75rem;
+    }
+    .diff-num {
+      width: 40px;
+      color: #475569;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .diff-line.del {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+    }
+    .diff-line.add {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+    }
+    .diff-line.context {
+      color: #cbd5e1;
+    }
+    .cr-badge-critical {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .cr-badge-major {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .cr-badge-minor {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .cr-badge-info {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .quick-template-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      font-size: 0.73rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quick-template-chip:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+  </style>
 </head>
 <body>
 
   <div class="cr-app-layout">
-    <!-- Sidebar -->
+    <!-- Left Role-Aware Sidebar -->
     <aside class="cr-sidebar" id="crSidebar">
       <div class="cr-sidebar-brand d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25" style="height: var(--cr-topbar-height);">
         <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none text-white">
-          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;"><i class="bi bi-shield-check fs-5"></i></div>
+          <div class="cr-brand-logo-box bg-primary text-white rounded d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; flex-shrink: 0;">
+            <i class="bi bi-shield-check fs-5"></i>
+          </div>
           <div class="cr-sidebar-brand-text">
-            <div class="fw-bold lh-1 text-white">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
+            <div class="fw-bold lh-1 text-white" style="letter-spacing: -0.01em;">CodeReview<span class="text-primary-emphasis" style="color: #60a5fa !important;">AI</span></div>
             <small class="text-secondary" style="font-size: 0.7rem; color: #94a3b8 !important;">Intern Review System</small>
           </div>
         </a>
       </div>
 
+      <!-- User Role Indicator -->
       <div class="p-3 border-bottom border-secondary border-opacity-25 bg-black bg-opacity-20 cr-user-meta">
         <div class="d-flex align-items-center gap-2">
-          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">DA</div>
+          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold cr-user-avatar" style="width: 36px; height: 36px; font-size: 0.85rem; flex-shrink: 0; background-color: #334155 !important;">
+            DA
+          </div>
           <div class="min-w-0 flex-grow-1">
             <div class="text-white fw-semibold text-truncate small cr-user-name">Dr. Aris (Mentor)</div>
-            <div class="mt-0.5"><span class="cr-role-badge mentor" data-role-badge><i class="bi bi-mortarboard-fill"></i> Mentor</span></div>
+            <div class="mt-0.5">
+              <span class="cr-role-badge mentor" data-role-badge>
+                <i class="bi bi-mortarboard-fill"></i> Mentor
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Navigation Links -->
       <div class="py-3 flex-grow-1 overflow-y-auto">
         <div class="px-3 pb-2 text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em; color: #64748b !important;">
           <span class="cr-nav-label">Core Workspace</span>
@@ -56,7 +241,7 @@
               <span class="cr-nav-label">Projects</span>
             </a>
           </li>
-          <li class="nav-item" data-role-perm="mentor-only">
+          <li class="nav-item">
             <a href="project_create.html" class="nav-link cr-nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-light text-opacity-75 hover-text-white">
               <i class="bi bi-cloud-arrow-up-fill"></i>
               <span class="cr-nav-label">Upload Project</span>
@@ -72,29 +257,35 @@
       </div>
 
       <div class="p-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn"><i class="bi bi-layout-sidebar-inset-reverse fs-6"></i><span class="cr-nav-label small">Collapse View</span></button>
+        <button class="btn btn-sm btn-link text-secondary text-decoration-none d-flex align-items-center gap-2 p-2 hover-text-white" id="sidebarToggleBtn" title="Collapse Sidebar">
+          <i class="bi bi-layout-sidebar-inset-reverse fs-6"></i>
+          <span class="cr-nav-label small">Collapse View</span>
+        </button>
       </div>
     </aside>
 
     <div class="cr-mobile-backdrop" id="crMobileBackdrop"></div>
 
-    <!-- Main Content -->
+    <!-- Main Content Wrapper -->
     <div class="cr-main-wrapper">
+      <!-- Topbar Header -->
       <header class="cr-topbar">
         <div class="cr-topbar-left">
-          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation"><i class="bi bi-list fs-5"></i></button>
-          <nav aria-label="breadcrumb" class="d-none d-sm-block">
+          <button class="btn btn-sm btn-light d-lg-none p-1.5 border" id="mobileSidebarToggle" type="button" aria-label="Toggle navigation">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <nav aria-label="breadcrumb" class="d-none d-sm-block text-truncate">
             <ol class="breadcrumb mb-0 small" style="--bs-breadcrumb-divider: '›';">
               <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none"><i class="bi bi-house"></i> Home</a></li>
               <li class="breadcrumb-item"><a href="project_list.html" class="text-secondary text-decoration-none">Projects</a></li>
-              <li class="breadcrumb-item"><a href="project_detail.html" class="text-secondary text-decoration-none">Hospital_Management_System</a></li>
-              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Review Findings</li>
+              <li class="breadcrumb-item"><a href="project_detail.html" class="text-secondary text-decoration-none" id="breadcrumbProjectLink">Hospital_Management_System</a></li>
+              <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">AI Review Findings</li>
             </ol>
           </nav>
         </div>
 
         <div class="cr-topbar-right">
-          <a href="report.html" class="cr-btn cr-btn-outline-primary cr-btn-sm d-none d-sm-inline-flex">
+          <a href="report.html" class="cr-btn cr-btn-primary btn-sm d-flex align-items-center gap-1.5 me-2">
             <i class="bi bi-file-earmark-check"></i>
             <span>View Final Report</span>
           </a>
@@ -105,64 +296,63 @@
               <span class="small fw-semibold text-dark d-none d-md-inline cr-user-handle">dr_aris</span>
               <i class="bi bi-chevron-down text-muted" style="font-size: 0.7rem;"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1" style="min-width: 200px;">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1">
               <li class="px-3 py-2 border-bottom">
                 <div class="fw-bold small text-dark cr-user-fullname">Dr. Aris</div>
                 <div class="text-muted cr-user-email" style="font-size: 0.75rem;">aris.mentor@university.edu</div>
               </li>
               <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="project_list.html"><i class="bi bi-folder2 text-secondary"></i> My Projects</a></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review Log</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2" href="history.html"><i class="bi bi-clock-history text-secondary"></i> Review History</a></li>
               <li><hr class="dropdown-divider my-1"></li>
-              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
+              <li><a class="dropdown-item small py-2 d-flex align-items-center gap-2 text-danger" href="login.html?logout=true"><i class="bi bi-box-arrow-right"></i> Sign Out</a></li>
             </ul>
           </div>
         </div>
       </header>
 
-      <main class="cr-page-content">
-        <!-- Toast Notification Container -->
-        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080;">
-          <div id="saveToast" class="toast align-items-center text-bg-success border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-              <div class="toast-body d-flex align-items-center gap-2">
-                <i class="bi bi-check-circle-fill fs-5"></i>
-                <span id="toastMessage">Mentor review evaluation saved successfully!</span>
-              </div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-          </div>
-        </div>
+      <!-- Main Content Page Body -->
+      <main class="cr-page-content" style="max-width: 1280px; margin: 0 auto;">
 
-        <!-- Header -->
+        <!-- Header Summary Bar -->
         <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
           <div>
-            <h1 class="h4 mb-1">Requirement Findings & Mentor Review Workspace</h1>
-            <p class="text-secondary small mb-0">Project: <strong>Hospital_Management_System</strong> &bull; Student: <strong>Rahul Sharma</strong></p>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <h1 class="h4 mb-0 fw-bold text-dark">AI Code Review Findings &amp; Mentor Inspector</h1>
+              <span class="cr-status-badge active"><i class="bi bi-shield-check"></i> AST Inspection Engine</span>
+            </div>
+            <p class="text-secondary small mb-0">
+              Project: <strong class="text-dark" id="headerProjectTitle">Hospital_Management_System</strong> &bull; 
+              Student: <span class="text-secondary" id="headerStudentName">Rahul Sharma</span> &bull; 
+              Stack: <span class="badge bg-secondary-subtle border border-secondary-subtle text-secondary" id="headerStackTag">Python / Django</span>
+            </p>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle py-1 px-3 fw-semibold">
-              <i class="bi bi-cpu me-1"></i> Static Rule-Based Engine
-            </span>
+            <button type="button" class="cr-btn cr-btn-secondary btn-sm" onclick="batchApproveSafe()" data-role-perm="mentor-only">
+              <i class="bi bi-check-all text-success"></i> Batch Approve Implemented
+            </button>
+            <a href="project_detail.html" class="cr-btn cr-btn-outline-primary btn-sm">
+              <i class="bi bi-arrow-left"></i> Project Hub
+            </a>
           </div>
         </div>
 
         <!-- Filter & Search Toolbar -->
-        <div class="cr-card p-3 mb-4">
-          <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
-            <!-- Status Filter Pills -->
-            <div class="d-flex flex-wrap gap-2" id="findingsFilterPills">
-              <button class="btn btn-sm btn-outline-secondary active py-1 px-3 findings-filter-btn" data-status-filter="all">All (6)</button>
-              <button class="btn btn-sm btn-outline-success py-1 px-3 findings-filter-btn" data-status-filter="implemented">Implemented (3)</button>
-              <button class="btn btn-sm btn-outline-warning py-1 px-3 findings-filter-btn" data-status-filter="partial">Partial (1)</button>
-              <button class="btn btn-sm btn-outline-danger py-1 px-3 findings-filter-btn" data-status-filter="missing">Missing (1)</button>
-              <button class="btn btn-sm btn-outline-primary py-1 px-3 findings-filter-btn" data-status-filter="manual">Manual Review (1)</button>
+        <div class="cr-card p-3 mb-3">
+          <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-2">
+            <!-- Filter Pills -->
+            <div class="d-flex flex-wrap gap-1.5" id="findingsCategoryFilter">
+              <button type="button" class="cr-filter-pill-btn active" onclick="setCategoryFilter('all', this)">All Findings (<span id="countAll">7</span>)</button>
+              <button type="button" class="cr-filter-pill-btn" onclick="setCategoryFilter('security', this)"><i class="bi bi-shield-lock-fill text-danger"></i> Security (<span id="countSec">2</span>)</button>
+              <button type="button" class="cr-filter-pill-btn" onclick="setCategoryFilter('srs', this)"><i class="bi bi-list-check text-primary"></i> SRS Spec (<span id="countSrs">3</span>)</button>
+              <button type="button" class="cr-filter-pill-btn" onclick="setCategoryFilter('quality', this)"><i class="bi bi-code-slash text-warning"></i> Code Quality (<span id="countQuality">1</span>)</button>
+              <button type="button" class="cr-filter-pill-btn" onclick="setCategoryFilter('perf', this)"><i class="bi bi-speedometer2 text-info"></i> Performance (<span id="countPerf">1</span>)</button>
             </div>
 
-            <!-- Search box -->
-            <div style="min-width: 250px;">
+            <!-- Search Filter -->
+            <div style="min-width: 260px;">
               <div class="input-group input-group-sm">
-                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
-                <input type="text" class="form-control border-start-0" id="findingsSearchInput" placeholder="Filter by req ID, code file...">
+                <span class="input-group-text bg-white border border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" class="cr-input form-control form-control-sm bg-white text-dark border border-start-0" id="findingSearchInput" placeholder="Search by Req ID, rule, or file..." oninput="filterFindingsSearch(this.value)">
               </div>
             </div>
           </div>
@@ -170,459 +360,594 @@
 
         <!-- Master-Detail Split Workbench -->
         <div class="cr-split-workbench">
-          <!-- Master Panel (Left: 42% width) -->
-          <div class="cr-master-panel" id="findingsMasterList">
-            <!-- Finding 1 (Active) -->
-            <div class="cr-finding-item is-active" data-id="1" data-status="implemented" data-priority="high" onclick="selectFinding(1)">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fw-bold font-monospace small text-primary">REQ-AUTH-01</span>
-                <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
-              </div>
-              <div class="fw-semibold text-dark small mb-1">User login with username and password verification</div>
-              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
-                <span><i class="bi bi-filetype-py"></i> accounts/views.py</span>
-                <span>&bull;</span>
-                <span class="cr-priority-badge high">High Priority</span>
-              </div>
-            </div>
 
-            <!-- Finding 2 -->
-            <div class="cr-finding-item" data-id="2" data-status="implemented" data-priority="high" onclick="selectFinding(2)">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fw-bold font-monospace small text-primary">REQ-AUTH-02</span>
-                <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
-              </div>
-              <div class="fw-semibold text-dark small mb-1">Role-based access control for Doctors and Receptionists</div>
-              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
-                <span><i class="bi bi-filetype-py"></i> accounts/decorators.py</span>
-                <span>&bull;</span>
-                <span class="cr-priority-badge high">High Priority</span>
-              </div>
-            </div>
-
-            <!-- Finding 3 -->
-            <div class="cr-finding-item" data-id="3" data-status="manual" data-priority="med" onclick="selectFinding(3)">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fw-bold font-monospace small text-primary">REQ-PAT-01</span>
-                <span class="cr-badge cr-badge-manual">Manual Review (0.25)</span>
-              </div>
-              <div class="fw-semibold text-dark small mb-1">Patient registration with emergency contact & blood group</div>
-              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
-                <span><i class="bi bi-filetype-py"></i> patients/models.py</span>
-                <span>&bull;</span>
-                <span class="cr-priority-badge med">Medium Priority</span>
-              </div>
-            </div>
-
-            <!-- Finding 4 -->
-            <div class="cr-finding-item" data-id="4" data-status="partial" data-priority="med" onclick="selectFinding(4)">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fw-bold font-monospace small text-primary">REQ-APT-01</span>
-                <span class="cr-badge cr-badge-partial">Partial (0.5)</span>
-              </div>
-              <div class="fw-semibold text-dark small mb-1">Appointment scheduling with doctor availability conflict check</div>
-              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
-                <span><i class="bi bi-filetype-py"></i> appointments/views.py</span>
-                <span>&bull;</span>
-                <span class="cr-priority-badge med">Medium Priority</span>
-              </div>
-            </div>
-
-            <!-- Finding 5 -->
-            <div class="cr-finding-item" data-id="5" data-status="missing" data-priority="high" onclick="selectFinding(5)">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fw-bold font-monospace small text-primary">REQ-INV-01</span>
-                <span class="cr-badge cr-badge-missing">Missing (0.0)</span>
-              </div>
-              <div class="fw-semibold text-dark small mb-1">Automated PDF invoice generation with tax breakdown</div>
-              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
-                <span class="text-danger"><i class="bi bi-x-circle"></i> No evidence detected</span>
-                <span>&bull;</span>
-                <span class="cr-priority-badge high">High Priority</span>
-              </div>
-            </div>
-
-            <!-- Finding 6 -->
-            <div class="cr-finding-item" data-id="6" data-status="implemented" data-priority="low" onclick="selectFinding(6)">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fw-bold font-monospace small text-primary">REQ-MED-01</span>
-                <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
-              </div>
-              <div class="fw-semibold text-dark small mb-1">Medical prescription record storage and diagnosis tags</div>
-              <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.75rem;">
-                <span><i class="bi bi-filetype-py"></i> prescriptions/models.py</span>
-                <span>&bull;</span>
-                <span class="cr-priority-badge low">Low Priority</span>
-              </div>
-            </div>
+          <!-- Left Master Findings List -->
+          <div class="cr-master-panel" id="findingsMasterContainer">
+            <!-- Populated dynamically via JS -->
           </div>
 
-          <!-- Detail Panel (Right: 58% width, Sticky Inspector) -->
+          <!-- Right Detail Inspector Pane -->
           <div class="cr-detail-panel">
             <div class="cr-card p-4">
-              <!-- Requirement Title & Status Header -->
-              <div class="d-flex justify-content-between align-items-start gap-2 mb-3 pb-3 border-bottom">
+
+              <!-- Finding Top Header -->
+              <div class="d-flex justify-content-between align-items-start gap-2 mb-3 pb-3 border-bottom border-secondary border-opacity-25">
                 <div>
-                  <div class="d-flex align-items-center gap-2 mb-1">
-                    <span class="badge bg-light text-primary border font-monospace fw-bold" id="detailReqId">REQ-AUTH-01</span>
-                    <span class="badge bg-light text-dark border" id="detailCategory">Authentication</span>
-                    <span class="cr-priority-badge high" id="detailPriority">High Priority</span>
+                  <div class="d-flex flex-wrap align-items-center gap-2 mb-1.5">
+                    <span class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 font-monospace fw-bold" id="inspectorReqId">SEC-SQLI-01</span>
+                    <span class="badge bg-light text-secondary border" id="inspectorCategory">Security</span>
+                    <span class="cr-badge-critical" id="inspectorSeverity">Critical Risk</span>
+                    <span class="small text-secondary" id="inspectorFileMeta"><i class="bi bi-file-earmark-code"></i> billing/views.py:54</span>
                   </div>
-                  <h2 class="h5 fw-bold mb-1" id="detailTitle">User login with username and password verification</h2>
+                  <h2 class="h5 fw-bold text-dark mb-1" id="inspectorTitle">Unsanitized Raw SQL in Patient Invoice Query</h2>
                 </div>
-                <div id="detailCurrentBadge">
-                  <span class="cr-badge cr-badge-implemented">Implemented (1.0)</span>
-                </div>
-              </div>
-
-              <!-- Requirement Description -->
-              <div class="mb-3">
-                <div class="text-uppercase text-muted fw-bold mb-1" style="font-size: 0.7rem; letter-spacing: 0.05em;">SRS Specification Text</div>
-                <div class="p-2.5 rounded bg-light border small text-secondary" id="detailDescription">
-                  The system shall provide a secure login interface where users enter credentials. Upon authentication, a session must be created with role-appropriate redirection. Passwords must never be stored in plain text.
+                <div id="inspectorStatusBadgeContainer">
+                  <span class="cr-badge cr-badge-missing">Unresolved</span>
                 </div>
               </div>
 
-              <!-- Static Evidence Inspector -->
+              <!-- Rule Violation & Specification -->
               <div class="mb-3">
-                <div class="text-uppercase text-muted fw-bold mb-1" style="font-size: 0.7rem; letter-spacing: 0.05em;">Detected Code Evidence (Static AST Inspection)</div>
-                <div class="cr-code-box">
-                  <div class="cr-code-box-header">
-                    <div class="cr-code-box-path">
-                      <i class="bi bi-file-earmark-code"></i>
-                      <span id="detailEvidenceFile">accounts/views.py</span>
-                      <span class="badge bg-dark border border-secondary text-light ms-2" id="detailEvidenceSymbol">def login_view(request)</span>
-                    </div>
-                    <button class="btn btn-sm btn-outline-light py-0 px-2" style="font-size: 0.75rem;" onclick="navigator.clipboard.writeText(document.getElementById('detailCodeSnippet').textContent)">
-                      <i class="bi bi-clipboard"></i> Copy
-                    </button>
+                <div class="text-uppercase text-secondary fw-bold mb-1" style="font-size: 0.68rem; letter-spacing: 0.05em;">
+                  Rule Diagnostic &amp; Requirement Clause
+                </div>
+                <div class="p-3 rounded bg-light border small text-dark" id="inspectorRuleText">
+                  Direct parameter concatenation inside <code>extra(where=[...])</code> allows arbitrary SQL injection. User input must pass through ORM parameter bindings.
+                </div>
+              </div>
+
+              <!-- Code Diff & AI Recommendation Comparison -->
+              <div class="mb-3">
+                <div class="d-flex align-items-center justify-content-between mb-1.5">
+                  <div class="text-uppercase text-secondary fw-bold" style="font-size: 0.68rem; letter-spacing: 0.05em;">
+                    AST Code Evidence &amp; AI Remediation Diff
                   </div>
-                  <pre class="cr-code-box-content" id="detailCodeSnippet"><code>def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('dashboard')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'form': form})</code></pre>
+                  <button type="button" class="btn btn-sm btn-outline-info py-0 px-2" style="font-size: 0.72rem;" onclick="copyAiSuggestedSnippet()">
+                    <i class="bi bi-clipboard"></i> Copy AI Fix
+                  </button>
+                </div>
+
+                <!-- Flagged Code Box with Diff View -->
+                <div class="diff-code-box">
+                  <div class="diff-header">
+                    <span><i class="bi bi-filetype-py text-primary me-1"></i> <strong id="diffFilename">billing/views.py</strong> (Line <span id="diffLineRange">52-58</span>)</span>
+                    <span class="text-warning"><i class="bi bi-exclamation-triangle"></i> Vulnerable Pattern</span>
+                  </div>
+                  <div id="diffCodeContainer">
+                    <!-- Lines rendered via JS -->
+                  </div>
                 </div>
               </div>
 
-              <!-- Automated Explanation -->
-              <div class="mb-4">
-                <div class="text-uppercase text-muted fw-bold mb-1" style="font-size: 0.7rem; letter-spacing: 0.05em;">Rule Engine Explanation</div>
-                <div class="small text-secondary" id="detailExplanation">
-                  <i class="bi bi-check-circle text-success me-1"></i> Static pattern match found standard Django <code>AuthenticationForm</code> and <code>login()</code> session handling in <code>accounts/views.py</code>.
+              <!-- AI Refactor Fix Card -->
+              <div class="p-3 rounded border border-success border-opacity-30 bg-success bg-opacity-10 mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <div class="fw-bold text-success small d-flex align-items-center gap-1.5">
+                    <i class="bi bi-stars"></i> <span>Automated AI Refactoring Suggestion</span>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-success py-0.5 px-2.5 small" id="acceptAiFixBtn" onclick="applyAiFixToDossier()">
+                    <i class="bi bi-check2"></i> Accept Fix
+                  </button>
                 </div>
+                <p class="small text-secondary mb-0" id="aiSuggestionText">
+                  Replace raw string formatting with Django ORM <code>filter(patient_id=clean_id)</code> to utilize parameterized prepared statements.
+                </p>
               </div>
 
-              <!-- Mentor Evaluation & Status Override Card -->
-              <div class="p-3 rounded border bg-light">
+              <!-- Mentor Evaluation & Status Override Form -->
+              <div class="p-3 rounded border bg-light bg-opacity-50">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <h3 class="h6 mb-0 fw-bold d-flex align-items-center gap-2 text-dark">
-                    <i class="bi bi-mortarboard-fill text-primary"></i> Mentor Evaluation & Override
+                    <i class="bi bi-mortarboard-fill text-primary"></i> Mentor Sign-off &amp; Status Override
                   </h3>
-                  <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.72rem;" id="detailOriginalStatus">
-                    Original Automated Status: Implemented
+                  <span class="text-secondary" style="font-size: 0.72rem;" id="inspectorOriginalStatus">
+                    Automated Status: Needs Remediation
                   </span>
                 </div>
 
-                <form id="mentorOverrideForm">
+                <form id="mentorFindingForm">
                   <div class="row g-2 mb-2">
                     <div class="col-sm-6">
-                      <label for="mentorStatusSelect" class="form-label small fw-semibold mb-1">Evaluated Status:</label>
-                      <select class="form-select form-select-sm" id="mentorStatusSelect">
+                      <label for="mentorStatusChoice" class="form-label small fw-semibold text-secondary mb-1">Evaluated Status:</label>
+                      <select class="cr-input form-select form-select-sm bg-white text-dark border" id="mentorStatusChoice">
                         <option value="implemented">Implemented (1.0)</option>
                         <option value="partial">Partial (0.5)</option>
-                        <option value="missing">Missing (0.0)</option>
-                        <option value="manual">Manual Review (0.25)</option>
+                        <option value="missing">Missing / Rejected (0.0)</option>
+                        <option value="dismissed">Dismissed as False Positive</option>
+                        <option value="exception">Approved Security Exception</option>
                       </select>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label small fw-semibold text-secondary mb-1">Quick Note Template:</label>
+                      <div class="d-flex flex-wrap gap-1">
+                        <span class="quick-template-chip" onclick="insertTemplate('Vulnerability resolved via parameterized ORM.')">Resolved Fix</span>
+                        <span class="quick-template-chip" onclick="insertTemplate('Student must remediate before final viva.')">Must Fix</span>
+                        <span class="quick-template-chip" onclick="insertTemplate('Verified safe fixture in mock test.')">False Alarm</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="mb-2">
-                    <label for="mentorCommentInput" class="form-label small fw-semibold mb-1">Mentor Feedback / Comments:</label>
-                    <textarea class="form-control form-control-sm" id="mentorCommentInput" rows="2" placeholder="Add specific guidance or explain reason for status override...">Standard Django session authentication properly configured with CSRF protection.</textarea>
+                  <div class="mb-3">
+                    <label for="mentorNotesText" class="form-label small fw-semibold text-secondary mb-1">Mentor Dossier Comments:</label>
+                    <textarea class="cr-textarea form-control form-control-sm bg-white text-dark border" id="mentorNotesText" rows="2" placeholder="Record evaluation notes or required intern remediation steps..."></textarea>
                   </div>
 
-                  <div class="d-flex justify-content-end gap-2">
-                    <button type="submit" class="cr-btn cr-btn-primary cr-btn-sm" id="saveEvaluationBtn">
-                      <i class="bi bi-check2-circle"></i> Save Evaluation
-                    </button>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-secondary" id="saveTimestamp">Unsaved changes</span>
+                    <div class="d-flex gap-2">
+                      <button type="submit" class="cr-btn cr-btn-primary btn-sm" id="saveFindingBtn">
+                        <i class="bi bi-check2-circle"></i> Save Finding Evaluation
+                      </button>
+                    </div>
                   </div>
                 </form>
+
               </div>
+
             </div>
           </div>
+
         </div>
+
       </main>
 
-      <footer class="cr-footer py-3 px-4 border-top bg-white mt-auto">
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-muted small">
-          <div><span class="fw-semibold text-dark">CodeReview AI</span> &bull; Rule-Based Project Verification System <span class="badge bg-light text-secondary border">v1.0.0</span></div>
-          <div>Evaluations strictly rule-based &bull; No external LLM dependencies</div>
+      <!-- Application Footer -->
+      <footer class="cr-footer py-3 px-4 border-top border-secondary border-opacity-25 bg-black bg-opacity-20 mt-5">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 text-secondary small">
+          <div><span class="fw-semibold text-light">CodeReview AI</span> &bull; Intern Automated Review & Verification System <span class="badge bg-secondary text-light">v1.2.0</span></div>
+          <div>Deterministic AST Analysis &bull; SRS Spec Compliance</div>
         </div>
       </footer>
     </div>
   </div>
 
+  <!-- Live Toast Notification Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+    <div id="liveActionToast" class="toast align-items-center text-bg-dark border-secondary shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+          <i class="bi bi-check-circle-fill text-success fs-5"></i>
+          <span>Action completed successfully.</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="static/js/app.js"></script>
+
   <script>
-    // Mock findings data repository for interactive preview
-    const findingsData = {
-      1: {
+    // 1. Comprehensive Findings Dataset across Categories & Severities
+    const findingsDataset = [
+      {
         id: 1,
-        reqId: 'REQ-AUTH-01',
-        category: 'Authentication',
-        priority: 'High Priority',
-        priorityClass: 'high',
-        title: 'User login with username and password verification',
-        status: 'implemented',
-        statusLabel: 'Implemented (1.0)',
-        statusClass: 'cr-badge-implemented',
-        originalStatus: 'Implemented',
-        description: 'The system shall provide a secure login interface where users enter credentials. Upon authentication, a session must be created with role-appropriate redirection. Passwords must never be stored in plain text.',
-        file: 'accounts/views.py',
-        symbol: 'def login_view(request)',
-        code: `def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('dashboard')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'form': form})`,
-        explanation: 'Static pattern match found standard Django AuthenticationForm and login() session handling in accounts/views.py.',
-        comment: 'Standard Django session authentication properly configured with CSRF protection.'
+        codeId: 'SEC-SQLI-01',
+        title: 'Unsanitized Raw SQL in Patient Invoice Query',
+        category: 'security',
+        categoryLabel: 'Security',
+        severity: 'critical',
+        severityBadge: 'cr-badge-critical',
+        severityLabel: 'Critical Risk',
+        file: 'billing/views.py',
+        line: 54,
+        lineRange: '52-58',
+        status: 'missing',
+        statusLabel: 'Needs Remediation',
+        statusClass: 'cr-badge-missing',
+        ruleText: 'Direct parameter concatenation inside <code>extra(where=[...])</code> allows arbitrary SQL injection. User input must pass through ORM parameter bindings.',
+        diffLines: [
+          { type: 'context', num: 52, code: 'def get_invoice_total(request):' },
+          { type: 'context', num: 53, code: '    patient_id = request.GET.get("patient_id")' },
+          { type: 'del', num: 54, code: '-   invoices = Invoice.objects.extra(where=["patient_id = " + patient_id])' },
+          { type: 'add', num: 54, code: '+   invoices = Invoice.objects.filter(patient_id=int(patient_id))' },
+          { type: 'context', num: 55, code: '    return Response({"count": invoices.count()})' }
+        ],
+        aiFix: 'invoices = Invoice.objects.filter(patient_id=int(patient_id))',
+        aiSuggestion: 'Replace raw string formatting with Django ORM <code>filter(patient_id=int(patient_id))</code> to utilize parameterized prepared statements.',
+        comment: 'High security risk flagged during AST audit. Candidate must convert raw SQL to ORM parameterization.'
       },
-      2: {
+      {
         id: 2,
-        reqId: 'REQ-AUTH-02',
-        category: 'Authentication',
-        priority: 'High Priority',
-        priorityClass: 'high',
-        title: 'Role-based access control for Doctors and Receptionists',
-        status: 'implemented',
-        statusLabel: 'Implemented (1.0)',
-        statusClass: 'cr-badge-implemented',
-        originalStatus: 'Implemented',
-        description: 'Access to patient treatment plans must be restricted to Doctor roles, while Receptionist roles can only manage appointments and billing.',
-        file: 'accounts/decorators.py',
-        symbol: 'def doctor_required(view_func)',
-        code: `def doctor_required(view_func):
-    @wraps(view_func)
-    def _wrapped_view(request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.role == 'doctor':
-            return view_func(request, *args, **kwargs)
-        raise PermissionDenied("Only doctors may view patient medical charts.")
-    return _wrapped_view`,
-        explanation: 'Custom role decorator verified. Checks request.user.role before executing protected view logic.',
-        comment: 'Clean custom decorator pattern implemented.'
-      },
-      3: {
-        id: 3,
-        reqId: 'REQ-PAT-01',
-        category: 'Patient Intake',
-        priority: 'Medium Priority',
-        priorityClass: 'med',
-        title: 'Patient registration with emergency contact & blood group',
-        status: 'manual',
-        statusLabel: 'Manual Review (0.25)',
-        statusClass: 'cr-badge-manual',
-        originalStatus: 'Manual Review',
-        description: 'Every registered patient must record full legal name, date of birth, blood group choice, and emergency contact phone number.',
-        file: 'patients/models.py',
-        symbol: 'class Patient(models.Model)',
-        code: `class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dob = models.DateField()
-    emergency_contact = models.CharField(max_length=15, blank=True)
-    blood_group = models.CharField(max_length=5, blank=True)
-    # Note: validation for format is missing`,
-        explanation: 'Fields emergency_contact and blood_group exist in model, but are set to blank=True without regex validators. Marked for mentor review.',
-        comment: 'Check if phone validation is handled in forms.py instead of the model layer.'
-      },
-      4: {
-        id: 4,
-        reqId: 'REQ-APT-01',
-        category: 'Appointments',
-        priority: 'Medium Priority',
-        priorityClass: 'med',
-        title: 'Appointment scheduling with doctor availability conflict check',
+        codeId: 'SEC-SECRET-01',
+        title: 'Hardcoded Production SECRET_KEY in settings.py',
+        category: 'security',
+        categoryLabel: 'Security',
+        severity: 'major',
+        severityBadge: 'cr-badge-major',
+        severityLabel: 'Major Risk',
+        file: 'hms_project/settings.py',
+        line: 23,
+        lineRange: '21-25',
         status: 'partial',
         statusLabel: 'Partial (0.5)',
         statusClass: 'cr-badge-partial',
-        originalStatus: 'Partial',
-        description: 'When booking a consultation, the system must verify that the selected doctor does not already have an active overlapping booking.',
-        file: 'appointments/views.py',
-        symbol: 'def book_appointment(request)',
-        code: `def book_appointment(request):
-    if request.method == 'POST':
-        doctor_id = request.POST.get('doctor_id')
-        slot = request.POST.get('slot')
-        # Missing overlap check:
-        appointment = Appointment.objects.create(doctor_id=doctor_id, slot=slot)
-        return redirect('appointment_success')`,
-        explanation: 'Detected Appointment.objects.create() without query filter checking existing active appointments for the given time slot.',
-        comment: 'Add Appointment.objects.filter(doctor_id=doctor_id, slot=slot, status="confirmed").exists() validation before creating.'
+        ruleText: 'Cryptographic signing secret <code>SECRET_KEY</code> is committed in plaintext source code instead of environment variables.',
+        diffLines: [
+          { type: 'context', num: 21, code: '# SECURITY WARNING: keep the secret key used in production secret!' },
+          { type: 'del', num: 22, code: '- SECRET_KEY = "django-insecure-8d(9s#@k$19_x!pqz^&910248"' },
+          { type: 'add', num: 22, code: '+ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-fallback-only")' },
+          { type: 'context', num: 23, code: 'DEBUG = True' }
+        ],
+        aiFix: 'SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-fallback-only")',
+        aiSuggestion: 'Load cryptographic keys from <code>os.environ</code> or an encrypted <code>.env</code> store.',
+        comment: 'Move SECRET_KEY to environment variable before production rollout.'
       },
-      5: {
-        id: 5,
-        reqId: 'REQ-INV-01',
-        category: 'Billing',
-        priority: 'High Priority',
-        priorityClass: 'high',
-        title: 'Automated PDF invoice generation with tax breakdown',
-        status: 'missing',
-        statusLabel: 'Missing (0.0)',
-        statusClass: 'cr-badge-missing',
-        originalStatus: 'Missing',
-        description: 'Upon consultation conclusion, an itemized invoice detailing doctor consultation fee, medicines, and 5% GST tax must be generated in PDF format.',
-        file: 'None',
-        symbol: 'None',
-        code: `# No matching PDF generation library (reportlab / weasyprint) 
-# or view handler detected in project codebase.`,
-        explanation: 'No PDF generation library or invoice export views detected in source archive.',
-        comment: 'Requirement not implemented. Candidate must integrate reportlab or django-weasyprint.'
-      },
-      6: {
-        id: 6,
-        reqId: 'REQ-MED-01',
-        category: 'Prescriptions',
-        priority: 'Low Priority',
-        priorityClass: 'low',
-        title: 'Medical prescription record storage and diagnosis tags',
+      {
+        id: 3,
+        codeId: 'REQ-AUTH-01',
+        title: 'User Login with bcrypt Password Verification',
+        category: 'srs',
+        categoryLabel: 'SRS Spec',
+        severity: 'info',
+        severityBadge: 'cr-badge-info',
+        severityLabel: 'Verified Spec',
+        file: 'accounts/views.py',
+        line: 42,
+        lineRange: '40-48',
         status: 'implemented',
         statusLabel: 'Implemented (1.0)',
         statusClass: 'cr-badge-implemented',
-        originalStatus: 'Implemented',
-        description: 'Doctors shall be able to record structured medical prescriptions containing dosage instructions and diagnostic tags.',
-        file: 'prescriptions/models.py',
-        symbol: 'class Prescription(models.Model)',
-        code: `class Prescription(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    diagnosis = models.TextField()
-    dosage_instructions = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)`,
-        explanation: 'Prescription model with foreign keys to Patient, Doctor, and text dosage fields detected in prescriptions/models.py.',
-        comment: 'Requirement fully met.'
+        ruleText: 'The system shall verify user credentials against salted bcrypt hashes and reject plain text credentials.',
+        diffLines: [
+          { type: 'context', num: 40, code: 'class LoginView(APIView):' },
+          { type: 'context', num: 41, code: '    def post(self, request):' },
+          { type: 'add', num: 42, code: '+       user = authenticate(username=username, password=password)' },
+          { type: 'context', num: 43, code: '        if user:' },
+          { type: 'context', num: 44, code: '            login(request, user)' },
+          { type: 'context', num: 45, code: '            return Response({"status": "authenticated"})' }
+        ],
+        aiFix: 'user = authenticate(username=username, password=password)',
+        aiSuggestion: 'Authentication pattern strictly conforms to Django security standards.',
+        comment: 'Verified compliant with REQ-AUTH-01.'
+      },
+      {
+        id: 4,
+        codeId: 'REQ-PAT-01',
+        title: 'Patient Emergency Contact Phone Validation',
+        category: 'srs',
+        categoryLabel: 'SRS Spec',
+        severity: 'major',
+        severityBadge: 'cr-badge-major',
+        severityLabel: 'Major Risk',
+        file: 'patients/models.py',
+        line: 28,
+        lineRange: '26-32',
+        status: 'partial',
+        statusLabel: 'Partial (0.5)',
+        statusClass: 'cr-badge-partial',
+        ruleText: 'Emergency contact number must strictly validate against E.164 international or 10-digit national telephone regex patterns.',
+        diffLines: [
+          { type: 'context', num: 26, code: 'class Patient(models.Model):' },
+          { type: 'del', num: 27, code: '-   emergency_contact = models.CharField(max_length=15, blank=True)' },
+          { type: 'add', num: 27, code: '+   emergency_contact = models.CharField(max_length=15, validators=[phone_regex])' },
+          { type: 'context', num: 28, code: '    blood_group = models.CharField(max_length=5, blank=True)' }
+        ],
+        aiFix: 'emergency_contact = models.CharField(max_length=15, validators=[RegexValidator(r"^\\+?1?\\d{9,15}$")])',
+        aiSuggestion: 'Attach Django <code>RegexValidator</code> to validate phone formatting at the ORM model level.',
+        comment: 'Candidate needs to add phone validator.'
+      },
+      {
+        id: 5,
+        codeId: 'REQ-INV-01',
+        title: 'Automated PDF Invoice Generation with Tax Breakdown',
+        category: 'srs',
+        categoryLabel: 'SRS Spec',
+        severity: 'critical',
+        severityBadge: 'cr-badge-critical',
+        severityLabel: 'Critical Risk',
+        file: 'billing/services.py',
+        line: 1,
+        lineRange: '1-6',
+        status: 'missing',
+        statusLabel: 'Missing (0.0)',
+        statusClass: 'cr-badge-missing',
+        ruleText: 'Upon consultation conclusion, an itemized invoice detailing doctor fee, medicines, and 5% GST tax must be generated in PDF format.',
+        diffLines: [
+          { type: 'del', num: 1, code: '- # TODO: Implement ReportLab PDF generator service for billing' },
+          { type: 'add', num: 1, code: '+ from reportlab.lib.pagesizes import letter' },
+          { type: 'add', num: 2, code: '+ from reportlab.pdfgen import canvas' },
+          { type: 'add', num: 3, code: '+ def generate_invoice_pdf(invoice): ...' }
+        ],
+        aiFix: 'import reportlab; def generate_invoice_pdf(invoice): ...',
+        aiSuggestion: 'Implement ReportLab or WeasyPrint pipeline to generate downloadable patient invoices.',
+        comment: 'Critical milestone gap: PDF billing module is completely missing.'
+      },
+      {
+        id: 6,
+        codeId: 'STYLE-PEP8-01',
+        title: 'Excessive Cyclomatic Complexity in Appointment Scheduler',
+        category: 'quality',
+        categoryLabel: 'Code Quality',
+        severity: 'minor',
+        severityBadge: 'cr-badge-minor',
+        severityLabel: 'Minor Risk',
+        file: 'appointments/services.py',
+        line: 64,
+        lineRange: '62-70',
+        status: 'partial',
+        statusLabel: 'Partial (0.5)',
+        statusClass: 'cr-badge-partial',
+        ruleText: 'Function <code>calculate_slot_matrix</code> has a cyclomatic complexity of 14, exceeding the intern rubric threshold of 8.',
+        diffLines: [
+          { type: 'del', num: 64, code: '- def calculate_slot_matrix(doc_id, date): # 14 nested loops and conditions' },
+          { type: 'add', num: 64, code: '+ def calculate_slot_matrix(doc_id, date): # Refactored into 3 helper methods' }
+        ],
+        aiFix: 'Decompose calculate_slot_matrix into is_doc_available() and get_booked_slots()',
+        aiSuggestion: 'Extract nested if/else checks into sub-functions to reduce cognitive complexity.',
+        comment: 'Refactor recommended for maintainability.'
+      },
+      {
+        id: 7,
+        codeId: 'PERF-NPLUS1-01',
+        title: 'Uncached N+1 Query in Doctor Patient Listing',
+        category: 'perf',
+        categoryLabel: 'Performance',
+        severity: 'minor',
+        severityBadge: 'cr-badge-minor',
+        severityLabel: 'Minor Risk',
+        file: 'patients/views.py',
+        line: 88,
+        lineRange: '86-92',
+        status: 'partial',
+        statusLabel: 'Partial (0.5)',
+        statusClass: 'cr-badge-partial',
+        ruleText: 'Iterating over <code>Patient.objects.all()</code> and accessing <code>.medical_history_set</code> triggers 1 additional SQL query per patient record.',
+        diffLines: [
+          { type: 'del', num: 88, code: '- patients = Patient.objects.all()' },
+          { type: 'add', num: 88, code: '+ patients = Patient.objects.prefetch_related("medical_history_set").all()' }
+        ],
+        aiFix: 'patients = Patient.objects.prefetch_related("medical_history_set").all()',
+        aiSuggestion: 'Use <code>prefetch_related("medical_history_set")</code> to reduce database round-trips from N+1 to 2.',
+        comment: 'Performance improvement suggested.'
       }
-    };
+    ];
 
-    let activeFindingId = 1;
+    let currentSelectedId = 1;
+    let currentCategoryFilter = 'all';
 
-    function selectFinding(id) {
-      activeFindingId = id;
-      const data = findingsData[id];
-      if (!data) return;
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load current project info if in session
+      if (sessionStorage.getItem('cr_current_project')) {
+        try {
+          const proj = JSON.parse(sessionStorage.getItem('cr_current_project'));
+          if (proj.name) {
+            document.getElementById('headerProjectTitle').textContent = proj.name;
+            document.getElementById('breadcrumbProjectLink').textContent = proj.name;
+          }
+          if (proj.student) document.getElementById('headerStudentName').textContent = proj.student;
+          if (proj.stack) document.getElementById('headerStackTag').textContent = proj.stack;
+        } catch(e) {}
+      }
 
-      // Update active highlight on left items
-      document.querySelectorAll('.cr-finding-item').forEach(item => {
-        item.classList.toggle('is-active', item.getAttribute('data-id') == id);
+      renderMasterList();
+      selectFinding(1);
+
+      // Check user role: If student, enforce read-only view on mentor evaluation and AI fix acceptance
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        const acceptBtn = document.getElementById('acceptAiFixBtn');
+        if (acceptBtn) {
+          acceptBtn.outerHTML = '<span class="badge bg-secondary bg-opacity-25 border border-secondary text-secondary py-1 px-2.5 small" id="acceptFixLockedBadge"><i class="bi bi-lock-fill me-1"></i> Faculty Review Required</span>';
+        }
+
+        const statusSelect = document.getElementById('mentorStatusChoice');
+        const notesArea = document.getElementById('mentorNotesText');
+        const saveBtn = document.getElementById('saveFindingBtn');
+        const chipContainer = document.querySelector('.quick-template-chip')?.parentElement;
+        
+        if (statusSelect) statusSelect.disabled = true;
+        if (notesArea) {
+          notesArea.disabled = true;
+          notesArea.placeholder = 'Evaluation comments provided by lead mentor (read-only for students)...';
+        }
+        if (chipContainer) chipContainer.style.display = 'none';
+        if (saveBtn) {
+          saveBtn.outerHTML = '<span class="badge bg-secondary bg-opacity-25 border border-secondary text-secondary py-1.5 px-3" id="studentReadOnlyBadge"><i class="bi bi-lock-fill me-1"></i> Faculty Evaluation Only</span>';
+        }
+      }
+    });
+
+    // 2. Render Left Master List Cards
+    function renderMasterList(searchQuery = '') {
+      const container = document.getElementById('findingsMasterContainer');
+      container.innerHTML = '';
+
+      const query = (searchQuery || '').toLowerCase();
+
+      let visibleCount = 0;
+      findingsDataset.forEach(item => {
+        const matchesCategory = (currentCategoryFilter === 'all' || item.category === currentCategoryFilter);
+        const matchesSearch = !query || 
+          item.codeId.toLowerCase().includes(query) || 
+          item.title.toLowerCase().includes(query) || 
+          item.file.toLowerCase().includes(query);
+
+        if (matchesCategory && matchesSearch) {
+          visibleCount++;
+          const card = document.createElement('div');
+          card.className = `cr-finding-card sev-${item.severity} ${item.id === currentSelectedId ? 'is-active' : ''}`;
+          card.setAttribute('data-id', item.id);
+          card.onclick = () => selectFinding(item.id);
+
+          card.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="fw-bold font-monospace small text-primary">${item.codeId}</span>
+              <span class="${item.severityBadge}">${item.severityLabel}</span>
+            </div>
+            <div class="fw-semibold text-dark small mb-1">${item.title}</div>
+            <div class="d-flex align-items-center justify-content-between text-secondary" style="font-size: 0.73rem;">
+              <span><i class="bi bi-file-code"></i> ${item.file}:${item.line}</span>
+              <span class="cr-badge ${item.statusClass}">${item.statusLabel}</span>
+            </div>
+          `;
+          container.appendChild(card);
+        }
       });
 
-      // Update detail panel elements
-      document.getElementById('detailReqId').textContent = data.reqId;
-      document.getElementById('detailCategory').textContent = data.category;
+      if (visibleCount === 0) {
+        container.innerHTML = '<div class="p-4 text-center text-secondary small border rounded bg-white shadow-sm">No matching findings found for this filter.</div>';
+      }
+    }
+
+    // 3. Select & Populate Detail Inspector
+    function selectFinding(id) {
+      currentSelectedId = id;
+      const item = findingsDataset.find(f => f.id === id);
+      if (!item) return;
+
+      // Update active highlight on left items
+      document.querySelectorAll('.cr-finding-card').forEach(c => {
+        c.classList.toggle('is-active', c.getAttribute('data-id') == id);
+      });
+
+      // Update Inspector header
+      document.getElementById('inspectorReqId').textContent = item.codeId;
+      document.getElementById('inspectorCategory').textContent = item.categoryLabel;
       
-      const priorityEl = document.getElementById('detailPriority');
-      priorityEl.textContent = data.priority;
-      priorityEl.className = `cr-priority-badge ${data.priorityClass}`;
+      const sevEl = document.getElementById('inspectorSeverity');
+      sevEl.className = item.severityBadge;
+      sevEl.textContent = item.severityLabel;
 
-      document.getElementById('detailTitle').textContent = data.title;
-      document.getElementById('detailCurrentBadge').innerHTML = `<span class="cr-badge ${data.statusClass}">${data.statusLabel}</span>`;
-      document.getElementById('detailDescription').textContent = data.description;
-      document.getElementById('detailEvidenceFile').textContent = data.file;
-      document.getElementById('detailEvidenceSymbol').textContent = data.symbol;
-      document.getElementById('detailCodeSnippet').innerHTML = `<code>${escapeHtml(data.code)}</code>`;
-      document.getElementById('detailExplanation').innerHTML = `<i class="bi bi-info-circle text-primary me-1"></i> ${data.explanation}`;
-      document.getElementById('detailOriginalStatus').textContent = `Original Automated Status: ${data.originalStatus}`;
+      document.getElementById('inspectorTitle').textContent = item.title;
+      document.getElementById('inspectorFileMeta').innerHTML = `<i class="bi bi-file-earmark-code"></i> ${item.file}:${item.line}`;
+      document.getElementById('inspectorStatusBadgeContainer').innerHTML = `<span class="cr-badge ${item.statusClass}">${item.statusLabel}</span>`;
+      document.getElementById('inspectorRuleText').innerHTML = item.ruleText;
 
-      document.getElementById('mentorStatusSelect').value = data.status;
-      document.getElementById('mentorCommentInput').value = data.comment;
+      // Render Diff
+      document.getElementById('diffFilename').textContent = item.file;
+      document.getElementById('diffLineRange').textContent = item.lineRange;
+      
+      const diffContainer = document.getElementById('diffCodeContainer');
+      diffContainer.innerHTML = '';
+      item.diffLines.forEach(line => {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = `diff-line ${line.type}`;
+        lineDiv.innerHTML = `<span class="diff-num">${line.num}</span><span>${escapeHtml(line.code)}</span>`;
+        diffContainer.appendChild(lineDiv);
+      });
+
+      // AI suggestion
+      document.getElementById('aiSuggestionText').innerHTML = item.aiSuggestion;
+
+      // Mentor form values
+      document.getElementById('mentorStatusChoice').value = item.status;
+      document.getElementById('mentorNotesText').value = item.comment;
+      document.getElementById('inspectorOriginalStatus').textContent = `Automated Status: ${item.statusLabel}`;
+      document.getElementById('saveTimestamp').textContent = 'Loaded latest audit state';
     }
 
     function escapeHtml(text) {
       return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // Save evaluation handler
-    document.getElementById('mentorOverrideForm').addEventListener('submit', (e) => {
+    // 4. Save Finding Evaluation
+    document.getElementById('mentorFindingForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const newStatus = document.getElementById('mentorStatusSelect').value;
-      const newComment = document.getElementById('mentorCommentInput').value;
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        showToast('Access restricted: Only Mentors and Administrators can submit evaluations.', 'bi-shield-exclamation text-warning');
+        return;
+      }
 
-      const data = findingsData[activeFindingId];
-      if (!data) return;
+      const item = findingsDataset.find(f => f.id === currentSelectedId);
+      if (!item) return;
 
-      data.status = newStatus;
-      data.comment = newComment;
+      const newStatus = document.getElementById('mentorStatusChoice').value;
+      const newComment = document.getElementById('mentorNotesText').value;
+
+      item.status = newStatus;
+      item.comment = newComment;
 
       const statusMap = {
         'implemented': { label: 'Implemented (1.0)', class: 'cr-badge-implemented' },
         'partial': { label: 'Partial (0.5)', class: 'cr-badge-partial' },
-        'missing': { label: 'Missing (0.0)', class: 'cr-badge-missing' },
-        'manual': { label: 'Manual Review (0.25)', class: 'cr-badge-manual' }
+        'missing': { label: 'Missing / Rejected (0.0)', class: 'cr-badge-missing' },
+        'dismissed': { label: 'Dismissed (False Positive)', class: 'cr-badge-info' },
+        'exception': { label: 'Approved Exception', class: 'cr-badge-implemented' }
       };
 
-      data.statusLabel = statusMap[newStatus].label;
-      data.statusClass = statusMap[newStatus].class;
+      const mapped = statusMap[newStatus] || { label: newStatus, class: 'cr-badge-partial' };
+      item.statusLabel = mapped.label;
+      item.statusClass = mapped.class;
 
-      // Update inspector badge
-      document.getElementById('detailCurrentBadge').innerHTML = `<span class="cr-badge ${data.statusClass}">${data.statusLabel}</span>`;
+      // Update UI Inspector
+      document.getElementById('inspectorStatusBadgeContainer').innerHTML = `<span class="cr-badge ${item.statusClass}">${item.statusLabel}</span>`;
+      document.getElementById('saveTimestamp').textContent = `Saved at ${new Date().toLocaleTimeString()}`;
 
-      // Update left master card badge
-      const activeCard = document.querySelector(`.cr-finding-item[data-id="${activeFindingId}"]`);
-      if (activeCard) {
-        activeCard.setAttribute('data-status', newStatus);
-        const badgeEl = activeCard.querySelector('.cr-badge');
-        if (badgeEl) {
-          badgeEl.className = `cr-badge ${data.statusClass}`;
-          badgeEl.textContent = data.statusLabel;
-        }
+      // Refresh left master list
+      renderMasterList(document.getElementById('findingSearchInput').value);
+
+      showToast(`Evaluation saved for <strong>${item.codeId}</strong>: Updated to ${item.statusLabel}`, 'bi-check-circle-fill text-success');
+    });
+
+    // 5. Apply AI Fix Action
+    function applyAiFixToDossier() {
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        showToast('Access restricted: Only Faculty and Mentors can accept AI refactor patches.', 'bi-shield-exclamation text-warning', 'warning');
+        return;
       }
 
-      // Show toast
-      const toastEl = document.getElementById('saveToast');
-      document.getElementById('toastMessage').textContent = `Evaluation saved for ${data.reqId}: Marked as ${data.statusLabel}!`;
-      const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
-      toast.show();
-    });
+      const item = findingsDataset.find(f => f.id === currentSelectedId);
+      if (!item) return;
 
-    // Filter pills & search filter logic
-    document.querySelectorAll('.findings-filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.findings-filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        applyFindingsFilter();
-      });
-    });
+      item.status = 'implemented';
+      item.statusLabel = 'AI Fix Applied (1.0)';
+      item.statusClass = 'cr-badge-implemented';
+      item.comment = 'Accepted automated AI refactor fix. Code syntax and parameterization validated.';
 
-    document.getElementById('findingsSearchInput').addEventListener('input', applyFindingsFilter);
+      document.getElementById('mentorStatusChoice').value = 'implemented';
+      document.getElementById('mentorNotesText').value = item.comment;
+      document.getElementById('inspectorStatusBadgeContainer').innerHTML = `<span class="cr-badge ${item.statusClass}">${item.statusLabel}</span>`;
+      document.getElementById('saveTimestamp').textContent = `AI Fix Accepted at ${new Date().toLocaleTimeString()}`;
 
-    function applyFindingsFilter() {
-      const activeFilterBtn = document.querySelector('.findings-filter-btn.active');
-      const statusFilter = activeFilterBtn ? activeFilterBtn.getAttribute('data-status-filter') : 'all';
-      const search = document.getElementById('findingsSearchInput').value.toLowerCase().trim();
-
-      document.querySelectorAll('.cr-finding-item').forEach(item => {
-        const itemStatus = item.getAttribute('data-status');
-        const itemText = item.textContent.toLowerCase();
-        const matchesStatus = statusFilter === 'all' || itemStatus === statusFilter;
-        const matchesSearch = !search || itemText.includes(search);
-
-        item.style.display = (matchesStatus && matchesSearch) ? '' : 'none';
-      });
+      renderMasterList(document.getElementById('findingSearchInput').value);
+      showToast(`AI Fix applied to <strong>${item.codeId}</strong>! Status marked as Implemented.`, 'bi-stars text-info', 'success');
     }
 
-    // Initialize with finding 1
-    selectFinding(1);
+    function copyAiSuggestedSnippet() {
+      const item = findingsDataset.find(f => f.id === currentSelectedId);
+      if (item && item.aiFix) {
+        navigator.clipboard.writeText(item.aiFix);
+        showToast(`Copied AI remediation snippet to clipboard!`, 'bi-clipboard-check text-info', 'info');
+      }
+    }
+
+    function insertTemplate(text) {
+      document.getElementById('mentorNotesText').value = text;
+    }
+
+    // 6. Category & Search Filtering
+    function setCategoryFilter(cat, btn) {
+      currentCategoryFilter = cat;
+      document.querySelectorAll('#findingsCategoryFilter button').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderMasterList(document.getElementById('findingSearchInput').value);
+    }
+
+    function filterFindingsSearch(query) {
+      renderMasterList(query);
+    }
+
+    // 7. Batch Action Helper
+    function batchApproveSafe() {
+      const userRole = (sessionStorage.getItem('cr_user_role') || 'mentor').toLowerCase();
+      if (userRole === 'student') {
+        showToast('Access restricted: Only Mentors and Administrators can batch-approve findings.', 'bi-shield-exclamation text-warning', 'warning');
+        return;
+      }
+
+      let count = 0;
+      findingsDataset.forEach(f => {
+        if (f.status === 'implemented') {
+          f.comment = 'Batch approved by Mentor.';
+          count++;
+        }
+      });
+      showToast(`Batch approved ${count} implemented findings without exceptions.`, 'bi-check2-all text-success', 'success');
+    }
   </script>
 </body>
 </html>

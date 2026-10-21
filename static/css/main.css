@@ -316,6 +316,14 @@ code, kbd, samp, pre {
   font-size: 0.88em;
 }
 
+code {
+  color: #1e293b;
+  background-color: #f1f5f9;
+  padding: 0.15rem 0.35rem;
+  border-radius: var(--cr-radius-sm);
+  border: 1px solid #e2e8f0;
+}
+
 a {
   color: var(--cr-primary);
   text-decoration: none;

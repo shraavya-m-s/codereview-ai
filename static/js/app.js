@@ -272,15 +272,196 @@ function applyRoleVisibility(role) {
 }
 
 /**
- * 5. Auto-dismiss alerts after 6 seconds
+ * 5. Global Toast Notification System with Animated Progress Bar
+ * Displays modern floating toast with right-to-left progress bar and auto-vanish in 4.5 seconds.
+ */
+function showToast(message, iconClass = 'bi-check-circle-fill text-success', type = 'success', duration = 4000) {
+  let container = document.querySelector('.cr-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'cr-toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = 'cr-toast';
+
+  const typeMap = {
+    success: 'success',
+    danger: 'danger',
+    warning: 'warning',
+    info: 'info',
+    primary: 'info'
+  };
+  const progType = typeMap[type] || 'info';
+
+  toast.innerHTML = `
+    <div class="cr-toast-body">
+      <i class="bi ${iconClass}"></i>
+      <div class="flex-grow-1">${message}</div>
+      <button type="button" class="cr-toast-close" aria-label="Close">
+        <i class="bi bi-x-lg" style="font-size: 0.75rem;"></i>
+      </button>
+    </div>
+    <div class="cr-toast-progress ${progType}" style="animation-duration: ${duration}ms;"></div>
+  `;
+
+  container.appendChild(toast);
+
+  const closeBtn = toast.querySelector('.cr-toast-close');
+  let dismissTimeout = null;
+
+  function dismiss() {
+    if (dismissTimeout) clearTimeout(dismissTimeout);
+    toast.classList.add('is-hiding');
+    setTimeout(() => {
+      toast.remove();
+      if (container.children.length === 0) {
+        container.remove();
+      }
+    }, 350);
+  }
+
+  closeBtn.addEventListener('click', dismiss);
+  dismissTimeout = setTimeout(dismiss, duration);
+}
+
+// Expose globally
+window.showToast = showToast;
+
+/**
+ * 6. Alert Auto-Dismiss with Animated Countdown Timer
  */
 function initAutoDismissAlerts() {
   document.querySelectorAll('.cr-alert.auto-dismiss').forEach(alert => {
+    // Inject progress bar if not already present
+    if (!alert.querySelector('.cr-alert-timer')) {
+      const timer = document.createElement('div');
+      timer.className = 'cr-alert-timer';
+      alert.appendChild(timer);
+    }
     setTimeout(() => {
       alert.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
       alert.style.opacity = '0';
       alert.style.transform = 'translateY(-10px)';
       setTimeout(() => alert.remove(), 400);
-    }, 6000);
+    }, 4500);
   });
 }
+
+/**
+ * 7. Unified Project Registry (localStorage)
+ */
+const DEFAULT_PROJECTS = [
+  {
+    name: 'Hospital_Management_System',
+    student: 'Rahul Sharma',
+    cohort: 'Batch 2026-Q1 (Fullstack)',
+    stack: 'Python 3.12 / Django',
+    date: '2026-10-18',
+    status: 'completed',
+    statusLabel: 'Completed',
+    score: 86,
+    rubric: 'security',
+    desc: 'Automated hospital admission, appointment scheduler, and patient billings with RBAC.'
+  },
+  {
+    name: 'ECommerce_Microservices_API',
+    student: 'Neha Deshmukh',
+    cohort: 'Batch 2026-Q1 (Backend)',
+    stack: 'Python 3.12 / Django REST',
+    date: '2026-10-17',
+    status: 'manual_review',
+    statusLabel: 'Manual Review',
+    score: 78,
+    rubric: 'standard',
+    desc: 'Distributed Django REST Framework backend for cart checkout and JWT auth.'
+  },
+  {
+    name: 'FinTech_Ledger_Service',
+    student: 'Aman Verma',
+    cohort: 'Batch 2026-Q2 (Cloud)',
+    stack: 'Java 21 / Spring Boot',
+    date: '2026-10-16',
+    status: 'completed',
+    statusLabel: 'Completed',
+    score: 94,
+    rubric: 'production',
+    desc: 'High-throughput Spring Boot ledger service with double-entry accounting.'
+  },
+  {
+    name: 'Smart_Campus_IoT_Hub',
+    student: 'Pooja Nair',
+    cohort: 'Batch 2026-Q1',
+    stack: 'Node.js / Express',
+    date: '2026-10-15',
+    status: 'completed',
+    statusLabel: 'Completed',
+    score: 91,
+    rubric: 'standard',
+    desc: 'Campus sensor aggregation portal with MQTT ingestion and real-time dashboard.'
+  },
+  {
+    name: 'Autonomous_Vehicle_Telemetry_API',
+    student: 'Devashish Das',
+    cohort: 'Batch 2026-Q2',
+    stack: 'FastAPI / PostgreSQL',
+    date: '2026-10-14',
+    status: 'manual_review',
+    statusLabel: 'Manual Review',
+    score: 74,
+    rubric: 'security',
+    desc: 'High-frequency telemetry stream ingestion with geofencing.'
+  },
+  {
+    name: 'Payment_Gateway_Mock_Service',
+    student: 'Sneha Kulkarni',
+    cohort: 'Batch 2026-Q1',
+    stack: 'Flask / Celery',
+    date: '2026-10-13',
+    status: 'completed',
+    statusLabel: 'Completed',
+    score: 88,
+    rubric: 'standard',
+    desc: 'Idempotent card tokenization and webhook payment simulator.'
+  }
+];
+
+function getStoredProjects() {
+  const custom = JSON.parse(localStorage.getItem('cr_projects_custom') || '[]');
+  const deleted = JSON.parse(localStorage.getItem('cr_deleted_projects') || '[]');
+  
+  // Combine custom projects first, then default projects that haven't been deleted
+  const combined = [...custom];
+  DEFAULT_PROJECTS.forEach(defProj => {
+    if (!deleted.includes(defProj.name) && !combined.some(p => p.name === defProj.name)) {
+      combined.push(defProj);
+    }
+  });
+
+  return combined.filter(p => !deleted.includes(p.name));
+}
+
+function addProjectToStorage(proj) {
+  const custom = JSON.parse(localStorage.getItem('cr_projects_custom') || '[]');
+  custom.unshift(proj);
+  localStorage.setItem('cr_projects_custom', JSON.stringify(custom));
+}
+
+function deleteProjectFromStorage(projName) {
+  const deleted = JSON.parse(localStorage.getItem('cr_deleted_projects') || '[]');
+  if (!deleted.includes(projName)) {
+    deleted.push(projName);
+    localStorage.setItem('cr_deleted_projects', JSON.stringify(deleted));
+  }
+
+  // Remove from custom if present
+  let custom = JSON.parse(localStorage.getItem('cr_projects_custom') || '[]');
+  custom = custom.filter(p => p.name !== projName);
+  localStorage.setItem('cr_projects_custom', JSON.stringify(custom));
+}
+
+// Expose storage helpers globally
+window.getStoredProjects = getStoredProjects;
+window.addProjectToStorage = addProjectToStorage;
+window.deleteProjectFromStorage = deleteProjectFromStorage;
